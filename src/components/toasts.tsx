@@ -11,7 +11,7 @@ import {
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { IsPhone, IsTablet, Mulish, Wp } from '@src/utils';
 import { Colors } from '@src/constants/app-theme';
-import Toast, { ToastConfigParams } from 'react-native-toast-message';
+import { ToastConfigParams } from 'react-native-toast-message';
 
 export type ToastComponentProps = ToastConfigParams<any> & {
   leftIcon: TablerIcon;
