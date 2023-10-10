@@ -7,8 +7,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import AppNavigator from '@src/navigation/app-navigator';
-import { SuccessToast, ErrorToast, WarningToast } from '@src/components/toasts';
+import AppNavigator from '@app/navigation/app-navigator';
+import { SuccessToast, ErrorToast, WarningToast } from '@app/components/toasts';
 
 function App(): JSX.Element {
   return (

@@ -1,13 +1,10 @@
-import { Fonts } from '@src/constants/app-theme';
+import { Fonts } from '@app/constants/app-theme';
 import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-
-export const isIOS = Platform.OS === 'ios';
-export const isAndroid = Platform.OS === 'android';
 
 export const Wp = (size: number) => {
   return wp(2.5 * (size / 10));
@@ -49,5 +46,8 @@ export const Roboto = (weight: number, italic?: boolean) => {
 
 export const IsTablet = DeviceInfo.isTablet();
 export const IsPhone = DeviceInfo.getDeviceType() === 'Handset';
+
+export const isIOS = Platform.OS === 'ios';
+export const isAndroid = Platform.OS === 'android';
 
 export { wp, hp };

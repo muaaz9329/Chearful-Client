@@ -3,19 +3,25 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Linking, Text, View } from 'react-native';
+import { Linking, Text } from 'react-native';
 
-import { Colors } from '@src/constants/';
-import { Hp, IsTablet, hp } from '@src/utils';
+import { Colors } from '@app/constants/';
+import { Hp, IsTablet, hp } from '@app/utils';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ForumNavigationStack from '@app/domains/forum/navigation/forum-navigation-stack';
 
 const Tab = createBottomTabNavigator();
 
-const webLinks = {
-  'Ask-A-Question': 'https://chearful.com/community',
-  'Schedule-A-Session': 'https://chearful.com/meet-practitioners',
-  Profile: 'https://chearful.com/client-signup',
-};
+const Test = () => (
+  <SafeAreaView>
+    <Text>Screen Text</Text>
+  </SafeAreaView>
+);
 
+/**
+ * A touchable button that opens the given url in browser.
+ * @description Used in bottom tab
+ */
 const WebLinkTabButton = ({
   url,
   icon,
@@ -30,37 +36,52 @@ const WebLinkTabButton = ({
   </TouchableOpacity>
 );
 
-const getTabBarIcon = (route: any, focused: boolean, color: string) => {
-  let iconName;
+/*
+  ---------------- Navigators Here ----------------
+  From Bottom To Top.
+  Planning to make the whole app's navigation here.
+ */
 
-  if (route.name === 'Home') {
-    iconName = focused ? 'home' : 'home-outline';
-  } else if (route.name === 'Ask-A-Question') {
-    iconName = focused ? 'help-circle' : 'help-circle-outline';
-  } else if (route.name === 'Schedule a Session') {
-    iconName = focused ? 'videocam' : 'videocam-outline';
-  } else if (route.name === 'Profile') {
-    iconName = focused ? 'person' : 'person-outline';
-  }
+/**
+ * Root Tab Navigator
+ */
+const RootTabNavigator = () => {
+  const webLinks = {
+    // AskQuestion: 'https://chearful.com/community',
+    ScheduleSession: 'https://chearful.com/meet-practitioners',
+    Profile: 'https://chearful.com/client-signup',
+  };
 
-  if (Object.keys(webLinks).includes(route.name)) {
-    return (
-      <WebLinkTabButton
-        url={webLinks[route.name as keyof typeof webLinks]}
-        icon={iconName as string}
-        color={color}
-      />
-    );
-  }
+  const getTabBarIcon = (route: any, focused: boolean, color: string) => {
+    let iconName;
 
-  // Return the custom icon component
-  return <MaterialIcon name={iconName as string} size={30} color={color} />;
-};
+    if (route.name === 'Home') {
+      iconName = focused ? 'home' : 'home-outline';
+    } else if (route.name === 'AskQuestion') {
+      iconName = focused ? 'help-circle' : 'help-circle-outline';
+    } else if (route.name === 'ScheduleSession') {
+      iconName = focused ? 'videocam' : 'videocam-outline';
+    } else if (route.name === 'Profile') {
+      iconName = focused ? 'person' : 'person-outline';
+    }
 
-function AppNavigator() {
+    if (Object.keys(webLinks).includes(route.name)) {
+      return (
+        <WebLinkTabButton
+          url={webLinks[route.name as keyof typeof webLinks]}
+          icon={iconName as string}
+          color={color}
+        />
+      );
+    }
+
+    // Return the custom icon component
+    return <MaterialIcon name={iconName as string} size={30} color={color} />;
+  };
+
   return (
     <Tab.Navigator
-      initialRouteName="HOME"
+      initialRouteName="Home"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) =>
           getTabBarIcon(route, focused, color),
@@ -77,36 +98,29 @@ function AppNavigator() {
         options={{
           tabBarLabel: 'Home',
         }}
-        component={() => (
-          <View>
-            <Text>Home</Text>
-          </View>
-        )}
+        component={Test}
       />
       <Tab.Screen
-        name="Schedule-A-Session"
+        name="ScheduleSession"
         options={{
           tabBarLabel: 'Schedule a Session',
         }}
-        component={() => (
-          <View>
-            <Text>Schedule-A-Session</Text>
-          </View>
-        )}
+        component={Test}
       />
       <Tab.Screen
-        name="Ask-A-Question"
+        name="AskQuestion"
         options={{
           tabBarLabel: 'Ask a Question',
         }}
-        component={() => (
-          <View>
-            <Text>Ask-A-Question</Text>
-          </View>
-        )}
+        component={ForumNavigationStack}
       />
     </Tab.Navigator>
   );
-}
+};
 
-export default AppNavigator;
+/**
+ * App Navigator Wrapper Component
+ */
+export default function AppNavigator() {
+  return <RootTabNavigator />;
+}

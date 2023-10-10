@@ -1,0 +1,1 @@
+export const DEFAULT_QUESTIONS_LIMIT = 10;

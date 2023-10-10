@@ -8,15 +8,16 @@ module.exports = {
         root: ['./src'],
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
         alias: {
-          '@src': './src',
+          '@app': './src',
         },
       },
     ],
+    'react-native-reanimated/plugin',
   ],
 
   env: {
     production: {
-      plugins: ['react-native-paper/babel', 'react-native-reanimated/plugin'],
+      plugins: ['react-native-paper/babel'],
     },
   },
 };

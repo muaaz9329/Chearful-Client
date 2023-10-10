@@ -1,0 +1,28 @@
+export type Category = {
+  id: number;
+  slug: string;
+  title: string;
+  image?: string;
+};
+
+export type RawCategory = {
+  id: number;
+  title: string;
+  slug: string;
+  image?: string;
+  abstract?: string;
+  created_at?: string;
+  updated_at?: string;
+  role_type?: number;
+};
+
+export type AdaptedCategory = {
+  id: number;
+  title: string;
+  slug: string;
+  image?: string;
+  abstract?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  roleType?: number;
+};

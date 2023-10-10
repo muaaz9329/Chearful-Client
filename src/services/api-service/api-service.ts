@@ -1,7 +1,7 @@
 /* eslint-disable eqeqeq */
 import axios from 'axios';
-import { isObjectValid } from '@src/utils/';
-import { BASE_URL } from '@src/constants';
+import { isObjectValid } from '@app/utils/';
+import { BASE_URL } from '@app/constants';
 import { Boolbacks, ServiceInitiator } from '.';
 
 function generateApiUrl(url: string) {
