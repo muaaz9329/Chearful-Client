@@ -11,7 +11,7 @@ import {
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { IsPhone, IsTablet, Mulish, Wp } from '@app/utils';
 import { Colors } from '@app/constants/app-theme';
-import { ToastConfigParams } from 'react-native-toast-message';
+import { ToastConfig, ToastConfigParams } from 'react-native-toast-message';
 
 export type ToastComponentProps = ToastConfigParams<any> & {
   leftIcon: TablerIcon;
@@ -106,7 +106,7 @@ const ToastComponent: React.FC<ToastComponentProps> = ({
   );
 };
 
-export const SuccessToast = (props: ToastConfigParams<any>) => (
+const SuccessToast = (props: ToastConfigParams<any>) => (
   <ToastComponent
     titleColor={Colors.primary}
     containerBg="#BDD79D"
@@ -115,7 +115,7 @@ export const SuccessToast = (props: ToastConfigParams<any>) => (
   />
 );
 
-export const ErrorToast = (props: ToastConfigParams<any>) => (
+const ErrorToast = (props: ToastConfigParams<any>) => (
   <ToastComponent
     titleColor="white"
     descriptionColor="white"
@@ -125,7 +125,7 @@ export const ErrorToast = (props: ToastConfigParams<any>) => (
   />
 );
 
-export const WarningToast = (props: ToastConfigParams<any>) => (
+const WarningToast = (props: ToastConfigParams<any>) => (
   <ToastComponent
     titleColor="white"
     descriptionColor="white"
@@ -136,3 +136,9 @@ export const WarningToast = (props: ToastConfigParams<any>) => (
 );
 
 export default ToastComponent;
+
+export const AppToastsConfig: ToastConfig = {
+  SuccessToast: (props) => <SuccessToast {...props} />,
+  ErrorToast: (props) => <ErrorToast {...props} />,
+  WarningToast: (props) => <WarningToast {...props} />,
+};

@@ -8,7 +8,7 @@ import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import AppNavigator from '@app/navigation/app-navigator';
-import { SuccessToast, ErrorToast, WarningToast } from '@app/components/toasts';
+import { AppToastsConfig } from '@app/components/toasts';
 
 function App(): JSX.Element {
   return (
@@ -17,11 +17,7 @@ function App(): JSX.Element {
         <NavigationContainer>
           <AppNavigator />
         </NavigationContainer>
-        <Toast
-          config={{
-            ...{ SuccessToast, ErrorToast, WarningToast },
-          }}
-        />
+        <Toast config={AppToastsConfig} />
         <StatusBar barStyle="dark-content" />
       </GestureHandlerRootView>
     </SafeAreaProvider>

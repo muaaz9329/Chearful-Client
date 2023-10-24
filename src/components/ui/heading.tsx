@@ -11,15 +11,17 @@ const fontSizes = {
   '2xl': IsTablet ? Wp(12) : Wp(10),
 };
 
+export type HeadingProps = TextProps & {
+  children: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+};
+
 export default function Heading({
   children,
   style,
   size,
   ...props
-}: TextProps & {
-  children: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-}) {
+}: HeadingProps) {
   const styles = {
     // Default
     fontFamily: Nunito(700),
