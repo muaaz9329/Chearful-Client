@@ -17,6 +17,7 @@ import { Colors } from '@app/constants';
 import SearchInput from '@app/components/search-input';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import CategoryFilter from '@app/components/category-filter';
+import { ForumNavigator } from '../navigation/forum-navigation-stack';
 
 export default function ForumQuestionsScreen({
   navigation,
@@ -197,7 +198,7 @@ export default function ForumQuestionsScreen({
           data={forumQuestions.data}
           onRetry={retryFetch}
           onQuestionPress={(item) => {
-            navigation.navigate('ForumAnswer', {
+            navigation.navigate(ForumNavigator.ScreenAnswer, {
               question: item,
             });
             // navigation?.navigate('content-stack', {

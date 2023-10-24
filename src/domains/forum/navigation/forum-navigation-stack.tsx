@@ -5,6 +5,12 @@ import ForumQuestionsScreen from '../screens/screen-forum-questions';
 import ForumAnswersScreen from '../screens/screen-forum-answers';
 import ForumInquiry from '../screens/screen-forum-inquiry';
 
+export const enum ForumNavigator {
+  ScreenQuestions = 'ForumQuestions',
+  ScreenAnswer = 'ForumAnswer',
+  ScreenInquiry = 'ForumInquiry',
+}
+
 export default function ForumNavigationStack() {
   const Stack = createStackNavigator();
 
@@ -13,11 +19,20 @@ export default function ForumNavigationStack() {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="ForumQuestions"
+      initialRouteName={ForumNavigator.ScreenQuestions}
     >
-      <Stack.Screen name="ForumQuestions" component={ForumQuestionsScreen} />
-      <Stack.Screen name="ForumAnswer" component={ForumAnswersScreen} />
-      <Stack.Screen name="ForumInquiry" component={ForumInquiry} />
+      <Stack.Screen
+        name={ForumNavigator.ScreenQuestions}
+        component={ForumQuestionsScreen}
+      />
+      <Stack.Screen
+        name={ForumNavigator.ScreenAnswer}
+        component={ForumAnswersScreen}
+      />
+      <Stack.Screen
+        name={ForumNavigator.ScreenInquiry}
+        component={ForumInquiry}
+      />
     </Stack.Navigator>
   );
 }
