@@ -122,7 +122,7 @@ export function capitalizeFirstLetter(string: string): string {
  * Used in Drawic Library
  */
 
-export const ColorWithopacity = (hex: string, opacity: number): string => {
+export const colorWithOpacity = (hex: string, opacity: number): string => {
   if (
     typeof hex !== 'string' ||
     !/^#([A-Fa-f0-9]{3}){1,2}($|[A-Fa-f0-9]{2})$/.test(hex)

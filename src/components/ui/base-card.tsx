@@ -1,0 +1,24 @@
+import React from 'react';
+import { Colors } from '@app/constants';
+import { IsTablet, Wp, hp, wp } from '@app/utils';
+import { View, ViewProps } from 'react-native';
+
+export default function BaseCard({ children, style, ...props }: ViewProps) {
+  return (
+    <View
+      style={[
+        {
+          minHeight: hp(20),
+          maxWidth: IsTablet ? Wp(240) : Wp(345),
+          backgroundColor: Colors.greenDim,
+          borderRadius: 20,
+          padding: wp(4),
+        },
+        style,
+      ]}
+      {...props}
+    >
+      {children}
+    </View>
+  );
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TextInput, Pressable, Platform } from 'react-native';
-import { Wp, Mulish, IsTablet, IsPhone } from '@app/utils';
 import { IconSearch } from 'tabler-icons-react-native';
+import { Wp, Mulish, IsTablet, IsPhone } from '@app/utils';
 
 const defaultProps = {
   placeholder: 'Search',

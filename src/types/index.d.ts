@@ -26,3 +26,9 @@ export type AdaptedCategory = {
   updatedAt?: string;
   roleType?: number;
 };
+
+export type IconComponent = React.FC<{
+  width: number;
+  height: number;
+  color?: string;
+}>;

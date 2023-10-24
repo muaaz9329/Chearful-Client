@@ -1,5 +1,5 @@
 export const Colors = {
-  //     BtnColor: "#91A362",
+  //   BtnColor: "#91A362",
   //   Primary: "#1E5542",
   //   Secondary: "#EDF3DD",
   //   SwitchButtonColor: "#E8E8E8",
@@ -20,10 +20,30 @@ export const Colors = {
   contrast: '#D9E7C9',
   //   BtnCont: '#EFF3F2',
   light: '#F2F2F2',
-  black: '#1D1A0E',
   error: '#FF8383',
   placeholder: '#EFF3F2',
   muted: '#989898',
+
+  // New Colors
+  brandGreen: '#1E5542',
+  brandOrange: '#FF941B',
+
+  green: '#6DB27D',
+  greenDim: '#6DB27D33',
+  greenLight: '#B5F2C3',
+
+  yellow: '#FFDE6B',
+  yellowDim: '#FFDE6B33',
+  yellowLight: '#FFF8B8',
+
+  red: '#F07162',
+  redDim: '#F0716233',
+
+  orange: '#F4A417',
+  orangeDim: '#F4A41733',
+
+  black: '#1D1A0E',
+  dim: '#445353',
 };
 
 export const Fonts = {
