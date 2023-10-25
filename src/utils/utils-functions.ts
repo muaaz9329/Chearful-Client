@@ -33,7 +33,7 @@ export const getAuthHeaders = async () => {
 };
 
 //This is a function to create an object that contains date and day of the week based on the input date.
-export const DateConstrctor = (
+export const constructDate = (
   date: Date,
 ): {
   Date: string;

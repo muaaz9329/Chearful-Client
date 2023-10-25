@@ -17,7 +17,7 @@ import { Colors } from '@app/constants';
 import SearchInput from '@app/components/search-input';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import CategoryFilter from '@app/components/category-filter';
-import { ForumNavigator } from '../navigation/forum-navigation-stack';
+import { ForumNavigator } from '../navigation/forum-navigation';
 
 export default function ForumQuestionsScreen({
   navigation,

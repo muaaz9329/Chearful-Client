@@ -1,55 +1,67 @@
 import { Colors } from '@app/constants';
-import { Wp, Mulish } from '@app/utils';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { scale } from 'react-native-size-matters';
-
-type MyButtonProps = {
-  title: string;
-  status?: 'primary' | 'secondary' | 'danger';
-  style?: any;
-  onPress: () => void;
-};
+import { Wp, wp } from '@app/utils';
+import {
+  FlexAlignType,
+  TextStyle,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View,
+} from 'react-native';
+import { AppText } from './ui';
+import globalStyles from '@app/assets/global-styles';
 
 /**
  * A button component
+ //  * @param status - The status of the button
  * @param title - The title of the button
- * @param status - The status of the button
  * @param style - The style of the button
  * @param onPress - The onPress function of the button
  *
  * @todo Implement all status styles for the button
  */
-export default function MyButton({
-  title,
-  status = 'primary',
-  style = [{}],
-  onPress,
-}: MyButtonProps) {
-  return (
-    <TouchableOpacity onPress={onPress} style={[buttonStyles.btn, ...style]}>
-      <Text style={[buttonStyles.btnText]}>{title}</Text>
-    </TouchableOpacity>
-  );
-}
 
-const buttonStyles = StyleSheet.create({
-  btn: {
-    width: Wp(110),
-    height: Wp(45),
+export default function MyButton({
+  style,
+  title,
+  display = 'block',
+  textStyles,
+  ...props
+}: TouchableOpacityProps & {
+  title: string;
+  display?: 'block' | 'inline-start' | 'inline-center';
+  textStyles?: TextStyle;
+}) {
+  const styles: TouchableOpacityProps['style'] = {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.primary,
-    borderRadius: Wp(12),
-  },
+    borderRadius: Wp(8),
+    padding: wp(2.3),
+  };
 
-  btn__tablet: {
-    width: Wp(80),
-    height: Wp(30),
-  },
-
-  btnText: {
-    fontFamily: Mulish(700),
-    fontSize: scale(16),
-    color: 'white',
-  },
-});
+  return (
+    // This view is here just to make the button align to the left when display is inline
+    <View
+      style={{
+        alignSelf: {
+          block: 'auto',
+          'inline-start': 'flex-start',
+          'inline-center': 'center',
+        }[display] as FlexAlignType,
+      }}
+    >
+      <TouchableOpacity {...props} style={[styles, style]}>
+        <AppText
+          style={[
+            globalStyles.textWhite,
+            globalStyles.mulish_700,
+            { ...textStyles },
+          ]}
+          size="md"
+        >
+          {title}
+        </AppText>
+      </TouchableOpacity>
+    </View>
+  );
+}

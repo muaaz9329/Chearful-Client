@@ -1,0 +1,25 @@
+export type RawUserData = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  slug: string;
+  email: string;
+  location_id: number;
+  verification_code: null | string;
+  user_verified: number;
+  package_expiry: string;
+  created_at: string;
+  updated_at: string;
+  gender: string;
+  dob: string;
+  phone: string;
+  account_deleted: '0' | '1';
+  deleted_at: null | string;
+  added_by_pract: '0' | '1';
+  profile_image: string;
+  spoken_languages: string[];
+  worked_in_countries: string[];
+  role: 'doctor' | 'regular';
+  token: string;
+};

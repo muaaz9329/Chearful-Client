@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import AppNavigator from '@app/navigation/app-navigator';
+import AppNavigation from '@app/navigation/app-navigation';
 import { AppToastsConfig } from '@app/components/toasts';
 
 function App(): JSX.Element {
@@ -15,7 +15,7 @@ function App(): JSX.Element {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
-          <AppNavigator />
+          <AppNavigation />
         </NavigationContainer>
         <Toast config={AppToastsConfig} />
         <StatusBar barStyle="dark-content" />
