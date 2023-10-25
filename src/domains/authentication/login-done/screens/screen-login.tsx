@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Platform, Pressable } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { NavigationHelpers } from '@react-navigation/native';
@@ -13,8 +13,16 @@ import useLoginStore from '../hooks/use-login-store';
 import LoginServices from '../login-service';
 import { Colors, Fonts } from '@app/constants';
 import { s } from 'react-native-size-matters';
-import { Hp, IsPhone, IsTablet, Wp, colorWithOpacity, hp, wp } from '@app/utils';
-import { ChearfulLogo } from '@app/assets/svgs/Index';
+import {
+  Hp,
+  IsPhone,
+  IsTablet,
+  Wp,
+  colorWithOpacity,
+  hp,
+  wp,
+} from '@app/utils';
+import { ChearfulLogo } from '@app/assets/svgs/';
 
 interface props {
   navigation: NavigationHelpers<any, any>;
@@ -150,12 +158,7 @@ const Login = ({ navigation }: props) => {
   return (
     <View style={styles.Container}>
       <KeyboardAwareScrollView enableOnAndroid={true}>
-        <View
-          style={[
-            styles.FirstCont,
-            IsTablet && { height: hp(34) },
-          ]}
-        >
+        <View style={[styles.FirstCont, IsTablet && { height: hp(34) }]}>
           <View
             style={{ justifyContent: 'space-between', alignItems: 'center' }}
           >
@@ -174,19 +177,11 @@ const Login = ({ navigation }: props) => {
         </View>
         <View style={styles.SecondCont}>
           <View style={styles.MainTextCont}>
-            <Text
-              style={[
-                styles.MainTitle,
-                IsTablet && { fontSize: s(16) },
-              ]}
-            >
+            <Text style={[styles.MainTitle, IsTablet && { fontSize: s(16) }]}>
               Welcome to Chearful!
             </Text>
             <Text
-              style={[
-                styles.MainSubtitle,
-                IsTablet && { fontSize: s(10) },
-              ]}
+              style={[styles.MainSubtitle, IsTablet && { fontSize: s(10) }]}
             >
               Mental Health Built Around You
             </Text>
@@ -287,10 +282,7 @@ const Login = ({ navigation }: props) => {
             <LoginBtn HandleLogin={HandleLogin} Validation={validation} />
 
             <Text
-              style={[
-                styles.ForgetPassCont,
-                IsTablet && { fontSize: s(10) },
-              ]}
+              style={[styles.ForgetPassCont, IsTablet && { fontSize: s(10) }]}
               onPress={() => {
                 navigation.navigate('Auth_ResetPass');
               }}
@@ -299,19 +291,13 @@ const Login = ({ navigation }: props) => {
             </Text>
             <View>
               <Pressable
-                style={[
-                  styles.Signupbtn,
-                  IsTablet && styles.SignupbtnTablet,
-                ]}
+                style={[styles.Signupbtn, IsTablet && styles.SignupbtnTablet]}
                 onPress={() => {
                   navigation.navigate('SIGN-UP-SCREEN');
                 }}
               >
                 <Text
-                  style={[
-                    styles.btnText,
-                    IsTablet && styles.btnText_tablet,
-                  ]}
+                  style={[styles.btnText, IsTablet && styles.btnText_tablet]}
                 >
                   Don’t have account? Sign Up
                 </Text>

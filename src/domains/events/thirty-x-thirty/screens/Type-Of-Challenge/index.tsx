@@ -1,37 +1,21 @@
-import {
-  Alert,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Header from '@app/common/components/Header';
 import { useNavigation } from '@react-navigation/native';
-import { ChevronLeft } from '@app/svgs/Index';
-import { IconComponent } from '@app/types';
-import globalStyles, {
-  globalStylesFunc,
-} from '@app/assets/styles/global-styles';
-import Heading from '@app/common/components/heading';
-import MyButton from '@app/common/components/my-button';
-import { AppColors, IsTablet } from '@app/constants';
+import MyButton from '@app/components/my-button';
 import { IconCloudUpload, IconDiamond } from 'tabler-icons-react-native';
-import { Wp } from '@app/helper/CustomResponsive';
-import AppText from '@app/common/components/app-text';
-import { Mulish } from '@app/helper/FontWeight';
 
 import Animated, { FadeIn } from 'react-native-reanimated';
 import useUploadImage from './hooks/use-upload-image';
 import ThirtyXThirtyService from '../../thirty-x-thirty-services';
 import { ChallengeQuestionsData } from '../../types';
-import { mergeStyles } from '@app/helper/customFunction';
 import Toast from 'react-native-toast-message';
 import apiService from '@app/services/api-service/api-service';
-import { getAuthHeaders } from '@app/utils';
+import { IsTablet, Mulish, Wp, getAuthHeaders, mergeStyles } from '@app/utils';
 import { useChallengeStore } from '../Challenge-Home/hooks/use-challenge-store';
+import { Colors } from '@app/constants';
+import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
+import { AppText, Header, Heading } from '@app/components';
 
 function QuestionContainer({
   title,
@@ -59,7 +43,7 @@ function QuestionContainer({
         globalStyles.justifyCenter,
         border
           ? mergeStyles(globalStylesFunc.bw(1), {
-              borderColor: AppColors.Primary,
+              borderColor: Colors.primary,
             })
           : globalStylesFunc.bw(0),
         IsTablet &&
@@ -304,11 +288,7 @@ const TypeOfChallenge = ({
 
   return (
     <SafeAreaView style={[globalStyles.bodyWrapper]}>
-      <Header
-        navigation={navigation}
-        pram="back"
-        Icon={ChevronLeft as IconComponent}
-      />
+      <Header pram="back" />
       <View
         style={[
           globalStyles.flexRow,
@@ -324,7 +304,7 @@ const TypeOfChallenge = ({
           title="Skip"
           style={[globalStyles.bg_cont]}
           textStyles={{
-            color: AppColors.Primary,
+            color: Colors.primary,
           }}
           onPress={() => {
             navigation.goBack();
@@ -345,7 +325,7 @@ const TypeOfChallenge = ({
       >
         <IconDiamond
           size={IsTablet ? Wp(15) : Wp(20)}
-          color={AppColors.Primary}
+          color={Colors.primary}
           style={{ marginRight: IsTablet ? Wp(3) : Wp(6) }}
         />
         <Heading size="sm">1000 Points</Heading>
@@ -425,7 +405,7 @@ const TypeOfChallenge = ({
             ]}
             placeholder="Write an Answer"
             multiline={true}
-            placeholderTextColor={AppColors.Primary}
+            placeholderTextColor={Colors.primary}
             onChangeText={(text) => setText(text)}
           />
         </Animated.View>
@@ -444,7 +424,7 @@ const TypeOfChallenge = ({
           >
             <IconCloudUpload
               size={IsTablet ? Wp(40) : Wp(80)}
-              color={AppColors.Primary}
+              color={Colors.primary}
             />
             <Heading size="md">
               {singleFile.name
@@ -483,7 +463,7 @@ const TypeOfChallenge = ({
             globalStylesFunc.br(12),
           ]}
           textStyles={{
-            color: AppColors.Primary,
+            color: Colors.primary,
           }}
           onPress={() => {
             navigation.goBack();
@@ -517,7 +497,7 @@ const styles = StyleSheet.create({
   },
   uploadCont: {
     borderWidth: 1,
-    borderColor: AppColors.Primary,
+    borderColor: Colors.primary,
     borderStyle: 'dashed',
     borderRadius: Wp(10),
     marginTop: Wp(20),
@@ -531,6 +511,6 @@ const styles = StyleSheet.create({
     padding: Wp(15),
     fontFamily: Mulish(500),
     fontSize: Wp(16),
-    color: AppColors.Primary,
+    color: Colors.primary,
   },
 });

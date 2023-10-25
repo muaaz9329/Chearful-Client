@@ -1,15 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, View } from 'react-native';
 import globalStyles, {
   globalStylesFunc as ms,
-} from "@app/assets/styles/global-styles";
-import { IsTablet } from "@app/constants";
-import { mergeStyles } from "@app/helper/customFunction";
+} from '@app/assets/global-styles';
+import { IsTablet } from '@app/utils';
+import { mergeStyles } from '@app/utils';
 
 const SlideLoader = ({
   percentage,
-  bgColor = "#F17668",
-  loaderColor = "#ffffff",
+  bgColor = '#F17668',
+  loaderColor = '#ffffff',
   height = 6,
 }: {
   percentage: number;
@@ -26,7 +25,7 @@ const SlideLoader = ({
         IsTablet && mergeStyles(ms.br(8), ms.mt(7)),
         ms.bg(bgColor),
         {
-          width: "100%",
+          width: '100%',
         },
       ]}
     >
@@ -34,13 +33,13 @@ const SlideLoader = ({
         style={[
           ms.py(height),
           ms.br(10),
-          IsTablet && mergeStyles(ms.py(height*0.667), ms.br(8)),
+          IsTablet && mergeStyles(ms.py(height * 0.667), ms.br(8)),
           ms.bg(loaderColor),
           {
             width: `${percentage}%`,
           },
         ]}
-      ></View>
+      />
     </View>
   );
 };

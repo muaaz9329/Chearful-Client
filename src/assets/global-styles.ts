@@ -1,13 +1,24 @@
 import { Colors } from '@app/constants';
-import { Mulish, Nunito, Wp, isIOS } from '@app/utils';
-import { StyleSheet } from 'react-native';
+import { Mulish, Nunito, Wp, wp, hp } from '@app/utils';
+import { Platform, StyleSheet } from 'react-native';
 
 const globalStyles = StyleSheet.create({
   textCenter: {
     textAlign: 'center',
   },
 
+  alignSelfCenter: {
+    alignSelf: 'center',
+  },
+  alignSelfEnd: {
+    alignSelf: 'flex-end',
+  },
+  alignSelfStart: {
+    alignSelf: 'flex-start',
+  },
+
   //* Text Sizes
+
   fs_6: {
     fontSize: Wp(6),
   },
@@ -123,6 +134,25 @@ const globalStyles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: Wp(16),
     paddingHorizontal: Wp(20),
+  },
+
+  //* Background Color
+
+  bg_white: {
+    backgroundColor: Colors.white,
+  },
+  bg_primary: {
+    backgroundColor: Colors.primary,
+  },
+  bg_secondary: {
+    backgroundColor: Colors.secondary,
+  },
+  bg_Tertiary: {
+    backgroundColor: Colors.contrast,
+  },
+
+  bg_cont: {
+    backgroundColor: Colors.light,
   },
 
   // Margins
@@ -423,8 +453,8 @@ const globalStyles = StyleSheet.create({
 
   // App Styles
   stone: {
-    width: Wp(4),
-    height: Wp(4),
+    width: Wp(5),
+    height: Wp(5),
     borderRadius: Wp(5),
     marginHorizontal: Wp(5),
     backgroundColor: Colors.primary,
@@ -436,7 +466,7 @@ const globalStyles = StyleSheet.create({
   avatar: {
     width: Wp(15),
     height: Wp(15),
-    resizeMode: isIOS ? 'center' : 'contain',
+    resizeMode: Platform.OS == 'ios' ? 'center' : 'contain',
   },
   avatar__tablet: {
     width: Wp(35),
@@ -444,4 +474,105 @@ const globalStyles = StyleSheet.create({
   },
 });
 
+//* Custom Functions for Global Styles
+const globalStylesFunc = {
+  fs: (size: number) => {
+    return {
+      fontSize: Wp(size),
+    };
+  },
+  mt: (size: number) => {
+    return {
+      marginTop: Wp(size),
+    };
+  },
+  mb: (size: number) => {
+    return {
+      marginBottom: Wp(size),
+    };
+  },
+  my: (size: number) => {
+    return {
+      marginVertical: Wp(size),
+    };
+  },
+  pt: (size: number) => {
+    return {
+      paddingTop: Wp(size),
+    };
+  },
+  pb: (size: number) => {
+    return {
+      paddingBottom: Wp(size),
+    };
+  },
+  py: (size: number) => {
+    return {
+      paddingVertical: Wp(size),
+    };
+  },
+  px: (size: number) => {
+    return {
+      paddingHorizontal: Wp(size),
+    };
+  },
+  W: (size: number) => {
+    return {
+      width: Wp(size),
+    };
+  },
+  H: (size: number) => {
+    return {
+      height: Wp(size),
+    };
+  },
+  m: (size: number) => {
+    return {
+      margin: Wp(size),
+    };
+  },
+  p: (size: number) => {
+    return {
+      padding: Wp(size),
+    };
+  },
+  radius: (size: number) => {
+    return {
+      borderRadius: Wp(size),
+    };
+  },
+  bg: (color: string) => {
+    return {
+      backgroundColor: color,
+    };
+  },
+  text: (color: string) => {
+    return {
+      color: color,
+    };
+  },
+  w: (size: number) => {
+    return {
+      width: wp(size),
+    };
+  },
+  h: (size: number) => {
+    return {
+      height: hp(size),
+    };
+  },
+  br: (size: number) => {
+    return {
+      borderRadius: Wp(size),
+    };
+  },
+  bw: (size: number) => {
+    return {
+      borderWidth: size,
+    };
+  },
+};
+
 export default globalStyles;
+
+export { globalStylesFunc };

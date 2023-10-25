@@ -3,16 +3,16 @@
   This is where the API calls for the thirty-x-thirty module will be made.
 */
 
-import apiService from "@app/services/api-service/api-service";
-import { Boolbacks } from "../../../services/api-service/index";
-import { getAuthHeaders } from "@app/utils";
-import { Assessment, ChallengeQuestionsData } from "./types";
+import { getAuthHeaders } from '@app/utils';
+import { Assessment, ChallengeQuestionsData } from './types';
+import { Boolbacks } from '@app/services/api-service';
+import apiService from '@app/services/api-service/api-service';
 
 const getChallenges = ({ onFailure, onSuccess }: Boolbacks) => {
   getAuthHeaders().then((headers) => {
     apiService.get<Assessment[]>({
       headers,
-      url: "/website/assessments/list",
+      url: '/website/assessments/list',
       onSuccess: onSuccess,
       onFailure,
     });
@@ -31,7 +31,7 @@ const getChallengeQuestions = ({
   getAuthHeaders().then((headers) => {
     const data = [];
     if (assessmentId)
-      data.push({ key: "assessment_id", value: assessmentId.toString() });
+      data.push({ key: 'assessment_id', value: assessmentId.toString() });
 
     apiService.get({
       url: `/website/assessments/take-assessment/${questionId}`,
@@ -54,7 +54,7 @@ const getFitnessScreenerId = async ({
 
     apiService.get({
       headers,
-      url: "/website/assessments/get-challenge-screener",
+      url: '/website/assessments/get-challenge-screener',
       onFailure,
       onSuccess: (res) => {
         // @ts-ignore
@@ -80,7 +80,7 @@ const submitChallenge = ({
   getAuthHeaders().then((headers) => {
     const newData = JSON.stringify(data);
     apiService.post({
-      url: "/website/assessments/submit-assessment",
+      url: '/website/assessments/submit-assessment',
       headers,
       data: newData,
       onFailure,

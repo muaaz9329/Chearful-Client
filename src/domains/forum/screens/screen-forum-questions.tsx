@@ -123,7 +123,7 @@ export default function ForumQuestionsScreen({
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: Colors.Primary,
+              backgroundColor: Colors.primary,
               paddingHorizontal: deviceType == 'tablet' ? Wp(8) : Wp(12),
               borderRadius: deviceType == 'tablet' ? Wp(8) : Wp(10),
               paddingVertical: deviceType == 'mobile' ? Wp(14) : Wp(8),

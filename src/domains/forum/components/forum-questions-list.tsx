@@ -1,7 +1,7 @@
 import React from 'react';
 import { RequestState } from '@app/services/api-service';
 import { AdaptedForumQuestion } from '../types';
-import { FlatList, FlatListProps, Text } from 'react-native';
+import { FlatListProps, Text } from 'react-native';
 import ForumQuestion, { ForumQuestionProps } from './forum-question';
 import globalStyles from '@app/assets/global-styles';
 import { IsTablet } from '@app/utils';

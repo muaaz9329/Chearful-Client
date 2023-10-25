@@ -11,6 +11,7 @@ import { Colors } from '@app/constants/';
 import { Hp, IsTablet, hp } from '@app/utils';
 import { ForumNavigation } from '@app/domains/forum';
 import AuthNavigation from '@app/domains/authentication/navigation';
+import ThirtyXThirtyNavigation from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -132,12 +133,14 @@ export default function AppNavigation() {
         headerShown: false,
       }}
     >
-      <Stack.Screen
+      <Stack.Screen name="Test" component={ThirtyXThirtyNavigation} />
+
+      {/* <Stack.Screen
         name={AppNavigator.HomeTabs}
         component={RootTabNavigation}
       />
 
-      <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
+      <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} /> */}
     </Stack.Navigator>
   );
 }

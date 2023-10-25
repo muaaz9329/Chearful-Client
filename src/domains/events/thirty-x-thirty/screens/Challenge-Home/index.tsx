@@ -1,31 +1,24 @@
-import { ScrollView, StyleSheet, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import globalStyles, {
-  globalStylesFunc,
-} from "@app/assets/styles/global-styles";
-import Header from "@app/common/components/Header";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { ChevronLeft } from "@app/svgs/Index";
-import { IconComponent } from "@app/types";
-import Banner from "./components/banner";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { IsTablet } from "@app/constants";
-import { mergeStyles } from "@app/helper/customFunction";
-import ChallengeBox from "./components/challenge-box";
-import AssessmentBox from "./components/assessment-box";
-import Scoreboard from "./components/scoreboard";
-import BlogCards from "./components/blog-cards";
-import { Wp } from "@app/helper/CustomResponsive";
-import ThirtyXThirtyService from "../../thirty-x-thirty-services";
-import { Assessment } from "../../types";
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import Banner from './components/banner';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ChallengeBox from './components/challenge-box';
+import AssessmentBox from './components/assessment-box';
+import Scoreboard from './components/scoreboard';
+import BlogCards from './components/blog-cards';
+import ThirtyXThirtyService from '../../thirty-x-thirty-services';
+import { Assessment } from '../../types';
 import {
   deserializeAsses,
   deserializeAssessment,
-} from "../../adapters/thirty-x-thirty";
-import useQuizAssessment from "../../hooks/use-quiz-assessment";
-import { RequestState } from "@app/services/api-service";
-import { ErrorRetry, Loader } from "@app/common/components";
-import { useChallengeStore } from "./hooks/use-challenge-store";
+} from '../../adapters/thirty-x-thirty';
+import useQuizAssessment from '../../hooks/use-quiz-assessment';
+import { RequestState } from '@app/services/api-service';
+import { useChallengeStore } from './hooks/use-challenge-store';
+import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
+import { IsTablet, Wp, mergeStyles } from '@app/utils';
+import { ErrorRetry, Header, Loader } from '@app/components';
 
 const ChallengeHome = () => {
   const navigation = useNavigation();
@@ -33,7 +26,7 @@ const ChallengeHome = () => {
 
   const handleNavigation = (questionId: number, assessmentId: number) => {
     // @ts-ignore
-    navigation.navigate("TYPE-OF-CHALLENGE-SCREEN", {
+    navigation.navigate('TYPE-OF-CHALLENGE-SCREEN', {
       questionId,
       assessmentId,
     });
@@ -49,7 +42,7 @@ const ChallengeHome = () => {
   }>({
     assessments: [],
     metaData: {},
-    status: "loading",
+    status: 'loading',
   });
 
   const loadChallengesList = () => {
@@ -58,7 +51,7 @@ const ChallengeHome = () => {
         setAssessment({
           assessments: data,
           metaData: extras,
-          status: "loaded",
+          status: 'loaded',
         });
       },
       onFailure: (err) => {
@@ -66,7 +59,7 @@ const ChallengeHome = () => {
         setAssessment({
           assessments: [],
           metaData: {},
-          status: "erred",
+          status: 'erred',
         });
       },
     });
@@ -82,7 +75,7 @@ const ChallengeHome = () => {
       setAssessment({
         assessments: [],
         metaData: {},
-        status: "loading",
+        status: 'loading',
       });
       loadChallengesList();
       setReloadChallenge(false);
@@ -91,7 +84,7 @@ const ChallengeHome = () => {
 
   //* Setting no of challenges and current challenge
   useEffect(() => {
-    if (assessment.status === "loaded") {
+    if (assessment.status === 'loaded') {
       setNumberOfChallenge(assessment.assessments.length);
     }
   }, [assessment]);
@@ -100,17 +93,13 @@ const ChallengeHome = () => {
     <SafeAreaView style={[globalStyles.pt_16, globalStyles.bg_white]}>
       <ScrollView>
         <View style={globalStyles.px_20}>
-          <Header
-            navigation={navigation}
-            pram="tab-navigation"
-            Icon={ChevronLeft as IconComponent}
-          />
+          <Header pram="tab-navigation" />
         </View>
 
         <View
           style={[
             globalStyles.mt_15,
-            IsTablet && { ...globalStylesFunc.w(80), alignSelf: "center" },
+            IsTablet && { ...globalStylesFunc.w(80), alignSelf: 'center' },
           ]}
         >
           <Banner />
@@ -121,23 +110,23 @@ const ChallengeHome = () => {
             IsTablet &&
               mergeStyles(
                 globalStylesFunc.w(80),
-                { alignSelf: "center" },
-                globalStylesFunc.px(0)
+                { alignSelf: 'center' },
+                globalStylesFunc.px(0),
               ),
           ]}
         >
-          {assessment.status === "erred" ? (
+          {assessment.status === 'erred' ? (
             <ErrorRetry
               onRetry={() => {
                 setAssessment({
                   assessments: [],
                   metaData: {},
-                  status: "loading",
+                  status: 'loading',
                 });
                 loadChallengesList();
               }}
             />
-          ) : assessment.status === "loading" ? (
+          ) : assessment.status === 'loading' ? (
             <Loader
               style={{
                 marginVertical: 20,
@@ -149,7 +138,7 @@ const ChallengeHome = () => {
               <BlogCards />
               <View style={styles.assessmentWrapper}>
                 {assessment.assessments?.map((item: Assessment, index) => {
-                  if (item.assesment.assessment_type === "challenge") {
+                  if (item.assesment.assessment_type === 'challenge') {
                     const assessmentData = deserializeAssessment(item, index);
                     return (
                       <ChallengeBox
@@ -163,15 +152,15 @@ const ChallengeHome = () => {
                     const assessmentData = deserializeAsses(item);
                     return (
                       <AssessmentBox
-                        key={index + "-item"}
+                        key={index + '-item'}
                         conditon={assessmentData?.status as any}
                         onPress={() => {
                           setQuizAssessment({
-                            status: "loading",
+                            status: 'loading',
                             data: null,
                           });
                           // @ts-ignore
-                          navigation.navigate("QUIZ-ASSESSMENT-SCREEN", {
+                          navigation.navigate('QUIZ-ASSESSMENT-SCREEN', {
                             questionId: assessmentData?.questionId,
                           });
                         }}
@@ -192,10 +181,10 @@ export default ChallengeHome;
 
 const styles = StyleSheet.create({
   assessmentWrapper: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexWrap: 'wrap',
     marginTop: Wp(20),
   },
 });

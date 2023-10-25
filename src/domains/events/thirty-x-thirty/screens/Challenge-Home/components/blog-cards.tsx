@@ -1,18 +1,12 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import globalStyles, {
-  globalStylesFunc,
-} from "@app/assets/styles/global-styles";
-import { ModuleImg } from "../../../assets";
-import { IconEye, IconStar, IconStarFilled } from "tabler-icons-react-native";
-import { colorWithOpacity, mergeStyles } from "@app/helper/customFunction";
-import Heading from "@app/common/components/heading";
-import { Wp } from "@app/helper/CustomResponsive";
-import { IsTablet } from "@app/constants";
+import React from 'react';
+import { ImageBackground, StyleSheet, View } from 'react-native';
+import { ModuleImg } from '../../../assets';
+import { IconEye, IconStar } from 'tabler-icons-react-native';
+import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
+import { IsTablet, Wp, colorWithOpacity, mergeStyles } from '@app/utils';
+import { Heading } from '@app/components';
 
-type Props = {};
-
-const BlogCards = (props: Props) => {
+const BlogCards = () => {
   return (
     <ImageBackground
       style={[
@@ -24,7 +18,7 @@ const BlogCards = (props: Props) => {
           mergeStyles(
             globalStylesFunc.w(40),
             globalStylesFunc.H(100),
-            globalStylesFunc.br(10)
+            globalStylesFunc.br(10),
           ),
       ]}
       source={ModuleImg.blogImg}
@@ -34,19 +28,19 @@ const BlogCards = (props: Props) => {
         style={[
           globalStyles.px_10,
           globalStylesFunc.py(8),
-          globalStylesFunc.bg(colorWithOpacity("#F5F5F5", 0.3)),
+          globalStylesFunc.bg(colorWithOpacity('#F5F5F5', 0.3)),
           globalStylesFunc.br(40),
           globalStyles.flexRow,
           globalStyles.alignCenter,
           globalStyles.justifyStart,
           {
-            alignSelf: "flex-start",
+            alignSelf: 'flex-start',
           },
           IsTablet &&
             mergeStyles(
               globalStylesFunc.py(5),
               globalStylesFunc.br(30),
-              globalStylesFunc.px(8)
+              globalStylesFunc.px(8),
             ),
         ]}
       >
@@ -88,7 +82,7 @@ const styles = StyleSheet.create({
     marginLeft: Wp(6),
   },
   imgCont: {
-    overflow: "hidden",
+    overflow: 'hidden',
     height: Wp(170),
   },
 });

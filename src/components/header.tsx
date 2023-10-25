@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import React, { ReactNode } from 'react';
 import { IconComponent } from '@app/types';
-import { ChevronLeft } from '@app/assets/svgs/Index';
+import { ChevronLeft } from '@app/assets/svgs/';
 import { IsPhone, IsTablet, Wp } from '@app/utils';
 import { Colors } from '@app/constants';
 

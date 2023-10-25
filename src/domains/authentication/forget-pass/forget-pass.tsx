@@ -11,7 +11,7 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { useDispatch, useSelector } from 'react-redux';
-import AnimatedLoginBtn from '@app/common/components/AnimatedLoginbtn';
+import AnimatedLoginBtn from '@app/components/AnimatedLoginbtn';
 import { ApiServices } from '@app/services/Apiservice';
 import {
   resetPasswordErred,
@@ -88,7 +88,7 @@ const ForgetPass = ({ navigation }: Props) => {
           <ChearfulLogo
             height={deviceType === 'mobile' ? Wp(27) : Wp(20)}
             width={deviceType === 'mobile' ? Wp(122) : Wp(90)}
-            color={AppColors.Primary}
+            color={Colors.primary}
           />
         </Header>
       </View>
@@ -129,7 +129,7 @@ const ForgetPass = ({ navigation }: Props) => {
                 marginBottom: Wp(5),
 
                 borderWidth: 2,
-                borderColor: AppColors.Primary,
+                borderColor: Colors.primary,
               },
               deviceType === 'tablet' && {
                 width: wp(70),
@@ -141,7 +141,7 @@ const ForgetPass = ({ navigation }: Props) => {
               mode="flat"
               label="Email"
               placeholder="Enter Your Email Address"
-              placeholderTextColor={colorWithOpacity(AppColors.Primary, 0.6)}
+              placeholderTextColor={colorWithOpacity(Colors.primary, 0.6)}
               underlineColor={'#EFF3F2'}
               style={[
                 {
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontSize: Wp(30),
     fontFamily: Nunito(800),
-    color: AppColors.Primary,
+    color: Colors.primary,
     marginVertical: Wp(10),
   },
   TextContent: {
@@ -201,10 +201,10 @@ const styles = StyleSheet.create({
   TaskInput: {
     fontFamily: Mulish(400),
     fontSize: FontSize(14),
-    color: AppColors.MenuText,
+    color: Colors.MenuText,
     paddingVertical: Platform.OS == 'android' ? Wp(10) : Wp(13),
     paddingHorizontal: Wp(10),
-    backgroundColor: AppColors.OffWhiteCont,
+    backgroundColor: Colors.light,
     borderRadius: Wp(10),
     width: widthPercentageToDP(85),
     height: heightPercentageToDP(6),
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   },
   errorTxt: {
     fontSize: FontSize(12),
-    color: AppColors.Error,
+    color: Colors.Error,
     marginVertical: Wp(20),
   },
 });

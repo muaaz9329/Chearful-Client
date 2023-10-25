@@ -4,7 +4,11 @@ export type RequestState = 'idle' | 'loading' | 'loaded' | 'erred';
 
 export type Boolbacks<T = any> = {
   onFailure: ({ message, error }: { message: string; error?: any }) => void;
-  onSuccess: ({ data, message }: { data: T; message?: string }) => unknown;
+  onSuccess: (res: {
+    data: T;
+    message?: string;
+    [key: string]: any;
+  }) => unknown;
 
   /**
    * Callback to be called when the request is bypassed.

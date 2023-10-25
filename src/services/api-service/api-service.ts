@@ -1,8 +1,8 @@
 /* eslint-disable eqeqeq */
 import axios from 'axios';
 import { isObjectValid } from '@app/utils/';
-import { BASE_URL } from '@app/constants';
-import { Boolbacks, ServiceInitiator } from '.';
+import { BASE_URL } from '@app/constants/env';
+import { Boolbacks, GetRequestParams, ServiceInitiator } from '.';
 
 function generateApiUrl(url: string) {
   return `${BASE_URL}${url}`;
@@ -101,21 +101,14 @@ function getProposal({
  * - key: the string-based URL query parameter,
  * - value: the value for the URL query parameter
  */
-function get({
+function get<T = any>({
   url,
   data,
   headers,
   ...boolBacks
 }: Omit<ServiceInitiator, 'data'> &
-  Boolbacks & { data?: { key: string; value: string | Array<any> }[] }) {
-  const params: Record<string, string> = {};
-
-  data?.[0]?.key &&
-    data?.[0]?.value &&
-    data.forEach(({ key, value }) => {
-      if (value)
-        params[key] = Array.isArray(value) ? JSON.stringify(value) : value;
-    });
+  Boolbacks<T> & { data?: { key: string; value: string | Array<any> }[] }) {
+  const params = makeParams(data as GetRequestParams);
 
   return service({
     boolBacks,
@@ -204,6 +197,22 @@ function deleteRecord({
   });
 }
 
+/**
+ * Make Params  for any request
+ */
+
+const makeParams = (data: GetRequestParams) => {
+  const params: Record<string, string> = {};
+
+  data?.[0]?.key &&
+    data?.[0]?.value &&
+    data.forEach(({ key, value }) => {
+      if (value)
+        params[key] = Array.isArray(value) ? JSON.stringify(value) : value;
+    });
+
+  return params;
+};
 const apiService = {
   get,
   post,

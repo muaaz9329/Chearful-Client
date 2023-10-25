@@ -1,16 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import globalStyles, {
-  globalStylesFunc,
-} from "@app/assets/styles/global-styles";
-import { IconDiamond } from "tabler-icons-react-native";
-import { Wp } from "@app/helper/CustomResponsive";
-import { AppColors, IsTablet } from "@app/constants";
-import Heading from "@app/common/components/heading";
-import { mergeStyles } from "@app/helper/customFunction";
-import SlideLoader from "./slider-loader";
-
-type Props = {};
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import SlideLoader from './slider-loader';
+import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
+import { IsTablet, Wp } from '@app/utils';
+import { IconDiamond } from 'tabler-icons-react-native';
+import { Colors } from '@app/constants';
+import { Heading } from '@app/components';
 
 const ScoreLoader = ({ score }: { score: number }) => {
   const scorePercentage = (score / 30000) * 100;
@@ -26,8 +21,7 @@ const ScoreLoader = ({ score }: { score: number }) => {
 
 const Scoreboard = ({
   earnedPoints,
-  percentageCompletion,
-  pointsToBeEarned
+  pointsToBeEarned,
 }: {
   earnedPoints: number;
 
@@ -39,7 +33,7 @@ const Scoreboard = ({
       style={[
         globalStyles.px_10,
         globalStyles.py_10,
-        globalStylesFunc.bg("#F5F5F5"),
+        globalStylesFunc.bg('#F5F5F5'),
         globalStylesFunc.br(24),
         globalStyles.my_15,
       ]}
@@ -54,7 +48,7 @@ const Scoreboard = ({
       >
         <IconDiamond
           size={IsTablet ? Wp(15) : Wp(24)}
-          color={AppColors.Primary}
+          color={Colors.primary}
           style={{ marginRight: IsTablet ? Wp(3) : Wp(6) }}
         />
         <Heading size="sm" style={styles.UnderlineStyles}>
@@ -90,7 +84,7 @@ export default Scoreboard;
 
 const styles = StyleSheet.create({
   UnderlineStyles: {
-    textDecorationStyle: "solid",
-    textDecorationLine: "underline",
+    textDecorationStyle: 'solid',
+    textDecorationLine: 'underline',
   },
 });

@@ -1,25 +1,21 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
-import globalStyles, {
-  globalStylesFunc,
-} from "@app/assets/styles/global-styles";
-import { AppColors, IsTablet } from "@app/constants";
-import { colorWithOpacity, mergeStyles } from "@app/helper/customFunction";
-import Heading from "@app/common/components/heading";
-import AppText from "@app/common/components/app-text";
-import { IconCheck, IconLock, IconX } from "tabler-icons-react-native";
-import { Wp } from "@app/helper/CustomResponsive";
-import { useChallengeStore } from "../hooks/use-challenge-store";
+import React from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { IconCheck, IconLock, IconX } from 'tabler-icons-react-native';
+import { useChallengeStore } from '../hooks/use-challenge-store';
+import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
+import { IsTablet, Wp, colorWithOpacity, mergeStyles } from '@app/utils';
+import { AppText, Heading } from '@app/components';
+import { Colors } from '@app/constants';
 
 const ChallengeBox = ({
-  condition = "completed",
-  title = "Write Down Three Things",
+  condition = 'completed',
+  title = 'Write Down Three Things',
   handleNavigaiton,
   index,
   questionId,
   assessmentId,
 }: {
-  condition: "completed" | "missed" | "current" | "upcoming";
+  condition: 'completed' | 'missed' | 'current' | 'upcoming';
   title: string;
   handleNavigaiton: (questionId: number, assessmentId: number) => void;
   index?: number;
@@ -28,10 +24,9 @@ const ChallengeBox = ({
 }) => {
   const { setCurrentChallenge } = useChallengeStore();
 
- 
   return (
     <Pressable
-      disabled={!(condition ==='current')}
+      disabled={!(condition === 'current')}
       style={[
         globalStylesFunc.W(140),
         globalStylesFunc.H(140),
@@ -47,14 +42,14 @@ const ChallengeBox = ({
             globalStylesFunc.W(90),
             globalStylesFunc.H(90),
             globalStylesFunc.br(10),
-            globalStylesFunc.mt(10)
+            globalStylesFunc.mt(10),
           ),
-        (condition === "upcoming" || condition === "missed") &&
-          mergeStyles(globalStylesFunc.bg("#F2F2F2"), globalStylesFunc.bw(0)),
-        condition === "completed" &&
+        (condition === 'upcoming' || condition === 'missed') &&
+          mergeStyles(globalStylesFunc.bg('#F2F2F2'), globalStylesFunc.bw(0)),
+        condition === 'completed' &&
           mergeStyles(
-            globalStylesFunc.bg(colorWithOpacity("#6DB27D", 0.3)),
-            globalStylesFunc.bw(0)
+            globalStylesFunc.bg(colorWithOpacity('#6DB27D', 0.3)),
+            globalStylesFunc.bw(0),
           ),
       ]}
       onPress={() => {
@@ -70,7 +65,7 @@ const ChallengeBox = ({
           IsTablet &&
             mergeStyles(globalStylesFunc.W(90), globalStylesFunc.H(90)),
           styles.absoluteCont,
-          (condition === "upcoming" || condition === "missed") &&
+          (condition === 'upcoming' || condition === 'missed') &&
             styles.UpcomingContAbsolute,
         ]}
       ></View>
@@ -79,7 +74,7 @@ const ChallengeBox = ({
           globalStylesFunc.W(40),
           globalStylesFunc.H(40),
           globalStylesFunc.br(25),
-          globalStylesFunc.bg("#EAEAEA"),
+          globalStylesFunc.bg('#EAEAEA'),
           styles.Badge,
           globalStyles.justifyCenter,
           globalStyles.alignCenter,
@@ -87,13 +82,10 @@ const ChallengeBox = ({
             mergeStyles(globalStylesFunc.W(25), globalStylesFunc.H(25)),
         ]}
       >
-        {condition === "missed" ? (
-          <IconX size={IsTablet ? Wp(10) : Wp(20)} color={AppColors.Error} />
-        ) : condition === "completed" ? (
-          <IconCheck
-            size={IsTablet ? Wp(10) : Wp(20)}
-            color={AppColors.Primary}
-          />
+        {condition === 'missed' ? (
+          <IconX size={IsTablet ? Wp(10) : Wp(20)} color={Colors.error} />
+        ) : condition === 'completed' ? (
+          <IconCheck size={IsTablet ? Wp(10) : Wp(20)} color={Colors.primary} />
         ) : (
           <AppText size="md" style={[globalStyles.mulish_700]}>
             {index}
@@ -101,10 +93,10 @@ const ChallengeBox = ({
         )}
       </View>
 
-      {(condition === "upcoming" || condition === "missed") && (
+      {(condition === 'upcoming' || condition === 'missed') && (
         <IconLock
           size={IsTablet ? Wp(20) : Wp(30)}
-          color={AppColors.Primary}
+          color={Colors.primary}
           style={{ marginBottom: Wp(8) }}
         />
       )}
@@ -120,16 +112,16 @@ export default ChallengeBox;
 
 const styles = StyleSheet.create({
   absoluteCont: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: -10,
   },
   UpcomingContAbsolute: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     opacity: 0.5,
     zIndex: 1,
   },
   Badge: {
-    position: "absolute",
+    position: 'absolute',
     top: -10,
     right: -10,
     zIndex: 1,

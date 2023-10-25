@@ -22,6 +22,7 @@ import useQuizAssessment from '../../hooks/use-quiz-assessment';
 import { ErrorRetry, Heading, Loader, ProgressBar } from '@app/components';
 import ThirtyXThirtyService from '../../thirty-x-thirty-services';
 import { useChallengeStore } from '../Challenge-Home/hooks/use-challenge-store';
+import { ThirtyxThirtyNavigator } from '../../navigation/thirty-x-thirty-navigation-stack';
 
 /**
  * A private function to generate the quiz data from the API response
@@ -29,7 +30,7 @@ import { useChallengeStore } from '../Challenge-Home/hooks/use-challenge-store';
 const _generateQuizData = (
   data: ChallengeQuestionsData['assessment_groups'][0]['arrQuestions'],
 ) => {
-  return data.map((item, index) => {
+  return data.map((item) => {
     return {
       id: item.id,
       question: item.question_title,
@@ -114,7 +115,7 @@ export default function QuizAssessmentScreen({
           if (params?.questionId) setReloadChallenge(true);
 
           // This behavior is static now. Gonna implement dynamic behavior soon
-          navigation.navigate('CHALLENGE-SCREEN');
+          navigation.navigate(ThirtyxThirtyNavigator.ChallengeHomeScreen);
         },
         onFailure: ({ message, error }) => {
           console.log(error);
@@ -130,7 +131,7 @@ export default function QuizAssessmentScreen({
     });
   };
 
-  const onNextQuestion = (currSelectedOption: SassyQuizSelectedOption) => {
+  const onNextQuestion = (_: SassyQuizSelectedOption) => {
     setProgress((prev) => prev + (assessment?.percent_per_question || 1));
   };
 

@@ -1,20 +1,17 @@
-import { StyleSheet, View, Pressable } from "react-native";
-import React, { forwardRef, useCallback, useImperativeHandle } from "react";
-import { Svg, G, Circle } from "react-native-svg";
-import { NextArrow } from "@svg";
-import { Text } from "react-native-paper";
-import { AppColors } from "@app/constants/app-colors";
-import { IconArrowRight } from "tabler-icons-react-native";
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { StyleSheet, View, Pressable } from 'react-native';
+import { Svg, G, Circle } from 'react-native-svg';
+import { IconArrowRight } from 'tabler-icons-react-native';
 import Animated, {
   useSharedValue,
   withTiming,
   useAnimatedProps,
-  useDerivedValue,
-} from "react-native-reanimated";
-import { DeviceType } from "@app/context/Device-Type/DeviceTypeProvider";
-
-import useSignupStore from "../hooks/use-signup-store";
+} from 'react-native-reanimated';
+import useSignupStore from '../hooks/use-signup-store';
+import { IsPhone, IsTablet } from '@app/utils';
+import { Colors } from '@app/constants';
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+
 const NextBtn = forwardRef(
   (
     {
@@ -22,19 +19,15 @@ const NextBtn = forwardRef(
       radius,
       color,
       HandleFunction,
-      deviceType = "mobile",
-      StrokeWidth = 50,
       index,
     }: {
       percentage: number;
       radius: number;
       color: string;
       HandleFunction: () => void;
-      deviceType?: DeviceType;
-      StrokeWidth?: number;
       index?: number;
     },
-    ref
+    ref,
   ) => {
     const { setSignUpDataValid } = useSignupStore();
     const strokeWidth = Math.round(radius / 13.3);
@@ -43,25 +36,23 @@ const NextBtn = forwardRef(
     const StrokeOffSet =
       CircleCircmference - (CircleCircmference * percentage) / 100;
 
-    const progress = useSharedValue(deviceType === "mobile" ? 0.25 : 0);
+    const progress = useSharedValue(IsPhone ? 0.25 : 0);
 
     const animatedProps = useAnimatedProps(() => ({
       strokeDashoffset: CircleCircmference * (1 - progress.value),
     }));
 
     const onPress = () => {
-      if (index == 1 && deviceType === "mobile") {
+      if (index == 1 && IsPhone) {
         setSignUpDataValid(true);
       } // this triggers the validation of the form for mobile view
-      else if (index == 0 && deviceType === "tablet") {
+      else if (index == 0 && IsTablet) {
         setSignUpDataValid(true);
       } // this triggers the validation of the form for tablet view
       else {
         progress.value = withTiming(
-          progress.value < 1
-            ? progress.value + (deviceType === "mobile" ? 0.25 : 0.5)
-            : 1,
-          { duration: 500 }
+          progress.value < 1 ? progress.value + (IsPhone ? 0.25 : 0.5) : 1,
+          { duration: 500 },
         );
 
         HandleFunction();
@@ -69,7 +60,7 @@ const NextBtn = forwardRef(
     };
     useImperativeHandle(ref, () => ({
       onMoveNext: (index: number) => {
-        if (deviceType === "mobile") {
+        if (IsPhone) {
           if (index == 0) {
             progress.value = withTiming(0.25, { duration: 500 });
           } else if (index == 1) {
@@ -101,8 +92,8 @@ const NextBtn = forwardRef(
           >
             <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
               <AnimatedCircle
-                cx={"50%"}
-                cy={"50%"}
+                cx={'50%'}
+                cy={'50%'}
                 stroke={color}
                 strokeWidth={strokeWidth}
                 r={radius}
@@ -120,24 +111,24 @@ const NextBtn = forwardRef(
               {
                 height: radius * 2,
                 width: radius * 2,
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center',
               },
             ]}
           >
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center',
                 height: radius * 1.6,
                 width: radius * 1.6,
                 borderRadius: radius * 1.8,
                 borderWidth: 1,
-                borderColor: AppColors.Primary,
+                borderColor: Colors.primary,
               }}
             >
               <IconArrowRight
-                color={AppColors.Primary}
+                color={Colors.primary}
                 width={radius / 2}
                 height={radius / 2}
               />
@@ -146,9 +137,7 @@ const NextBtn = forwardRef(
         </Pressable>
       </View>
     );
-  }
+  },
 );
 
 export default NextBtn;
-
-const styles = StyleSheet.create({});

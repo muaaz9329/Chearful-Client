@@ -6,7 +6,7 @@ import { NavigationHelpers } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import ForumService from '../forum-service';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatList, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import globalStyles from '@app/assets/global-styles';
 import ListNextBatchFooter from '@app/components/list-next-batch-footer';
 import ForumAnswer from '../components/forum-answer';
@@ -15,7 +15,7 @@ import QuestionMetaData from '../components/question-metadata';
 import Loader from '@app/components/loader';
 import ErrorRetry from '@app/components/error-retry';
 import type { ForumAnswer as ForumAnswerT } from '../types';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 export default function ForumAnswersScreen({
   route,

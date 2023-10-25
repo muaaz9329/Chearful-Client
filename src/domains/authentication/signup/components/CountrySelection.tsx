@@ -1,36 +1,36 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import FormLabel from "@app/common/components/Inputs/FormLabel";
-import { Image } from "react-native-animatable";
-import { Hp, Wp } from "@app/helper/CustomResponsive";
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import FormLabel from '@app/common/components/Inputs/FormLabel';
+import { Image } from 'react-native-animatable';
+import { Hp, Wp } from '@app/helper/CustomResponsive';
 import {
   heightPercentageToDP,
   widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
-import { AppColors } from "@app/constants/app-colors";
-import Country from "./countryInput/Country-Selection/Country";
-import ActionSheet from "react-native-actions-sheet";
-import { ICountrySelection } from "../Views/MobileView";
-import { countries } from "./countryInput/countries";
-import { Mulish } from "@app/helper/FontWeight";
-import { DeviceType } from "@app/context/Device-Type/DeviceTypeProvider";
-import ModelLayout from "@app/common/Models/Model-Layout";
+} from 'react-native-responsive-screen';
+import { AppColors } from '@app/constants/app-colors';
+import Country from './countryInput/Country-Selection/Country';
+import ActionSheet from 'react-native-actions-sheet';
+import { ICountrySelection } from '../views/mobile-view';
+import { countries } from './countryInput/countries';
+import { Mulish } from '@app/helper/FontWeight';
+import { DeviceType } from '@app/context/Device-Type/DeviceTypeProvider';
+import ModelLayout from '@app/common/Models/Model-Layout';
 
 type Props = {
   handleForm: (text: string, name: string) => void;
   deviceType?: DeviceType;
 };
 
-const CountrySelection = ({ handleForm, deviceType = "mobile" }: Props) => {
+const CountrySelection = ({ handleForm, deviceType = 'mobile' }: Props) => {
   const ActionSheetRef = useRef(null);
   const [countryFlag, setcountryFlag] = useState<ICountrySelection>(
-    countries[0]
+    countries[0],
   );
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     // @ts-ignore
-    handleForm(countryFlag.id, "countryName");
+    handleForm(countryFlag.id, 'countryName');
   }, [countryFlag]);
 
   const bottomSheetClose = () => {
@@ -44,7 +44,7 @@ const CountrySelection = ({ handleForm, deviceType = "mobile" }: Props) => {
         <Pressable
           style={[
             styles.countryCont,
-            deviceType === "tablet" && {
+            deviceType === 'tablet' && {
               paddingHorizontal: Wp(3),
               backgroundColor: AppColors.InputBg,
               width: wp(30),
@@ -52,7 +52,7 @@ const CountrySelection = ({ handleForm, deviceType = "mobile" }: Props) => {
             },
           ]}
           onPress={() => {
-            deviceType === "mobile"
+            deviceType === 'mobile'
               ? //@ts-ignore
                 ActionSheetRef.current?.show()
               : setVisible(true);
@@ -61,7 +61,7 @@ const CountrySelection = ({ handleForm, deviceType = "mobile" }: Props) => {
           <View
             style={[
               styles.itemContainer,
-              deviceType === "tablet" && {
+              deviceType === 'tablet' && {
                 paddingVertical: Wp(8),
                 paddingHorizontal: Wp(6),
               },
@@ -69,15 +69,15 @@ const CountrySelection = ({ handleForm, deviceType = "mobile" }: Props) => {
           >
             <View
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                flexDirection: 'row',
+                alignItems: 'center',
               }}
             >
               <Image // @ts-ignore
                 source={countryFlag.flag}
                 style={[
                   styles.FlagImgDesign,
-                  deviceType === "tablet" && {
+                  deviceType === 'tablet' && {
                     width: Wp(18),
                     height: Wp(12),
                     borderRadius: Wp(1.3),
@@ -87,7 +87,7 @@ const CountrySelection = ({ handleForm, deviceType = "mobile" }: Props) => {
               <Text
                 style={[
                   styles.itemText,
-                  deviceType === "tablet" && {
+                  deviceType === 'tablet' && {
                     marginLeft: Wp(10),
                     fontSize: Wp(6),
                   },
@@ -100,7 +100,7 @@ const CountrySelection = ({ handleForm, deviceType = "mobile" }: Props) => {
         </Pressable>
       </FormLabel>
 
-      {deviceType === "mobile" && (
+      {deviceType === 'mobile' && (
         <ActionSheet
           containerStyle={{
             height: heightPercentageToDP(50),
@@ -114,17 +114,17 @@ const CountrySelection = ({ handleForm, deviceType = "mobile" }: Props) => {
             setFlag={setcountryFlag}
             sheetClose={bottomSheetClose}
             showDialCode={false}
-            deviceType={"mobile"}
+            deviceType={'mobile'}
           />
         </ActionSheet>
       )}
-      {deviceType === "tablet" && (
+      {deviceType === 'tablet' && (
         <ModelLayout visible={visible} setVisible={setVisible}>
           <Country
             setFlag={setcountryFlag}
             sheetClose={() => setVisible(false)}
             showDialCode={false}
-            deviceType={"tablet"}
+            deviceType={'tablet'}
           />
         </ModelLayout>
       )}
@@ -142,11 +142,11 @@ const styles = StyleSheet.create({
     borderRadius: Wp(12),
   },
   itemContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: Wp(20),
     paddingHorizontal: Wp(15),
-    alignItems: "center",
-    justifyContent: "space-between",
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   FlagImgDesign: {
     width: Wp(28),

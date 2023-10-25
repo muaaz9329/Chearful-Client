@@ -10,11 +10,11 @@ import { Loader } from '@app/components';
 import { AppNavigator } from '@app/navigation/app-navigation';
 import { AuthNavigator } from '@app/domains/authentication/';
 import {
-  LandingScreen,
-  // AgreementScreen,
-  // QuizAssessmentScreen,
-  // ChallengeHomeScreen,
-  // TypeOfChallengeScreen
+  ScreenLanding,
+  ScreenAgreement,
+  ScreenQuizAssessment,
+  ScreenChallengeHome,
+  ScreenTypeOfChallenge,
 } from '../screens';
 
 export const enum ThirtyxThirtyNavigator {
@@ -37,23 +37,23 @@ export default function ThirtyXThirtyNavigation() {
       <Stack.Screen name="RedirectingScreen" component={RedirectScreen} />
       <Stack.Screen
         name={ThirtyxThirtyNavigator.LandingScreen}
-        component={LandingScreen}
+        component={ScreenLanding}
       />
       <Stack.Screen
         name={ThirtyxThirtyNavigator.AgreementScreen}
-        component={AgreementScreen}
+        component={ScreenAgreement}
       />
       <Stack.Screen
         name={ThirtyxThirtyNavigator.QuizAssessmentScreen}
-        component={QuizAssessmentScreen}
+        component={ScreenQuizAssessment}
       />
       <Stack.Screen
         name={ThirtyxThirtyNavigator.ChallengeHomeScreen}
-        component={ChallengeHome}
+        component={ScreenChallengeHome}
       />
       <Stack.Screen
         name={ThirtyxThirtyNavigator.TypeOfChallengeScreen}
-        component={TypeOfChallenge}
+        component={ScreenTypeOfChallenge}
       />
     </Stack.Navigator>
   );

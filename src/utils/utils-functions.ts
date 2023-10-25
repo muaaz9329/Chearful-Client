@@ -396,3 +396,13 @@ export function isSvg(url: string) {
     return false;
   }
 }
+
+/**
+ *
+ * @param styleObjects :styles which you want to merge
+ * @returns single object with all styles merged
+ */
+
+export function mergeStyles(...styleObjects: object[]): object {
+  return Object.assign({}, ...styleObjects);
+}
