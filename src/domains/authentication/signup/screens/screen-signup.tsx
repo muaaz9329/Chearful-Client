@@ -1,12 +1,5 @@
-import {
-  Alert,
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
+import React, { useContext, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '@app/common/components/Header';
 import { ChevronLeft } from '@app/svgs/Index';
@@ -16,7 +9,7 @@ import { IconComponent } from '@app/types';
 import { DeviceContext } from '@app/context/Device-Type/DeviceTypeProvider';
 
 import MobileView from '../views/mobile-view';
-import TabletView from '../views/TabletView';
+import TabletView from '../views/tablet-view';
 
 import { ActivityIndicator } from 'react-native-paper';
 import {

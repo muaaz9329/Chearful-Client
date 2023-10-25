@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import MyButton from '@app/components/my-button';
 import { IconCloudUpload, IconDiamond } from 'tabler-icons-react-native';
-
 import Animated, { FadeIn } from 'react-native-reanimated';
 import useUploadImage from './hooks/use-upload-image';
 import ThirtyXThirtyService from '../../thirty-x-thirty-services';
