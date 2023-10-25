@@ -28,7 +28,7 @@ import useQuizAssessment from '../../hooks/use-quiz-assessment';
 import ThirtyXThirtyService from '../../thirty-x-thirty-services';
 
 // Screen Components
-import StepsToParticipateModel from './components/models/steps-to-participate-model';
+import StepsToParticipateModel from './components/modals/steps-to-participate-model';
 import Toast from 'react-native-toast-message';
 
 /**
