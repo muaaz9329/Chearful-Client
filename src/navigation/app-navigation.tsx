@@ -85,7 +85,7 @@ const RootTabNavigation = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName={RootTabNavigator.Home}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) =>
           getTabBarIcon(route, focused, color),
@@ -98,21 +98,21 @@ const RootTabNavigation = () => {
       })}
     >
       <Tab.Screen
-        name="Home"
+        name={RootTabNavigator.Home}
         options={{
           tabBarLabel: 'Home',
         }}
         component={Test}
       />
       <Tab.Screen
-        name="ScheduleSession"
+        name={RootTabNavigator.ScheduleSession}
         options={{
           tabBarLabel: 'Schedule a Session',
         }}
         component={Test}
       />
       <Tab.Screen
-        name="AskQuestion"
+        name={RootTabNavigator.AskQuestion}
         options={{
           tabBarLabel: 'Ask a Question',
         }}
@@ -133,14 +133,12 @@ export default function AppNavigation() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Test" component={ThirtyXThirtyNavigation} />
-
-      {/* <Stack.Screen
+      <Stack.Screen
         name={AppNavigator.HomeTabs}
         component={RootTabNavigation}
       />
 
-      <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} /> */}
+      <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
     </Stack.Navigator>
   );
 }
@@ -148,4 +146,11 @@ export default function AppNavigation() {
 export const enum AppNavigator {
   'HomeTabs' = 'HomeTabs',
   'Auth' = 'Auth',
+}
+
+export const enum RootTabNavigator {
+  'Home' = 'Home',
+  'AskQuestion' = 'AskQuestion',
+  'ScheduleSession' = 'ScheduleSession',
+  'Profile' = 'Profile',
 }

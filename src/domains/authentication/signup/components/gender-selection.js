@@ -5,9 +5,22 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { Fonts } from '@constants/Fonts';
+import { Fonts } from '@app/constants';
 import { IsTablet, Wp } from '@app/utils';
 import { FemaleIcon, MaleIcon, OtherIcon } from '@app/assets/svgs';
+
+
+const DataRendering = (data) => {
+  let DataRender = [];
+
+  for (var i = 0; i < data.length; i++) {
+    DataRender.push({
+      value: data[i],
+      isSelected: false,
+    });
+  }
+  return DataRender;
+};
 
 const GenderSelection = ({ HandleForm }) => {
   const gender = ['male', 'female', 'others'];

@@ -1,7 +1,7 @@
 import { Platform, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Header from '@app/components/Header';
+import { Header } from '@app/components';
 import { IsPhone, Wp } from '@app/utils';
 import { Colors } from '@app/constants';
 

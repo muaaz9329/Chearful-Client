@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../login-done/screens/screen-login';
-// import SignUp from '../signup/screens/SIGNUP-SCREEN';
+import ScreenLogin from '../login/screens/screen-login';
+import ScreenSignup from '../signup/screens/screen-signup';
 
 export const enum AuthNavigator {
   'Login' = 'Login',
@@ -18,8 +18,8 @@ export default function AuthNavigation() {
       }}
       initialRouteName={AuthNavigator.Login}
     >
-      <Stack.Screen name={AuthNavigator.Login} component={Login} />
-      {/* <Stack.Screen name={AuthNavigator.SignUp} component={SignUp} /> */}
+      <Stack.Screen name={AuthNavigator.Login} component={ScreenLogin} />
+      <Stack.Screen name={AuthNavigator.SignUp} component={ScreenSignup} />
     </Stack.Navigator>
   );
 }

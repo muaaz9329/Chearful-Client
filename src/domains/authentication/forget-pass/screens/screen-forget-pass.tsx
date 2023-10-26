@@ -25,7 +25,6 @@ interface Props {
 const ForgetPass = ({ navigation }: Props) => {
   const [email, setEmail] = useState<string>('');
 
-  
   const {
     Success,
     error,
@@ -33,6 +32,7 @@ const ForgetPass = ({ navigation }: Props) => {
     resetPasswordSuccess,
     resetPasswordError,
   } = useForgetPass();
+
   const [model, setModel] = React.useState(false);
   useEffect(() => {
     if (Success) {
@@ -41,15 +41,11 @@ const ForgetPass = ({ navigation }: Props) => {
   }, [Success]);
 
   useEffect(() => {
-
     resetPasswordLoading();
   }, []);
 
   const handleResetPasswordRequest = () => {
-
     resetPasswordLoading();
-
-  
 
     ForgetPassServices.resetPassword({
       email,

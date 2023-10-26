@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,18 +9,15 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import React, { useState } from 'react';
-import { AppImages as AppIcons } from '@app/common/Images';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { countries } from '../countries';
 import CountryItem from './country-item';
-import { Mulish } from '@helper/FontWeight';
-import { Hp, Wp } from '@utils';
-import { SearchIcon } from '@svg';
-import { Colors as Colors } from '@app/constants';
+import { Hp, Wp } from '@app/utils';
+import { SearchIcon } from '@app/assets/svgs';
+import { Colors, Fonts } from '@app/constants';
 import { IsPhone, IsTablet } from '@app/utils';
 
 const Country = ({
@@ -29,21 +27,18 @@ const Country = ({
   deviceType = 'mobile',
 }) => {
   const [query, setQuery] = useState('');
-  const [searchIcon, setSearchIcon] = useState(AppIcons.search);
 
   const [btnShow, setBtnShow] = useState(false);
   const heandlerSearch = (text) => {
     setQuery(text);
     if (text === '') {
       setBtnShow(false);
-      setSearchIcon(AppIcons.search);
     }
   };
   const filterdData = countries.filter(({ name }) => {
     return name.includes(query);
   });
   const handerCountry = (item) => {
-    setSearchIcon(item?.flag);
     setQuery(item?.name);
     setBtnShow(true);
     setFlag(item);
@@ -84,7 +79,7 @@ const Country = ({
                 padding: Wp(2),
                 borderTopRightRadius: Hp(14),
                 borderBottomRightRadius: Hp(14),
-                fontFamily: Mulish(400),
+                fontFamily: Fonts.Mulish['400'],
                 fontSize: Wp(8),
                 paddingHorizontal: Wp(4),
                 paddingVertical: Wp(2),
@@ -165,7 +160,7 @@ const styles = StyleSheet.create({
     padding: hp(2),
     borderTopRightRadius: Hp(14),
     borderBottomRightRadius: Hp(14),
-    fontFamily: Mulish(700),
+    fontFamily: Fonts.Mulish['700'],
     fontSize: Wp(14),
   },
   searchContainer: {
@@ -195,6 +190,6 @@ const styles = StyleSheet.create({
   btnText: {
     color: '#fff',
     fontSize: Wp(16),
-    fontFamily: Mulish(700),
+    fontFamily: Fonts.Mulish['700'],
   },
 });

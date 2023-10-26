@@ -7,11 +7,11 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import { Colors, Fonts } from '@app/constants';
-import Country from './country-input/Country-Selection/Country';
 import ActionSheet from 'react-native-actions-sheet';
 import { ICountrySelection } from '../views/mobile-view';
 import { countries } from './country-input/countries';
 import { FormLabel, ModalLayout } from '@app/components';
+import Country from './country-input/country-selection/country';
 
 type Props = {
   handleForm: (text: string, name: string) => void;

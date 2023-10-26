@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Wp } from '@utils';
-import { Mulish } from '@helper/FontWeight';
-import { Colors as Colors } from '@constants';
+import { Wp } from '@app/utils';
+import { Colors, Fonts } from '@app/constants';
+
 const CountryItem = ({
   item,
   handerData,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   itemText: {
     marginLeft: hp(2),
     fontSize: Wp(14),
-    fontFamily: Mulish(700),
+    fontFamily: Fonts.Mulish['700'],
     color: Colors.primary,
   },
   FlagImgDesign: {

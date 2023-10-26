@@ -1,15 +1,15 @@
-import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
+import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import ActionSheet from 'react-native-actions-sheet';
 import { IsPhone, IsTablet, Wp } from '@app/utils';
 import { Colors, Fonts } from '@app/constants';
 import { countries } from './country-input/countries';
 import { ICountrySelection } from '../views/mobile-view';
-import Country from './country-input/Country-Selection/Country';
-import ActionSheet from 'react-native-actions-sheet';
+import Country from './country-input/country-selection/country';
 import { FormLabel, ModalLayout } from '@app/components';
 
 const MobileInput = ({
