@@ -1,7 +1,7 @@
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Hp, Wp } from '@app/utils';
+import { Hp, IsPhone, IsTablet, Wp } from '@app/utils';
 import { ChearfulLogo, ChevronLeft } from '@app/assets/svgs/';
 import { Colors } from '@app/constants';
 import { Mulish, Nunito, colorWithOpacity, wp } from '@app/utils';
@@ -9,10 +9,14 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { AnimatedLoginBtn } from '@app/components/';
+import { Header } from '@app/components/';
+import ForgetPassBtn from '../components/forget-pass-btn';
 import { NavigationHelpers } from '@react-navigation/native';
 import { IconComponent } from '@app/types';
 import { TextInput } from 'react-native-paper';
+import { useForgetPass } from '../hooks/use-forget-pass';
+import ResetPassModel from '../components/models/reset-pass-model';
+import ForgetPassServices from '../forget-pass-service';
 
 interface Props {
   navigation: NavigationHelpers<any, any>;
@@ -21,8 +25,14 @@ interface Props {
 const ForgetPass = ({ navigation }: Props) => {
   const [email, setEmail] = useState<string>('');
 
-  //TODO:  State Types Redux needed to be added
-  const { Success, error } = useSelector((state: any) => state.ResetPass);
+  
+  const {
+    Success,
+    error,
+    resetPasswordLoading,
+    resetPasswordSuccess,
+    resetPasswordError,
+  } = useForgetPass();
   const [model, setModel] = React.useState(false);
   useEffect(() => {
     if (Success) {
@@ -31,27 +41,29 @@ const ForgetPass = ({ navigation }: Props) => {
   }, [Success]);
 
   useEffect(() => {
-    //@ts-ignore
-    dispatch(resetPasswordLoading());
+
+    resetPasswordLoading();
   }, []);
 
   const handleResetPasswordRequest = () => {
-    dispatch(resetPasswordLoading());
 
-    UserService.resetPassword({
+    resetPasswordLoading();
+
+  
+
+    ForgetPassServices.resetPassword({
       email,
       onSuccess: () => {
-        dispatch(resetPasswordSuccess());
+        resetPasswordSuccess();
       },
+
       onFailure: ({ message, error }) => {
         console.log(JSON.stringify(error));
 
-        dispatch(
-          resetPasswordErred(
-            error?.data?.errors?.email
-              ? error?.data?.errors?.email?.[0]
-              : message,
-          ),
+        resetPasswordError(
+          error?.data?.errors?.email
+            ? error?.data?.errors?.email?.[0]
+            : message,
         );
       },
     });
@@ -59,11 +71,7 @@ const ForgetPass = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView style={styles.Container}>
-      <ResetPassModel
-        navigation={navigation}
-        visible={model}
-        setVisible={setModel}
-      />
+      <ResetPassModel visible={model} setVisible={setModel} />
       <View style={styles.headerCont}>
         <Header
           Icon={ChevronLeft as IconComponent}
@@ -147,9 +155,8 @@ const ForgetPass = ({ navigation }: Props) => {
               accessibilityLanguage={undefined}
             />
           </View>
-          <AnimatedLoginBtn
+          <ForgetPassBtn
             HandleFunc={handleResetPasswordRequest}
-            ReducerAction={'ResetPass'}
             Text={'Reset'}
           />
           {error.status && <Text style={styles.errorTxt}>{error.message}</Text>}
@@ -185,11 +192,11 @@ const styles = StyleSheet.create({
   },
   TaskInput: {
     fontFamily: Mulish(400),
-    fontSize: FontSize(14),
-    color: Colors.MenuText,
+    fontSize: Wp(14),
+    color: Colors.black,
     paddingVertical: Platform.OS == 'android' ? Wp(10) : Wp(13),
     paddingHorizontal: Wp(10),
-    backgroundColor: Colors.OffWhiteCont,
+    backgroundColor: Colors.light,
     borderRadius: Wp(10),
     width: widthPercentageToDP(85),
     height: heightPercentageToDP(6),
@@ -201,8 +208,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   errorTxt: {
-    fontSize: FontSize(12),
-    color: Colors.Error,
+    fontSize: Wp(12),
+    color: Colors.error,
     marginVertical: Wp(20),
   },
 });
