@@ -1,31 +1,18 @@
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FontSize, Hp, Wp } from '@app/helper/CustomResponsive';
-import Header from '@CommonComponents/Header';
-import { ChearfulLogo, ChevronLeft } from '@app/svgs/Index';
-import { AppColors } from '@app/constants/app-colors';
-import { Mulish, Nunito } from '@app/helper/FontWeight';
+import { Hp, Wp } from '@app/utils';
+import { ChearfulLogo, ChevronLeft } from '@app/assets/svgs/';
+import { Colors } from '@app/constants';
+import { Mulish, Nunito, colorWithOpacity, wp } from '@app/utils';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { useDispatch, useSelector } from 'react-redux';
-import AnimatedLoginBtn from '@app/components/AnimatedLoginbtn';
-import { ApiServices } from '@app/services/Apiservice';
-import {
-  resetPasswordErred,
-  resetPasswordLoading,
-  resetPasswordSuccess,
-} from '@app/features/Reset-Password-Reducers/ResetReducers';
-import ResetPassModel from '@app/common/Models/ResetPassModel';
+import { AnimatedLoginBtn } from '@app/components/';
 import { NavigationHelpers } from '@react-navigation/native';
 import { IconComponent } from '@app/types';
-import { DeviceContext } from '@app/context/Device-Type/DeviceTypeProvider';
 import { TextInput } from 'react-native-paper';
-import { colorWithOpacity } from '@app/helper/customFunction';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import UserService from '@app/services/user-service';
 
 interface Props {
   navigation: NavigationHelpers<any, any>;
@@ -33,8 +20,6 @@ interface Props {
 
 const ForgetPass = ({ navigation }: Props) => {
   const [email, setEmail] = useState<string>('');
-  const dispatch = useDispatch();
-  const { deviceType } = useContext(DeviceContext);
 
   //TODO:  State Types Redux needed to be added
   const { Success, error } = useSelector((state: any) => state.ResetPass);
@@ -86,8 +71,8 @@ const ForgetPass = ({ navigation }: Props) => {
           navigation={navigation}
         >
           <ChearfulLogo
-            height={deviceType === 'mobile' ? Wp(27) : Wp(20)}
-            width={deviceType === 'mobile' ? Wp(122) : Wp(90)}
+            height={IsPhone ? Wp(27) : Wp(20)}
+            width={IsPhone ? Wp(122) : Wp(90)}
             color={Colors.primary}
           />
         </Header>
@@ -96,7 +81,7 @@ const ForgetPass = ({ navigation }: Props) => {
         <Text
           style={[
             styles.mainTitle,
-            deviceType === 'tablet' && {
+            IsTablet && {
               fontSize: Wp(18),
               marginVertical: Wp(6),
               textAlign: 'center',
@@ -108,7 +93,7 @@ const ForgetPass = ({ navigation }: Props) => {
         <Text
           style={[
             styles.TextContent,
-            deviceType === 'tablet' && {
+            IsTablet && {
               fontSize: Wp(13),
               textAlign: 'center',
             },
@@ -131,7 +116,7 @@ const ForgetPass = ({ navigation }: Props) => {
                 borderWidth: 2,
                 borderColor: Colors.primary,
               },
-              deviceType === 'tablet' && {
+              IsTablet && {
                 width: wp(70),
                 borderRadius: Wp(8),
               },
@@ -149,7 +134,7 @@ const ForgetPass = ({ navigation }: Props) => {
                   height: Platform.OS == 'ios' ? Hp(45) : Hp(50),
                   fontSize: Wp(14),
                 },
-                deviceType === 'tablet' && {
+                IsTablet && {
                   height: Hp(38),
                   width: wp(70),
                   fontSize: Wp(10),
@@ -204,7 +189,7 @@ const styles = StyleSheet.create({
     color: Colors.MenuText,
     paddingVertical: Platform.OS == 'android' ? Wp(10) : Wp(13),
     paddingHorizontal: Wp(10),
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.OffWhiteCont,
     borderRadius: Wp(10),
     width: widthPercentageToDP(85),
     height: heightPercentageToDP(6),

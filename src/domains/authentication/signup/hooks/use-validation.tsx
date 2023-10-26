@@ -1,11 +1,10 @@
-import { countries } from '../components/countryInput/countries';
+import { countries } from '../components/country-input/countries';
 
-import { findEmptyProperties } from '@app/helper/customFunction';
-
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
 import useSignupStore from './use-signup-store';
 import SignUpServices from '../signup-services';
+import { findEmptyProperties } from '@app/utils';
 
 function validateInput(
   firstName: string,
@@ -135,14 +134,22 @@ const useValidation = () => {
             phone_country_code: userInfo.countryCode,
             location_id: userInfo.countryName,
           },
-          onSuccess({ data, message }) {
+          onSuccess({
+            data,
+            message,
+          }: {
+            data: {
+              token: string;
+            };
+            message: string;
+          }) {
             console.log(data);
             console.log(message);
             setSignUpLoading(false);
             setMoveNextSlide(true); // telling to move to next slide
             setToken(data.token);
           },
-          onFailure({ message, error }) {
+          onFailure({ message, error }: { message: string; error: string }) {
             console.log(message), console.log(error);
             setSignUpLoading(false);
             Toast.show({

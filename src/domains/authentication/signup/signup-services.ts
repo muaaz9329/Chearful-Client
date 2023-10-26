@@ -1,5 +1,6 @@
-import apiService from "@app/services/api-service/api-service";
-import { Boolbacks } from "../../../../services/api-service/index";
+import { Boolbacks } from '@app/services/api-service';
+import apiService from '@app/services/api-service/api-service';
+import { RawSignUpData } from './adpaters/signup-adapter';
 
 const signUpNewUser = ({
   data,
@@ -9,7 +10,7 @@ const signUpNewUser = ({
   data: any;
 } & Boolbacks<RawSignUpData>) => {
   apiService.post({
-    url: "/user/register",
+    url: '/user/register',
     data: data,
     onSuccess: onSuccess,
     onFailure: onFailure,
@@ -26,7 +27,7 @@ const verifyOTP = ({
   Token: string;
 } & Boolbacks) => {
   apiService.post({
-    url: "/user/verify-email-otp",
+    url: '/user/verify-email-otp',
     data: {
       otp: OTP,
     },
@@ -37,7 +38,6 @@ const verifyOTP = ({
     onFailure,
   });
 };
-
 
 const SignUpServices = {
   signUpNewUser,

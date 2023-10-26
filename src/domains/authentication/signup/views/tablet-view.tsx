@@ -1,32 +1,29 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import Layout from '../components/Layout';
+import Layout from '../components/layout';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import FormInput from '@app/common/components/Inputs/FormInput';
-import { EmailFieldIcon, NextArrow } from '@app/svgs/Index';
-import { DeviceType } from '@app/context/Device-Type/DeviceTypeProvider';
+import { EmailFieldIcon } from '@app/assets/svgs/';
 import { IconComponent } from '@app/types';
 import { IconLock, IconMail } from 'tabler-icons-react-native';
-import { Wp } from '@app/helper/CustomResponsive';
-import FormLabel from '@app/common/components/Inputs/FormLabel';
-import DateInput from '../components/DateInput';
-import CountrySelection from '../components/CountrySelection';
-import MobileInput from '../components/MobileInput';
-import GenderSelection from '../components/GenderSelection';
-import LisenseAndAgreement from '../components/LisenseAndAgreement';
+import { Wp } from '@app/utils';
+import DateInput from '../components/date-input';
+import CountrySelection from '../components/country-selection';
+import MobileInput from '../components/mobile-input';
+import GenderSelection from '../components/gender-selection';
+import LisenseAndAgreement from '../components/license-agreement';
 import Carousel from 'react-native-reanimated-carousel';
-import NextBtn from '../components/NextBtn';
-import { AppColors } from '@app/constants/app-colors';
-import OtpInput from '../components/OtpInput';
+import NextBtn from '../components/next-btn';
+import { Colors } from '@app/constants';
+import OtpInput from '../components/otp-input';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import useSignupStore from '../hooks/use-signup-store';
+import { FormInput, FormLabel } from '@app/components';
 
 type Props = {
-  deviceType: DeviceType;
   handleForm: (text: string, name: string) => void;
 };
 
@@ -43,7 +40,6 @@ function FirstSlide(props: Props) {
           name="firstName"
           onChangeText={props.handleForm}
           width={30}
-          DeviceType={props.deviceType}
         />
         <FormInput
           showIcon={false}
@@ -54,7 +50,6 @@ function FirstSlide(props: Props) {
           name="lastName"
           onChangeText={props.handleForm}
           width={30}
-          DeviceType={props.deviceType}
         />
       </View>
 
@@ -68,7 +63,6 @@ function FirstSlide(props: Props) {
           name="email"
           onChangeText={props.handleForm}
           width={30}
-          DeviceType={props.deviceType}
         />
 
         <FormInput
@@ -80,21 +74,14 @@ function FirstSlide(props: Props) {
           name="password"
           onChangeText={props.handleForm}
           width={30}
-          DeviceType={props.deviceType}
           Protected={true}
         />
       </View>
       <View style={styles.FirstCont}>
-        <FormLabel label="Date Of Birth" deviceType={'tablet'}>
-          <DateInput
-            handleForm={props.handleForm}
-            Devicetype={props.deviceType}
-          />
+        <FormLabel label="Date Of Birth">
+          <DateInput handleForm={props.handleForm} />
         </FormLabel>
-        <CountrySelection
-          handleForm={props.handleForm}
-          deviceType={props.deviceType}
-        />
+        <CountrySelection handleForm={props.handleForm} />
       </View>
       <View
         style={[
@@ -105,10 +92,7 @@ function FirstSlide(props: Props) {
           },
         ]}
       >
-        <MobileInput
-          handleFunc={props.handleForm}
-          deviceType={props.deviceType}
-        />
+        <MobileInput handleFunc={props.handleForm} />
       </View>
       <View
         style={[
@@ -119,16 +103,13 @@ function FirstSlide(props: Props) {
           },
         ]}
       >
-        <FormLabel label="Select Gender" deviceType={props.deviceType}>
+        <FormLabel label="Select Gender">
           <View
             style={{
               alignSelf: 'center',
             }}
           >
-            <GenderSelection
-              HandleForm={props.handleForm}
-              deviceType={props.deviceType as string}
-            />
+            <GenderSelection HandleForm={props.handleForm} />
           </View>
         </FormLabel>
       </View>
@@ -138,16 +119,13 @@ function FirstSlide(props: Props) {
           marginTop: Wp(5),
         }}
       >
-        <LisenseAndAgreement
-          handleFunc={props.handleForm}
-          deviceType={props.deviceType}
-        />
+        <LisenseAndAgreement handleFunc={props.handleForm} />
       </View>
     </View>
   );
 }
 
-const TabletView = ({ deviceType, handleForm }: Props) => {
+const TabletView = ({ handleForm }: Props) => {
   const CoursalRef = useRef(null);
   const [index, setIndex] = useState<number>(0);
   const [enable, setEnable] = useState<boolean>(true);
@@ -166,7 +144,6 @@ const TabletView = ({ deviceType, handleForm }: Props) => {
     //@ts-ignore
     NextBtnRef.current?.onMoveNext(index);
   };
-  const [otp, setOtp] = useState<string>('');
 
   useEffect(() => {
     if (moveNextSlide) {
@@ -181,7 +158,7 @@ const TabletView = ({ deviceType, handleForm }: Props) => {
   // using for validation and moving the screen to otp if it is valid
 
   return (
-    <Layout deviceType={'tablet'}>
+    <Layout>
       <KeyboardAwareScrollView
         enableOnAndroid={true}
         style={{
@@ -209,13 +186,11 @@ const TabletView = ({ deviceType, handleForm }: Props) => {
           ref={CoursalRef}
           renderItem={({ item, index }) => {
             if (index === 0) {
-              return (
-                <FirstSlide deviceType={deviceType} handleForm={handleForm} />
-              );
+              return <FirstSlide handleForm={handleForm} />;
             } else {
               return (
                 <View style={styles.Container}>
-                  <OtpInput setOtpValue={setOtp} DeviceType={'tablet'} />
+                  <OtpInput />
                 </View>
               );
             }
@@ -226,9 +201,8 @@ const TabletView = ({ deviceType, handleForm }: Props) => {
           <NextBtn
             percentage={25}
             radius={wp(2.45 * 2.3)}
-            color={AppColors.Primary}
+            color={Colors.primary}
             HandleFunction={HandleFunction}
-            deviceType={deviceType}
             ref={NextBtnRef}
             index={index}
           />

@@ -1,26 +1,21 @@
 import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import FormLabel from '@app/common/components/Inputs/FormLabel';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { Mulish } from '@app/helper/FontWeight';
-import { Wp } from '@app/helper/CustomResponsive';
-import { AppColors } from '@app/constants/app-colors';
-import { countries } from './countryInput/countries';
+import { IsPhone, IsTablet, Wp } from '@app/utils';
+import { Colors, Fonts } from '@app/constants';
+import { countries } from './country-input/countries';
 import { ICountrySelection } from '../views/mobile-view';
-import Country from './countryInput/Country-Selection/Country';
+import Country from './country-input/Country-Selection/Country';
 import ActionSheet from 'react-native-actions-sheet';
-import { DeviceType } from '../../../../../context/Device-Type/DeviceTypeProvider';
-import ModelLayout from '@app/common/Models/Model-Layout';
+import { FormLabel, ModalLayout } from '@app/components';
 
 const MobileInput = ({
   handleFunc,
-  deviceType = 'mobile',
 }: {
   handleFunc: (text: string, name: string) => void;
-  deviceType?: DeviceType;
 }) => {
   const [dialcode, setDialCode] = useState<ICountrySelection>(countries[0]);
   const [visible, setVisible] = useState(false);
@@ -39,7 +34,7 @@ const MobileInput = ({
 
   return (
     <>
-      <FormLabel label="Mobile Number" deviceType={deviceType}>
+      <FormLabel label="Mobile Number">
         <View
           style={{
             flexDirection: 'row',
@@ -47,14 +42,14 @@ const MobileInput = ({
         >
           <Pressable
             onPress={() => {
-              deviceType === 'mobile'
+              IsPhone
                 ? //@ts-ignore
                   ActionSheetRef2.current.show()
                 : setVisible(true);
             }}
             style={[
               styles.MobileNoCont,
-              deviceType === 'tablet' && {
+              IsTablet && {
                 width: Wp(28),
                 height: Wp(28),
                 borderRadius: Wp(4),
@@ -64,7 +59,7 @@ const MobileInput = ({
             <Text
               style={[
                 styles.MobileText,
-                deviceType === 'tablet' && {
+                IsTablet && {
                   fontSize: Wp(8),
                 },
               ]}
@@ -76,7 +71,7 @@ const MobileInput = ({
             style={[
               styles.countryCont,
               styles.inputCont,
-              deviceType === 'tablet' && {
+              IsTablet && {
                 width: widthPercentageToDP(30),
                 marginLeft: Wp(5),
 
@@ -88,12 +83,11 @@ const MobileInput = ({
             <TextInput
               style={[
                 {
-                  width:
-                    deviceType === 'mobile'
-                      ? widthPercentageToDP(60)
-                      : widthPercentageToDP(30),
-                  fontFamily: Mulish(400),
-                  fontSize: deviceType === 'tablet' ? Wp(8) : Wp(14),
+                  width: IsPhone
+                    ? widthPercentageToDP(60)
+                    : widthPercentageToDP(30),
+                  fontFamily: Fonts.Mulish['400'],
+                  fontSize: IsTablet ? Wp(8) : Wp(14),
                 },
               ]}
               placeholder="Enter Mobile Number"
@@ -103,7 +97,7 @@ const MobileInput = ({
           </View>
         </View>
       </FormLabel>
-      {deviceType === 'mobile' && (
+      {IsPhone && (
         <ActionSheet
           containerStyle={{
             height: heightPercentageToDP(50),
@@ -121,15 +115,15 @@ const MobileInput = ({
           />
         </ActionSheet>
       )}
-      {deviceType === 'tablet' && (
-        <ModelLayout visible={visible} setVisible={setVisible}>
+      {IsTablet && (
+        <ModalLayout visible={visible} setVisible={setVisible}>
           <Country
             setFlag={setDialCode}
             sheetClose={() => setVisible(false)}
             showDialCode={true}
             deviceType={'tablet'}
           />
-        </ModelLayout>
+        </ModalLayout>
       )}
     </>
   );
@@ -139,22 +133,22 @@ export default MobileInput;
 
 const styles = StyleSheet.create({
   MobileText: {
-    fontFamily: Mulish(700),
+    fontFamily: Fonts.Mulish['700'],
     fontSize: Wp(14),
-    color: AppColors.Primary,
+    color: Colors.primary,
   },
   MobileNoCont: {
     width: Wp(50),
     height: Wp(50),
     borderRadius: Wp(8),
-    backgroundColor: AppColors.InputBg,
+    backgroundColor: Colors.placeholder,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
   },
   countryCont: {
     paddingHorizontal: Wp(5),
-    backgroundColor: AppColors.InputBg,
+    backgroundColor: Colors.placeholder,
     width: widthPercentageToDP(85),
     borderRadius: Wp(12),
   },

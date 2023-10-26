@@ -4,36 +4,37 @@ import {
   View,
   SafeAreaView,
   TextInput,
-  Image,
   FlatList,
   TouchableOpacity,
   Platform,
-} from "react-native";
-import React, { useContext, useState } from "react";
-import { AppImages as AppIcons } from "@app/common/Images";
+} from 'react-native';
+import React, { useState } from 'react';
+import { AppImages as AppIcons } from '@app/common/Images';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { countries } from "../countries";
-import CountryItem from "./CountryItem";
-import { Mulish } from "@helper/FontWeight";
-import { Hp, Wp } from "@helper/CustomResponsive";
-import { SearchIcon } from "@svg";
-import { AppColors as Colors } from "@app/constants/app-colors";
+} from 'react-native-responsive-screen';
+import { countries } from '../countries';
+import CountryItem from './country-item';
+import { Mulish } from '@helper/FontWeight';
+import { Hp, Wp } from '@utils';
+import { SearchIcon } from '@svg';
+import { Colors as Colors } from '@app/constants';
+import { IsPhone, IsTablet } from '@app/utils';
+
 const Country = ({
   setFlag,
   sheetClose,
   showDialCode,
-  deviceType = "mobile",
+  deviceType = 'mobile',
 }) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [searchIcon, setSearchIcon] = useState(AppIcons.search);
 
   const [btnShow, setBtnShow] = useState(false);
   const heandlerSearch = (text) => {
     setQuery(text);
-    if (text == "") {
+    if (text === '') {
       setBtnShow(false);
       setSearchIcon(AppIcons.search);
     }
@@ -55,9 +56,9 @@ const Country = ({
           <View
             style={[
               styles.searchButton,
-              deviceType === "tablet" && {
+              IsTablet && {
                 height: Wp(15),
-                width: Platform.OS === "ios" ? wp(4) : wp(3.5),
+                width: Platform.OS === 'ios' ? wp(4) : wp(3.5),
                 borderTopLeftRadius: Hp(14),
                 borderBottomLeftRadius: Hp(14),
                 paddingLeft: Wp(6),
@@ -65,9 +66,9 @@ const Country = ({
             ]}
           >
             <SearchIcon
-              width={deviceType === "mobile" ? Wp(20) : Wp(10)}
-              height={deviceType === "mobile" ? Wp(20) : Wp(10)}
-              color={Colors.Primary}
+              width={IsPhone ? Wp(20) : Wp(10)}
+              height={IsPhone ? Wp(20) : Wp(10)}
+              color={Colors.primary}
             />
           </View>
 
@@ -77,7 +78,7 @@ const Country = ({
             placeholder="Search"
             style={[
               styles.input,
-              deviceType === "tablet" && {
+              IsTablet && {
                 height: Wp(15),
                 width: wp(35),
                 padding: Wp(2),
@@ -94,11 +95,11 @@ const Country = ({
         <View
           style={[
             {
-              height: Platform.OS === "ios" ? hp(27) : hp(35),
+              height: Platform.OS === 'ios' ? hp(27) : hp(35),
               marginBottom: hp(1),
             },
 
-            deviceType === "tablet" && {
+            IsTablet && {
               height: hp(23),
             },
           ]}
@@ -122,7 +123,7 @@ const Country = ({
               <View
                 style={[
                   styles.contBtn,
-                  deviceType === "tablet" && {
+                  IsTablet && {
                     padding: Wp(6),
                   },
                 ]}
@@ -130,7 +131,7 @@ const Country = ({
                 <Text
                   style={[
                     styles.btnText,
-                    deviceType === "tablet" && {
+                    IsTablet && {
                       fontSize: Wp(8),
                     },
                   ]}
@@ -141,7 +142,7 @@ const Country = ({
             </TouchableOpacity>
           </View>
         ) : (
-          ""
+          ''
         )}
       </View>
     </SafeAreaView>
@@ -158,8 +159,8 @@ const styles = StyleSheet.create({
     padding: hp(3),
   },
   input: {
-    backgroundColor: "#EFF3F2",
-    height: Platform.OS === "ios" ? hp(6) : hp(1.5 * 6),
+    backgroundColor: '#EFF3F2',
+    height: Platform.OS === 'ios' ? hp(6) : hp(1.5 * 6),
     width: wp(75),
     padding: hp(2),
     borderTopRightRadius: Hp(14),
@@ -168,31 +169,31 @@ const styles = StyleSheet.create({
     fontSize: Wp(14),
   },
   searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   searchButton: {
-    flexDirection: "row",
-    backgroundColor: "#EFF3F2",
-    justifyContent: "center",
-    alignItems: "center",
-    height: Platform.OS === "ios" ? hp(6) : hp(1.5 * 6),
-    width: Platform.OS === "ios" ? wp(9) : wp(8),
+    flexDirection: 'row',
+    backgroundColor: '#EFF3F2',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: Platform.OS === 'ios' ? hp(6) : hp(1.5 * 6),
+    width: Platform.OS === 'ios' ? wp(9) : wp(8),
     borderTopLeftRadius: Hp(14),
     borderBottomLeftRadius: Hp(14),
     paddingLeft: Wp(12),
   },
   contBtn: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#1E5542",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1E5542',
     padding: Wp(16),
     borderRadius: hp(4),
   },
   btnText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: Wp(16),
     fontFamily: Mulish(700),
   },

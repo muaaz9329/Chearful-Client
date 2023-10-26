@@ -1,12 +1,9 @@
 import { Platform, StyleSheet, View } from 'react-native';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Header from '@app/common/components/Header';
-import { ChevronLeft } from '@app/svgs/Index';
-import { Wp } from '@app/helper/CustomResponsive';
-import { AppColors } from '@app/constants/app-colors';
-import { IconComponent } from '@app/types';
-import { DeviceContext } from '@app/context/Device-Type/DeviceTypeProvider';
+import Header from '@app/components/Header';
+import { IsPhone, Wp } from '@app/utils';
+import { Colors } from '@app/constants';
 
 import MobileView from '../views/mobile-view';
 import TabletView from '../views/tablet-view';
@@ -25,7 +22,6 @@ export type SignUpFunc = (text: string, name: string) => void;
 
 const SignUp = () => {
   const navigation = useNavigation();
-  const { deviceType } = useContext(DeviceContext);
   const { handleForm, loading } = useValidation();
 
   const { Success } = useSignupStore();
@@ -41,19 +37,15 @@ const SignUp = () => {
     <SafeAreaView edges={['top']} style={styles.Body}>
       {loading && (
         <View style={styles.ActivityIndicator}>
-          <ActivityIndicator size={'large'} color={AppColors.Primary} />
+          <ActivityIndicator size={'large'} color={Colors.primary} />
         </View>
       )}
-      <Header
-        Icon={ChevronLeft as IconComponent}
-        pram={'back'}
-        navigation={navigation}
-      />
+      <Header pram={'back'} navigation={navigation} />
 
-      {deviceType === 'mobile' ? (
-        <MobileView deviceType={deviceType} handleForm={handleForm} />
+      {IsPhone ? (
+        <MobileView handleForm={handleForm} />
       ) : (
-        <TabletView deviceType={deviceType} handleForm={handleForm} />
+        <TabletView handleForm={handleForm} />
       )}
     </SafeAreaView>
   );
@@ -77,8 +69,8 @@ const styles = StyleSheet.create({
 
   Body: {
     paddingHorizontal: Wp(16),
-    paddingTop: Platform.OS == 'android' ? Wp(20) : Wp(10),
+    paddingTop: Platform.OS === 'android' ? Wp(20) : Wp(10),
     flex: 1,
-    backgroundColor: AppColors.White,
+    backgroundColor: Colors.white,
   },
 });

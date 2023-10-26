@@ -1,27 +1,23 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import FormLabel from '@app/common/components/Inputs/FormLabel';
 import { Image } from 'react-native-animatable';
-import { Hp, Wp } from '@app/helper/CustomResponsive';
+import { IsPhone, IsTablet, Wp } from '@app/utils';
 import {
   heightPercentageToDP,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import { AppColors } from '@app/constants/app-colors';
-import Country from './countryInput/Country-Selection/Country';
+import { Colors, Fonts } from '@app/constants';
+import Country from './country-input/Country-Selection/Country';
 import ActionSheet from 'react-native-actions-sheet';
 import { ICountrySelection } from '../views/mobile-view';
-import { countries } from './countryInput/countries';
-import { Mulish } from '@app/helper/FontWeight';
-import { DeviceType } from '@app/context/Device-Type/DeviceTypeProvider';
-import ModelLayout from '@app/common/Models/Model-Layout';
+import { countries } from './country-input/countries';
+import { FormLabel, ModalLayout } from '@app/components';
 
 type Props = {
   handleForm: (text: string, name: string) => void;
-  deviceType?: DeviceType;
 };
 
-const CountrySelection = ({ handleForm, deviceType = 'mobile' }: Props) => {
+const CountrySelection = ({ handleForm }: Props) => {
   const ActionSheetRef = useRef(null);
   const [countryFlag, setcountryFlag] = useState<ICountrySelection>(
     countries[0],
@@ -40,19 +36,19 @@ const CountrySelection = ({ handleForm, deviceType = 'mobile' }: Props) => {
 
   return (
     <>
-      <FormLabel label="Select Country" deviceType={deviceType}>
+      <FormLabel label="Select Country">
         <Pressable
           style={[
             styles.countryCont,
-            deviceType === 'tablet' && {
+            IsTablet && {
               paddingHorizontal: Wp(3),
-              backgroundColor: AppColors.InputBg,
+              backgroundColor: Colors.placeholder,
               width: wp(30),
               borderRadius: Wp(7),
             },
           ]}
           onPress={() => {
-            deviceType === 'mobile'
+            IsPhone
               ? //@ts-ignore
                 ActionSheetRef.current?.show()
               : setVisible(true);
@@ -61,7 +57,7 @@ const CountrySelection = ({ handleForm, deviceType = 'mobile' }: Props) => {
           <View
             style={[
               styles.itemContainer,
-              deviceType === 'tablet' && {
+              IsTablet && {
                 paddingVertical: Wp(8),
                 paddingHorizontal: Wp(6),
               },
@@ -77,7 +73,7 @@ const CountrySelection = ({ handleForm, deviceType = 'mobile' }: Props) => {
                 source={countryFlag.flag}
                 style={[
                   styles.FlagImgDesign,
-                  deviceType === 'tablet' && {
+                  IsTablet && {
                     width: Wp(18),
                     height: Wp(12),
                     borderRadius: Wp(1.3),
@@ -87,7 +83,7 @@ const CountrySelection = ({ handleForm, deviceType = 'mobile' }: Props) => {
               <Text
                 style={[
                   styles.itemText,
-                  deviceType === 'tablet' && {
+                  IsTablet && {
                     marginLeft: Wp(10),
                     fontSize: Wp(6),
                   },
@@ -100,7 +96,7 @@ const CountrySelection = ({ handleForm, deviceType = 'mobile' }: Props) => {
         </Pressable>
       </FormLabel>
 
-      {deviceType === 'mobile' && (
+      {IsPhone && (
         <ActionSheet
           containerStyle={{
             height: heightPercentageToDP(50),
@@ -118,15 +114,15 @@ const CountrySelection = ({ handleForm, deviceType = 'mobile' }: Props) => {
           />
         </ActionSheet>
       )}
-      {deviceType === 'tablet' && (
-        <ModelLayout visible={visible} setVisible={setVisible}>
+      {IsTablet && (
+        <ModalLayout visible={visible} setVisible={setVisible}>
           <Country
             setFlag={setcountryFlag}
             sheetClose={() => setVisible(false)}
             showDialCode={false}
             deviceType={'tablet'}
           />
-        </ModelLayout>
+        </ModalLayout>
       )}
     </>
   );
@@ -137,7 +133,7 @@ export default CountrySelection;
 const styles = StyleSheet.create({
   countryCont: {
     paddingHorizontal: Wp(5),
-    backgroundColor: AppColors.InputBg,
+    backgroundColor: Colors.placeholder,
     width: wp(85),
     borderRadius: Wp(12),
   },
@@ -156,7 +152,7 @@ const styles = StyleSheet.create({
   itemText: {
     marginLeft: Wp(20),
     fontSize: Wp(14),
-    fontFamily: Mulish(700),
-    color: AppColors.Primary,
+    fontFamily: Fonts.Mulish['700'],
+    color: Colors.primary,
   },
 });

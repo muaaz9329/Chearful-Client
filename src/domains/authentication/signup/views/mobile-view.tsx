@@ -1,42 +1,30 @@
-import {
-  Animated,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import FormInput from '@app/common/components/Inputs/FormInput';
-import { EmailFieldIcon } from '@app/svgs/Index';
+import { EmailFieldIcon } from '@app/assets/svgs/';
 import { IconComponent } from '@app/types';
 import { IconLock, IconMail } from 'tabler-icons-react-native';
-import Layout from '../components/Layout';
-import { DeviceType } from '@app/context/Device-Type/DeviceTypeProvider';
-import { Wp } from '@app/helper/CustomResponsive';
+import Layout from '../components/layout';
+import { Wp } from '@app/utils';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import NextBtn from '../components/NextBtn';
-import { AppColors } from '@app/constants/app-colors';
+import NextBtn from '../components/next-btn';
+import { Colors, Fonts } from '@app/constants';
 import Carousel from 'react-native-reanimated-carousel';
-import FormLabel from '@app/common/components/Inputs/FormLabel';
-import { Mulish } from '@app/helper/FontWeight';
-import DateInput from '../components/DateInput';
-import GenderSelection from '../components/GenderSelection';
-import OtpInput from '../components/OtpInput';
-import CountrySelection from '../components/CountrySelection';
-import MobileInput from '../components/MobileInput';
-import LisenseAndAgreement from '../components/LisenseAndAgreement';
+import DateInput from '../components/date-input';
+import GenderSelection from '../components/gender-selection';
+import OtpInput from '../components/otp-input';
+import CountrySelection from '../components/country-selection';
+import MobileInput from '../components/mobile-input';
+import LisenseAndAgreement from '../components/license-agreement';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import useSignupStore from '../hooks/use-signup-store';
+import { FormInput, FormLabel } from '@app/components';
 
 type Props = {
   handleForm: (text: string, name: string) => void;
-  deviceType: DeviceType;
 };
 
 function FirstSlide({
@@ -120,8 +108,6 @@ export interface ICountrySelection {
 
 function SecondSlide(props: {
   handleForm: (text: string, name: string) => void;
-
-  setCheck: (value: boolean) => void;
 }) {
   return (
     <View>
@@ -148,12 +134,10 @@ function SecondSlide(props: {
   );
 }
 
-function MobileView({ deviceType, handleForm }: Props) {
+function MobileView({ handleForm }: Props) {
   const CoursalRef = useRef(null);
 
   const { moveNextSlide } = useSignupStore();
-  const [check, setCheck] = useState(false);
-  const [otp, setOtp] = useState<string>('');
 
   const [index, setIndex] = useState<number>(0);
   const [enable, setEnable] = useState<boolean>(true);
@@ -185,7 +169,7 @@ function MobileView({ deviceType, handleForm }: Props) {
   };
 
   return (
-    <Layout deviceType={deviceType}>
+    <Layout>
       <KeyboardAwareScrollView enableOnAndroid={true}>
         <View style={styles.Cont}>
           <Carousel
@@ -210,16 +194,11 @@ function MobileView({ deviceType, handleForm }: Props) {
               if (index === 0) {
                 return <FirstSlide handleForm={handleForm} />;
               } else if (index === 1) {
-                return (
-                  <SecondSlide
-                    handleForm={handleForm}
-                    setCheck={setCheck}
-                  ></SecondSlide>
-                );
+                return <SecondSlide handleForm={handleForm} />;
               } else {
                 return (
                   <View>
-                    <OtpInput setOtpValue={setOtp} />
+                    <OtpInput />
                   </View>
                 );
               }
@@ -233,11 +212,10 @@ function MobileView({ deviceType, handleForm }: Props) {
           <NextBtn
             percentage={25}
             radius={wp(2.45 * 4.5)}
-            color={AppColors.Primary}
+            color={Colors.primary}
             HandleFunction={HandleFunction}
             index={index}
             ref={NextBtnRef}
-            deviceType={'mobile'}
           />
         </View>
       </View>
@@ -268,8 +246,8 @@ const styles = StyleSheet.create({
   itemText: {
     marginLeft: hp(2),
     fontSize: Wp(14),
-    fontFamily: Mulish(700),
-    color: AppColors.Primary,
+    fontFamily: Fonts.Mulish['700'],
+    color: Colors.primary,
   },
   FlagImgDesign: {
     width: Wp(28),
@@ -278,7 +256,7 @@ const styles = StyleSheet.create({
   },
   countryCont: {
     paddingHorizontal: Wp(5),
-    backgroundColor: AppColors.InputBg,
+    backgroundColor: Colors.placeholder,
     width: wp(85),
     borderRadius: Wp(12),
   },

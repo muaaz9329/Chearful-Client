@@ -1,23 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { ChearfulLogo } from "@app/svgs/Index";
-import { AppColors } from "@app/constants/app-colors";
-import { DeviceType } from "@app/context/Device-Type/DeviceTypeProvider";
-import { Wp } from "@app/helper/CustomResponsive";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { ChearfulLogo } from '@app/assets/svgs/';
+import { Colors } from '@app/constants';
+import { IsPhone, Wp } from '@app/utils';
+
 type Props = {
-  deviceType: DeviceType;
   children?: React.ReactNode;
 };
 
-const Layout = ({ deviceType, children }: Props) => {
+const Layout = ({ children }: Props) => {
   return (
     <>
       <View style={styles.HeaderLogo}>
         <ChearfulLogo
-          height={deviceType === "mobile" ? Wp(35) : Wp(20)}
-          width={deviceType === "mobile" ? Wp(150) : Wp(90)}
-          color={AppColors.Primary}
+          height={IsPhone ? Wp(35) : Wp(20)}
+          width={IsPhone ? Wp(150) : Wp(90)}
+          color={Colors.primary}
         />
       </View>
       <View style={styles.SignUpForm}>{children}</View>
@@ -29,12 +27,12 @@ export default Layout;
 
 const styles = StyleSheet.create({
   HeaderLogo: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   SignUpForm: {
     flex: 1,
 
     marginTop: Wp(20),
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 });
