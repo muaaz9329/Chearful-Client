@@ -1,9 +1,10 @@
-import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationHelpers } from '@react-navigation/native';
 import ModelLayout from '../modal-layout';
 import { Mulish, Wp } from '@app/utils';
 import { Colors } from '@app/constants';
+import { AppNavigator } from '@app/navigation/app-navigation';
+import { AuthNavigator } from '@app/domains/authentication';
 
 const ProfileModel = ({
   visible = true,
@@ -33,9 +34,8 @@ const ProfileModel = ({
           onPress={() => {
             //  Platform.OS =='android' ?  LinkingText("https://chearful.com/client-signup") :
             //  InAppBrowser.open("https://chearful.com/client-signup")
-
-            navigation?.navigate('AUTH-MODULE', {
-              screen: 'SIGN-UP-SCREEN',
+            navigation?.navigate(AppNavigator.Auth, {
+              screen: AuthNavigator.SignUp,
             });
             setVisible(false);
           }}
@@ -63,8 +63,8 @@ const ProfileModel = ({
             // InAppBrowser.open("https://chearful.com/sign-in")
             // setVisible(false)
 
-            navigation?.navigate('AUTH-MODULE', {
-              screen: 'LOGIN-SCREEN',
+            navigation?.navigate(AppNavigator.Auth, {
+              screen: AuthNavigator.Login,
             });
             setVisible(false);
           }}

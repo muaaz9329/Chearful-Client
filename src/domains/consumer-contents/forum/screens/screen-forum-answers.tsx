@@ -16,9 +16,12 @@ import Loader from '@app/components/loader';
 import ErrorRetry from '@app/components/error-retry';
 import type { ForumAnswer as ForumAnswerT } from '../types';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { Header } from '@app/components';
+import TitleText from '../../components/title-text';
 
 export default function ForumAnswersScreen({
   route,
+  navigation,
 }: {
   navigation: NavigationHelpers<any, any>;
   route: any;
@@ -81,11 +84,9 @@ export default function ForumAnswersScreen({
 
   return (
     <SafeAreaView style={globalStyles.bodyWrapper}>
-      {/* <Header pram="back" headerType="New" navigation={navigation}>
-        <View>
-          <TitleText>Answer</TitleText>
-        </View>
-      </Header> */}
+      <Header pram="back" headerType="New" navigation={navigation}>
+        <TitleText>Answer</TitleText>
+      </Header>
 
       <View style={globalStyles.mt_18}>
         <Text

@@ -103,7 +103,7 @@ const ScreenConsumerContentsHome = ({
         </View>
         <View style={globalStyles.topMargin}>
           <MenuTitle path={ConsumerContentsNavigator.LearnAndGrow}>
-            Learn & Grow{' '}
+            Learn & Grow
           </MenuTitle>
 
           <View

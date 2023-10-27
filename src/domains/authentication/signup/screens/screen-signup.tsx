@@ -17,6 +17,7 @@ import useValidation from '../hooks/use-validation';
 
 import { useNavigation } from '@react-navigation/native';
 import useSignupStore from '../hooks/use-signup-store';
+import { AuthNavigator } from '../../navigation';
 
 export type SignUpFunc = (text: string, name: string) => void;
 
@@ -29,7 +30,7 @@ const SignUp = () => {
   useEffect(() => {
     if (Success) {
       //ts-ignore
-      navigation.navigate('LOGIN-SCREEN' as never);
+      navigation.navigate(AuthNavigator.Login as never);
     }
   }, [Success]);
 

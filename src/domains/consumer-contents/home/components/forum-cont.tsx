@@ -1,11 +1,14 @@
-import ForumQuestionsList from '@app/domains/forum/components/forum-questions-list';
-import ForumService from '@app/domains/forum/forum-service';
-import { AdaptedForumQuestion } from '@app/domains/forum/types';
+import { XGap } from '@app/components';
+import ForumQuestionsList from '@app/domains/consumer-contents/forum/components/forum-questions-list';
+import ForumService from '@app/domains/consumer-contents/forum/forum-service';
+import { AdaptedForumQuestion } from '@app/domains/consumer-contents/forum/types';
+import { AppNavigator } from '@app/navigation/app-navigation';
 import { RequestState } from '@app/services/api-service';
-import { Wp, wp } from '@app/utils';
+import { wp } from '@app/utils';
 import { NavigationHelpers } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { ConsumerContentsNavigator } from '../../navigation/consumer-contents-navigation';
+import { ForumNavigator } from '../../forum';
 
 const HomeForumCont = ({
   navigation,
@@ -38,6 +41,8 @@ const HomeForumCont = ({
     getData();
   }, []);
 
+  const gapper = () => <XGap />;
+
   return (
     <ForumQuestionsList
       state={state}
@@ -56,13 +61,13 @@ const HomeForumCont = ({
       listProps={{
         horizontal: true,
         showsHorizontalScrollIndicator: false,
-        ItemSeparatorComponent: () => <View style={{ width: Wp(10) }} />,
+        ItemSeparatorComponent: gapper,
       }}
       onQuestionPress={(question) => {
-        navigation?.navigate('content-stack', {
-          screen: 'FORUM',
+        navigation?.navigate(AppNavigator.ConsumerContents, {
+          screen: ConsumerContentsNavigator.Forum,
           params: {
-            screen: 'FORUM-ANSWER',
+            screen: ForumNavigator.ScreenAnswer,
             params: {
               question: question,
             },

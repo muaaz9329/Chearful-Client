@@ -19,6 +19,7 @@ import { useChallengeStore } from './hooks/use-challenge-store';
 import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
 import { IsTablet, Wp, mergeStyles } from '@app/utils';
 import { ErrorRetry, Header, Loader } from '@app/components';
+import { ThirtyXThirtyNavigator } from '../../navigation/thirty-x-thirty-navigation-stack';
 
 const ChallengeHome = () => {
   const navigation = useNavigation();
@@ -26,7 +27,7 @@ const ChallengeHome = () => {
 
   const handleNavigation = (questionId: number, assessmentId: number) => {
     // @ts-ignore
-    navigation.navigate('TYPE-OF-CHALLENGE-SCREEN', {
+    navigation.navigate(ThirtyXThirtyNavigator.TypeOfChallengeScreen, {
       questionId,
       assessmentId,
     });
@@ -159,10 +160,13 @@ const ChallengeHome = () => {
                             status: 'loading',
                             data: null,
                           });
-                          // @ts-ignore
-                          navigation.navigate('QUIZ-ASSESSMENT-SCREEN', {
-                            questionId: assessmentData?.questionId,
-                          });
+                          navigation.navigate(
+                            // @ts-ignore
+                            ThirtyXThirtyNavigator.QuizAssessmentScreen,
+                            {
+                              questionId: assessmentData?.questionId,
+                            },
+                          );
                         }}
                       />
                     );

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LearnAndGrowCardType } from '../types';
 import useResourcesStore from '../hooks/use-resources-store';
@@ -7,6 +6,9 @@ import { SvgUri } from 'react-native-svg';
 import globalStyles from '@app/assets/global-styles';
 import { IsTablet, Wp, wp } from '@app/utils';
 import { Colors } from '@app/constants';
+import { AppNavigator } from '@app/navigation/app-navigation';
+import { ConsumerContentsNavigator } from '../../navigation/consumer-contents-navigation';
+import { LearnGrowNavigator } from '../navigation/learn-grow-navigation';
 
 const LearnAndGrowCard = ({
   data,
@@ -28,10 +30,9 @@ const LearnAndGrowCard = ({
       ]}
       onPress={() => {
         setResources(data);
-        // navigation?.navigate('LEARN-GROW-DETAIL')
-        navigation?.navigate('content-stack', {
-          screen: 'LEARN-GROW',
-          params: { screen: 'LEARN-GROW-DETAIL' },
+        navigation?.navigate(AppNavigator.ConsumerContents, {
+          screen: ConsumerContentsNavigator.LearnAndGrow,
+          params: { screen: LearnGrowNavigator.LearnGrowDetail },
         });
       }}
     >

@@ -159,7 +159,6 @@ function MobileView({ handleForm }: Props) {
         HandleFunction();
       }, 1000);
     }
-    console.log('moveNextSlide:', moveNextSlide);
   }, [moveNextSlide]); // Only re-run the effect if count changes
   // using for validation and moving the screen to otp if it is valid
 
@@ -180,10 +179,10 @@ function MobileView({ handleForm }: Props) {
               flex: 1,
             }}
             autoPlay={false}
-            onSnapToItem={(index) => {
-              handleSlide(index);
-              setIndex(index);
-              if (index === 2) {
+            onSnapToItem={(i) => {
+              handleSlide(i);
+              setIndex(i);
+              if (i === 2) {
                 setEnable(false);
               }
             }}
@@ -192,9 +191,9 @@ function MobileView({ handleForm }: Props) {
             ref={CoursalRef}
             renderItem={({ item, index }) => {
               if (index === 0) {
-                return <FirstSlide handleForm={handleForm} />;
+                return <FirstSlide {...{handleForm}} />;
               } else if (index === 1) {
-                return <SecondSlide handleForm={handleForm} />;
+                return <SecondSlide {...{handleForm}} />;
               } else {
                 return (
                   <View>
@@ -208,16 +207,14 @@ function MobileView({ handleForm }: Props) {
       </KeyboardAwareScrollView>
 
       <View style={styles.btnCont}>
-        <View>
-          <NextBtn
-            percentage={25}
-            radius={wp(2.45 * 4.5)}
-            color={Colors.primary}
-            HandleFunction={HandleFunction}
-            index={index}
-            ref={NextBtnRef}
-          />
-        </View>
+        <NextBtn
+          percentage={25}
+          radius={wp(2.45 * 4.5)}
+          color={Colors.primary}
+          HandleFunction={HandleFunction}
+          index={index}
+          ref={NextBtnRef}
+        />
       </View>
     </Layout>
   );
@@ -230,7 +227,7 @@ const styles = StyleSheet.create({
     marginTop: Wp(15),
   },
   Cont: {
-    height: wp(100),
+    // height: wp(100),
   },
   btnCont: {
     alignSelf: 'center',

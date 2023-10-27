@@ -23,6 +23,8 @@ import {
   wp,
 } from '@app/utils';
 import { ChearfulLogo } from '@app/assets/svgs/';
+import { AuthNavigator } from '../../navigation';
+import { AppNavigator } from '@app/navigation/app-navigation';
 
 interface props {
   navigation: NavigationHelpers<any, any>;
@@ -106,7 +108,7 @@ const Login = ({ navigation }: props) => {
           });
 
           //TODO: Temp changes for testing. This redirect info should be passed through navigation params
-          navigation.navigate('THIRTY-X-THIRTY-MODULE');
+          navigation.navigate(AppNavigator.ThirtyXThirty);
         },
         onFailure: ({ message }) => {
           setLoginError(message);
@@ -284,7 +286,7 @@ const Login = ({ navigation }: props) => {
             <Text
               style={[styles.ForgetPassCont, IsTablet && { fontSize: s(10) }]}
               onPress={() => {
-                navigation.navigate('Auth_ResetPass');
+                navigation.navigate(AuthNavigator.ForgetPassword);
               }}
             >
               Forgot Password?
@@ -293,7 +295,7 @@ const Login = ({ navigation }: props) => {
               <Pressable
                 style={[styles.Signupbtn, IsTablet && styles.SignupbtnTablet]}
                 onPress={() => {
-                  navigation.navigate('SIGN-UP-SCREEN');
+                  navigation.navigate(AuthNavigator.SignUp);
                 }}
               >
                 <Text

@@ -201,15 +201,6 @@ export default function ForumQuestionsScreen({
             navigation.navigate(ForumNavigator.ScreenAnswer, {
               question: item,
             });
-            // navigation?.navigate('content-stack', {
-            //   screen: 'FORUM',
-            //   params: {
-            //     screen: 'FORUM-ANSWER',
-            //     params: {
-            //       question: item,
-            //     },
-            //   }, // Pass the id as a parameter
-            // });
           }}
           listProps={{
             ListFooterComponent: (

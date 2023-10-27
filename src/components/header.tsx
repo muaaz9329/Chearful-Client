@@ -4,6 +4,7 @@ import { IconComponent } from '@app/types';
 import { ChevronLeft } from '@app/assets/svgs/';
 import { IsPhone, IsTablet, Wp } from '@app/utils';
 import { Colors } from '@app/constants';
+import { useNavigation } from '@react-navigation/native';
 
 interface HeaderProps {
   Icon?: IconComponent;
@@ -36,6 +37,10 @@ const Header = ({
   justifyContent = 'space-between',
   headerType = 'Old',
 }: HeaderProps) => {
+  const navi = useNavigation();
+
+  navigation = navigation ?? navi;
+
   const handleNavigation = () => {
     if (pram === 'back') {
       navigation.goBack();
@@ -45,6 +50,7 @@ const Header = ({
       navigation.navigate(pram);
     }
   };
+
   return headerType === 'Old' ? (
     <View style={[styles.HeaderCont, { justifyContent: justifyContent }]}>
       <View>
@@ -92,8 +98,8 @@ const Header = ({
           onPress={handleNavigation}
         >
           <Icon
-            width={IsPhone ? Wp(25) : Wp(15)}
-            height={IsPhone ? Wp(25) : Wp(15)}
+            width={IsPhone ? Wp(20) : Wp(15)}
+            height={IsPhone ? Wp(20) : Wp(15)}
             color={Colors.primary}
           />
         </Pressable>
@@ -128,7 +134,7 @@ const styles = StyleSheet.create({
   },
   HeaderIconStyles: {
     padding: Wp(14),
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colors.placeholder,
     borderRadius: Wp(14),
   },
   HeaderIconStyle2: {

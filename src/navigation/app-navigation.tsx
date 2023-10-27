@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Colors } from '@app/constants/';
 import { Hp, IsTablet, hp } from '@app/utils';
-import { ForumNavigation } from '@app/domains/forum';
+import { ForumNavigation } from '@app/domains/consumer-contents/forum';
 import AuthNavigation from '@app/domains/authentication/navigation';
 import ThirtyXThirtyNavigation from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
 import ConsumerContentsNavigation from '@app/domains/consumer-contents/navigation/consumer-contents-navigation';
@@ -24,15 +24,17 @@ const Stack = createStackNavigator();
  */
 const WebLinkTabButton = ({
   url,
-  icon,
+  iconName,
+  icon: Icon = IonIcon,
   color,
 }: {
   url: string;
-  icon: string;
+  iconName: string;
   color: string;
+  icon?: any;
 }) => (
   <TouchableOpacity onPress={() => Linking.openURL(url)}>
-    <IonIcon name={icon} size={30} color={color} />
+    <Icon name={iconName} size={30} color={color} />
   </TouchableOpacity>
 );
 
@@ -48,20 +50,25 @@ const WebLinkTabButton = ({
 const RootTabNavigation = () => {
   const webLinks = {
     // AskQuestion: 'https://chearful.com/community',
-    ScheduleSession: 'https://chearful.com/meet-practitioners',
+    // ScheduleSession: 'https://chearful.com/meet-practitioners',
     Profile: 'https://chearful.com/client-signup',
   };
 
   const getTabBarIcon = (route: any, focused: boolean, color: string) => {
     let iconName;
+    let Icon = IonIcon;
 
     if (route.name === 'Home') {
+      Icon = MaterialIcon;
       iconName = focused ? 'home' : 'home-outline';
     } else if (route.name === 'AskQuestion') {
+      Icon = MaterialIcon;
       iconName = focused ? 'help-circle' : 'help-circle-outline';
     } else if (route.name === 'ScheduleSession') {
+      Icon = IonIcon;
       iconName = focused ? 'videocam' : 'videocam-outline';
     } else if (route.name === 'Profile') {
+      Icon = IonIcon;
       iconName = focused ? 'person' : 'person-outline';
     }
 
@@ -69,14 +76,15 @@ const RootTabNavigation = () => {
       return (
         <WebLinkTabButton
           url={webLinks[route.name as keyof typeof webLinks]}
-          icon={iconName as string}
+          iconName={iconName as string}
+          icon={Icon}
           color={color}
         />
       );
     }
 
     // Return the custom icon component
-    return <MaterialIcon name={iconName as string} size={30} color={color} />;
+    return <Icon name={iconName as string} size={30} color={color} />;
   };
 
   return (

@@ -1,7 +1,6 @@
-import React from 'react';
 import { RequestState } from '@app/services/api-service';
 import { AdaptedForumQuestion } from '../types';
-import { FlatListProps, Text } from 'react-native';
+import { FlatList, FlatListProps, Text } from 'react-native';
 import ForumQuestion, { ForumQuestionProps } from './forum-question';
 import globalStyles from '@app/assets/global-styles';
 import { IsTablet } from '@app/utils';
@@ -31,20 +30,21 @@ export default function ForumQuestionsList({
   ) : data.length === 0 ? (
     <Text style={globalStyles.textCenter}>No Results Found</Text>
   ) : (
-    <Animated.FlatList
-      entering={FadeInDown.delay(200).springify()}
-      {...listProps}
-      data={data}
-      keyExtractor={(item) => `${item.id} ${item.slug}`}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={[IsTablet && { alignItems: 'center' }]}
-      renderItem={({ item }) => (
-        <ForumQuestion
-          {...itemProps}
-          question={item}
-          onPress={() => onQuestionPress?.(item)}
-        />
-      )}
-    />
+    <Animated.View entering={FadeInDown.delay(200).springify()}>
+      <FlatList
+        {...listProps}
+        data={data}
+        keyExtractor={(item) => `${item.id} ${item.slug}`}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={[IsTablet && { alignItems: 'center' }]}
+        renderItem={({ item }) => (
+          <ForumQuestion
+            {...itemProps}
+            question={item}
+            onPress={() => onQuestionPress?.(item)}
+          />
+        )}
+      />
+    </Animated.View>
   );
 }

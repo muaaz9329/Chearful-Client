@@ -18,6 +18,9 @@ import { TArticle } from '../types';
 import DEFAULT_DATA_ARTICLE from '../constants';
 import { s } from 'react-native-size-matters';
 import { Colors, Fonts } from '@app/constants';
+import { AppNavigator } from '@app/navigation/app-navigation';
+import { ConsumerContentsNavigator } from '../../navigation/consumer-contents-navigation';
+import { ContentArticlesNavigator } from '../navigation/article-navigation';
 
 type Props = {
   Data?: TArticle;
@@ -35,14 +38,15 @@ const ArticleCard = ({
     //   screen: "article-detail",
     //   params: { id: Data?.id }, // Pass the id as a parameter
     // });
-    navigation?.navigate('content-stack', {
-      screen: 'article',
+    navigation?.navigate(AppNavigator.ConsumerContents, {
+      screen: ConsumerContentsNavigator.Articles,
       params: {
-        screen: 'article-detail',
+        screen: ContentArticlesNavigator.ArticleDetail,
         params: {
+          // Pass the id as a parameter
           id: Data?.id,
         },
-      }, // Pass the id as a parameter
+      },
     }); // Navigate to the sound-bites screen from other stacks of screen
 
     const isArabicText = {

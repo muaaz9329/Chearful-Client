@@ -17,6 +17,7 @@ import ChipTags from './chip-tags';
 import { AuthorCont } from '@app/components';
 import SocialBtn from './social-btn';
 import { Colors, Fonts } from '@app/constants';
+import { AppImages } from '@app/assets/images';
 
 const Detail = ({
   AuthorName,
@@ -92,7 +93,7 @@ const Detail = ({
 
               <View style={styles.flexRow}>
                 <SocialBtn
-                  img={require('../imgs/linkedin.png')}
+                  img={AppImages.linkedin}
                   onPress={() => {
                     shareOnLinkedIn();
                   }}
@@ -101,7 +102,7 @@ const Detail = ({
                 />
 
                 <SocialBtn
-                  img={require('../imgs/facebook.png')}
+                  img={AppImages.facebook}
                   onPress={() => {
                     shareOnFacebook();
                   }}

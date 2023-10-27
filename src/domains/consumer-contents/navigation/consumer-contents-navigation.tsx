@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import ContentArticlesNavigation from '../articles/navigation/article-navigation';
+import ContentForumNavigation from '../forum/navigation/forum-navigation';
 
 export const enum ConsumerContentsNavigator {
   Articles = 'Articles',
@@ -29,10 +30,10 @@ export default function ConsumerContentsNavigation() {
         name={ConsumerContentsNavigator.LearnAndGrow}
         component={ContentLearnAndGrowNavigation}
       /> */}
-      {/* <Stack.Screen
+      <Stack.Screen
         name={ConsumerContentsNavigator.Forum}
         component={ContentForumNavigation}
-      /> */}
+      />
     </Stack.Navigator>
   );
 }

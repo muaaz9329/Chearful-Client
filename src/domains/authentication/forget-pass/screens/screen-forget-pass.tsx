@@ -22,7 +22,7 @@ interface Props {
   navigation: NavigationHelpers<any, any>;
 }
 
-const ForgetPass = ({ navigation }: Props) => {
+const ScreenForgotPassword = ({ navigation }: Props) => {
   const [email, setEmail] = useState<string>('');
 
   const {
@@ -162,7 +162,7 @@ const ForgetPass = ({ navigation }: Props) => {
   );
 };
 
-export default ForgetPass;
+export default ScreenForgotPassword;
 
 const styles = StyleSheet.create({
   Container: {

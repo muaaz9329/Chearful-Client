@@ -9,13 +9,29 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import AppNavigation from '@app/navigation/app-navigation';
 import { AppToastsConfig } from '@app/components/toasts';
+import {
+  MD3LightTheme as defaultTheme,
+  Provider as PaperProvider,
+} from 'react-native-paper';
+import { Colors } from '@app/constants';
+
+const RNPaperTheme = {
+  ...defaultTheme,
+  colors: {
+    ...defaultTheme.colors,
+    primary: Colors.primary,
+    secondary: 'yellow',
+  },
+};
 
 function App(): JSX.Element {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
-          <AppNavigation />
+          <PaperProvider theme={RNPaperTheme}>
+            <AppNavigation />
+          </PaperProvider>
         </NavigationContainer>
         <Toast config={AppToastsConfig} />
         <StatusBar barStyle="dark-content" />

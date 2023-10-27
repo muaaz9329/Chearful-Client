@@ -30,6 +30,7 @@ import ThirtyXThirtyService from '../../thirty-x-thirty-services';
 // Screen Components
 import StepsToParticipateModel from './components/modals/steps-to-participate-model';
 import Toast from 'react-native-toast-message';
+import { ThirtyXThirtyNavigator } from '../../navigation/thirty-x-thirty-navigation-stack';
 
 /**
  * Agreement Screen
@@ -79,7 +80,7 @@ const AgreementScreen = ({ navigation }: { navigation: any }) => {
             'true',
           );
 
-          navigation.navigate('CHALLENGE-SCREEN');
+          navigation.navigate(ThirtyXThirtyNavigator.ChallengeHomeScreen);
         } else {
           setQuizAssessment({
             status: 'erred',
@@ -214,7 +215,9 @@ const AgreementScreen = ({ navigation }: { navigation: any }) => {
                   disabled={!isAgreed}
                   onPress={() => {
                     //@ts-ignore
-                    navigation.navigate('QUIZ-ASSESSMENT-SCREEN');
+                    navigation.navigate(
+                      ThirtyXThirtyNavigator.QuizAssessmentScreen,
+                    );
                   }}
                 />
               </View>
