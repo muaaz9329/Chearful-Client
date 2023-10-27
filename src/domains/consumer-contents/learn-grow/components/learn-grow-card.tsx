@@ -1,15 +1,12 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
-import { Wp, wp } from "@app/helper/CustomResponsive";
-import globalStyles from "@app/assets/styles/global-styles";
-import { AppColors } from "@app/constants/app-colors";
-import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
-import { LearnAndGrowCardType } from "./types";
-import useResourcesStore from "../hooks/use-resources-store";
-import { NavigationProp } from "@react-navigation/native";
-import { SvgUri } from "react-native-svg";
-
-type Props = {};
+import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { LearnAndGrowCardType } from '../types';
+import useResourcesStore from '../hooks/use-resources-store';
+import { NavigationProp } from '@react-navigation/native';
+import { SvgUri } from 'react-native-svg';
+import globalStyles from '@app/assets/global-styles';
+import { IsTablet, Wp, wp } from '@app/utils';
+import { Colors } from '@app/constants';
 
 const LearnAndGrowCard = ({
   data,
@@ -19,7 +16,6 @@ const LearnAndGrowCard = ({
   navigation: NavigationProp<any, any>;
 }) => {
   const { setResources } = useResourcesStore();
-  const { deviceType } = useContext(DeviceContext);
   return (
     <Pressable
       style={[
@@ -28,33 +24,28 @@ const LearnAndGrowCard = ({
         globalStyles.alignCenter,
         globalStyles.justifyBetween,
         globalStyles.mb_16,
-        deviceType === "tablet" && styles.Cont_tablet,
+        IsTablet && styles.Cont_tablet,
       ]}
       onPress={() => {
         setResources(data);
         // navigation?.navigate('LEARN-GROW-DETAIL')
-        navigation?.navigate("content-stack", {
-          screen: "LEARN-GROW",
-          params: { screen: "LEARN-GROW-DETAIL" },
+        navigation?.navigate('content-stack', {
+          screen: 'LEARN-GROW',
+          params: { screen: 'LEARN-GROW-DETAIL' },
         });
       }}
     >
-      <View
-        style={[
-          styles.TextCont,
-          deviceType === "tablet" && styles.TextCont_tablet,
-        ]}
-      >
+      <View style={[styles.TextCont, IsTablet && styles.TextCont_tablet]}>
         <Text
           style={[
             globalStyles.fs_18,
             globalStyles.nunito_700,
             globalStyles.textPrimary,
-            deviceType === "tablet" && globalStyles.fs_10,
+            IsTablet && globalStyles.fs_10,
           ]}
         >
           {data.title.length > 20
-            ? data.title.slice(0, 20) + "..."
+            ? data.title.slice(0, 20) + '...'
             : data.title}
         </Text>
         <Text
@@ -63,20 +54,20 @@ const LearnAndGrowCard = ({
             globalStyles.fs_14,
             globalStyles.textPrimary,
             styles.Subtitle,
-            deviceType === "tablet" && {
+            IsTablet && {
               ...globalStyles.fs_8,
               marginTop: Wp(2),
             },
           ]}
         >
-          {data.desc.length > 50 ? data.desc.slice(0, 50) + "..." : data.desc}
+          {data.desc.length > 50 ? data.desc.slice(0, 50) + '...' : data.desc}
         </Text>
       </View>
-      <View style={[styles.img, deviceType === "tablet" && styles.img_tablet]}>
+      <View style={[styles.img, IsTablet && styles.img_tablet]}>
         <SvgUri
           uri={data.icon}
-          width={deviceType === "tablet" ? Wp(60) : Wp(100)}
-          height={deviceType === "tablet" ? Wp(60) : Wp(100)}
+          width={IsTablet ? Wp(60) : Wp(100)}
+          height={IsTablet ? Wp(60) : Wp(100)}
           preserveAspectRatio="xMinYMin slice"
         />
       </View>
@@ -96,7 +87,7 @@ const styles = StyleSheet.create({
   },
   Cont_tablet: {
     width: wp(55),
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   img: {
     width: Wp(100),
@@ -114,7 +105,7 @@ const styles = StyleSheet.create({
   Cont: {
     paddingHorizontal: Wp(12),
     borderRadius: Wp(12),
-    backgroundColor: AppColors.OffWhiteCont,
+    backgroundColor: Colors.light,
     width: wp(90),
     marginRight: Wp(10),
   },

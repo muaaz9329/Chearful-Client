@@ -1,15 +1,11 @@
-import ErrorRetry from "@app/common/components/error-retry";
-import Loader from "@app/common/components/loader";
-import { Wp, wp } from "@app/helper/CustomResponsive";
-import ForumQuestion from "@app/screens/forum/components/forum-question";
-import ForumQuestionsList from "@app/screens/forum/components/forum-questions-list";
-import ForumService from "@app/screens/forum/forum-service";
-import ForumQuestionsScreen from "@app/screens/forum/screens/screen-forum-questions";
-import { AdaptedForumQuestion } from "@app/screens/forum/types";
-import { RequestState } from "@app/services/api-service";
-import { NavigationHelpers, useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import ForumQuestionsList from '@app/domains/forum/components/forum-questions-list';
+import ForumService from '@app/domains/forum/forum-service';
+import { AdaptedForumQuestion } from '@app/domains/forum/types';
+import { RequestState } from '@app/services/api-service';
+import { Wp, wp } from '@app/utils';
+import { NavigationHelpers } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 
 const HomeForumCont = ({
   navigation,
@@ -17,7 +13,7 @@ const HomeForumCont = ({
   navigation: NavigationHelpers<any, any>;
 }) => {
   const [{ state, data }, setState] = useState({
-    state: "loading" as RequestState,
+    state: 'loading' as RequestState,
     data: [] as AdaptedForumQuestion[],
   });
 
@@ -26,13 +22,13 @@ const HomeForumCont = ({
       limit: 5,
       onSuccess: ({ data }) => {
         setState({
-          state: "loaded",
+          state: 'loaded',
           data: data.questions,
         });
       },
       onFailure: (err) => {
         setState({
-          state: "erred",
+          state: 'erred',
           data: [],
         });
       },
@@ -48,14 +44,14 @@ const HomeForumCont = ({
       data={data}
       onRetry={() => {
         setState({
-          state: "loading",
+          state: 'loading',
           data: [],
         });
         getData();
       }}
       itemProps={{
         style: { width: wp(55) },
-        variant: "home-preview",
+        variant: 'home-preview',
       }}
       listProps={{
         horizontal: true,
@@ -63,11 +59,14 @@ const HomeForumCont = ({
         ItemSeparatorComponent: () => <View style={{ width: Wp(10) }} />,
       }}
       onQuestionPress={(question) => {
-        navigation?.navigate("content-stack", {
-          screen: "FORUM",
-          params: { screen:'FORUM-ANSWER' , params:{
-            question: question,
-          } }, // Pass the id as a parameter
+        navigation?.navigate('content-stack', {
+          screen: 'FORUM',
+          params: {
+            screen: 'FORUM-ANSWER',
+            params: {
+              question: question,
+            },
+          }, // Pass the id as a parameter
         });
       }}
     />

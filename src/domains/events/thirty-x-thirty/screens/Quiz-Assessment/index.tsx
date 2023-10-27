@@ -22,7 +22,7 @@ import useQuizAssessment from '../../hooks/use-quiz-assessment';
 import { ErrorRetry, Heading, Loader, ProgressBar } from '@app/components';
 import ThirtyXThirtyService from '../../thirty-x-thirty-services';
 import { useChallengeStore } from '../Challenge-Home/hooks/use-challenge-store';
-import { ThirtyxThirtyNavigator } from '../../navigation/thirty-x-thirty-navigation-stack';
+import { ThirtyXThirtyNavigator } from '../../navigation/thirty-x-thirty-navigation-stack';
 
 /**
  * A private function to generate the quiz data from the API response
@@ -115,7 +115,7 @@ export default function QuizAssessmentScreen({
           if (params?.questionId) setReloadChallenge(true);
 
           // This behavior is static now. Gonna implement dynamic behavior soon
-          navigation.navigate(ThirtyxThirtyNavigator.ChallengeHomeScreen);
+          navigation.navigate(ThirtyXThirtyNavigator.ChallengeHomeScreen);
         },
         onFailure: ({ message, error }) => {
           console.log(error);

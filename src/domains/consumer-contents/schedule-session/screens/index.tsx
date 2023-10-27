@@ -1,46 +1,33 @@
-//!this is temp screen will be remove in future
+// * this is temp screen will be remove in future
 
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import globalStyles from "@app/assets/styles/global-styles";
-import { ChearfulLogo, ChevronLeft } from "@app/svgs/Index";
-import { AppColors } from "@app/constants/app-colors";
-import { Wp, wp } from "@app/helper/CustomResponsive";
-import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
-import HirePrac from "../../components/hire-prac";
-import { Mulish, Nunito } from "@app/helper/FontWeight";
-import { colorWithOpacity } from "@app/helper/customFunction";
-import Header from "@app/common/components/Header";
-import { useNavigation } from "@react-navigation/native";
-import { IconComponent } from "@app/types";
+import { Image, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import HirePrac from '../../components/hire-prac';
+import { ChearfulLogo } from '@app/assets/svgs';
+import { Colors } from '@app/constants';
+import globalStyles from '@app/assets/global-styles';
+import { IsPhone, IsTablet, Wp, colorWithOpacity, wp } from '@app/utils';
+import { Header } from '@app/components';
 
-const TempScreen = () => {
-  const { deviceType } = useContext(DeviceContext);
-  const navigation = useNavigation();
+const ScreenScheduleSession = ({ navigation }: { navigation: any }) => {
   return (
     <SafeAreaView style={[globalStyles.bodyWrapper]}>
-      <Header
-        navigation={navigation}
-        Icon={ChevronLeft as IconComponent}
-        pram="back"
-      >
+      <Header navigation={navigation} pram="back">
         <View
           style={{
-            alignSelf: "center",
+            alignSelf: 'center',
           }}
         >
-          <ChearfulLogo color={AppColors.Primary} width={110} height={50} />
+          <ChearfulLogo color={Colors.primary} width={110} height={50} />
         </View>
       </Header>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={[
           {
-            marginTop: deviceType === "tablet" ? Wp(10) : Wp(20),
+            marginTop: IsTablet ? Wp(10) : Wp(20),
           },
-          ,
-          deviceType === "tablet" && { width: wp(82), alignSelf: "center" },
+          IsTablet && { width: wp(82), alignSelf: 'center' },
         ]}
       >
         <Text
@@ -48,8 +35,8 @@ const TempScreen = () => {
             globalStyles.fs_18,
             globalStyles.mulish_600,
             globalStyles.textPrimary,
-            deviceType === "tablet" && globalStyles.fs_12,
-            { textAlign: "center" },
+            IsTablet && globalStyles.fs_12,
+            { textAlign: 'center' },
           ]}
         >
           Connect with a credentialed & licensed practitioner to start your
@@ -61,34 +48,34 @@ const TempScreen = () => {
         <View
           style={[
             {
-              marginTop: deviceType === "mobile" ? Wp(30) : Wp(15),
+              marginTop: IsPhone ? Wp(30) : Wp(15),
 
-              alignItems: "center",
+              alignItems: 'center',
               borderRadius: Wp(16),
-              overflow: "hidden",
-              backgroundColor: "#BEE887",
-              flexDirection: "row",
+              overflow: 'hidden',
+              backgroundColor: '#BEE887',
+              flexDirection: 'row',
             },
-            deviceType === "tablet" && {
+            IsTablet && {
               width: wp(70),
-              alignSelf: "center",
+              alignSelf: 'center',
               borderRadius: Wp(8),
             },
           ]}
         >
           <Image
             style={{
-              width: deviceType === "mobile" ? Wp(100) : Wp(70),
-              height: deviceType === "mobile" ? Wp(100) : Wp(55),
+              width: IsPhone ? Wp(100) : Wp(70),
+              height: IsPhone ? Wp(100) : Wp(55),
             }}
-            source={require("../../imgs/temp.png")}
+            source={require('../../imgs/temp.png')}
             resizeMode="cover"
           />
 
           <Text
             style={[
               {
-                fontSize: deviceType === "mobile" ? Wp(22) : Wp(14),
+                fontSize: IsPhone ? Wp(22) : Wp(14),
                 marginLeft: Wp(5),
               },
               globalStyles.nunito_800,
@@ -101,7 +88,7 @@ const TempScreen = () => {
 
         <View
           style={{
-            marginTop: deviceType == "tablet" ? Wp(15) : Wp(30),
+            marginTop: IsTablet ? Wp(15) : Wp(30),
           }}
         >
           <Text
@@ -111,7 +98,7 @@ const TempScreen = () => {
               globalStyles.textPrimary,
               globalStyles.mt_12,
               globalStyles.mb_12,
-              deviceType === "tablet" && globalStyles.fs_12,
+              IsTablet && globalStyles.fs_12,
             ]}
           >
             Availability
@@ -120,9 +107,9 @@ const TempScreen = () => {
             style={[
               globalStyles.mulish_400,
               globalStyles.fs_16,
-              deviceType === "tablet" && globalStyles.fs_10,
+              IsTablet && globalStyles.fs_10,
               {
-                color: colorWithOpacity(AppColors.Primary, 0.5),
+                color: colorWithOpacity(Colors.primary, 0.5),
               },
             ]}
           >
@@ -136,7 +123,7 @@ const TempScreen = () => {
               globalStyles.textPrimary,
               globalStyles.mt_12,
               globalStyles.mb_12,
-              deviceType === "tablet" && globalStyles.fs_12,
+              IsTablet && globalStyles.fs_12,
             ]}
           >
             Affordability
@@ -145,9 +132,9 @@ const TempScreen = () => {
             style={[
               globalStyles.mulish_400,
               globalStyles.fs_16,
-              deviceType === "tablet" && globalStyles.fs_10,
+              IsTablet && globalStyles.fs_10,
               {
-                color: colorWithOpacity(AppColors.Primary, 0.5),
+                color: colorWithOpacity(Colors.primary, 0.5),
               },
             ]}
           >
@@ -162,7 +149,7 @@ const TempScreen = () => {
               globalStyles.textPrimary,
               globalStyles.mt_12,
               globalStyles.mb_12,
-              deviceType === "tablet" && globalStyles.fs_12,
+              IsTablet && globalStyles.fs_12,
             ]}
           >
             Privacy
@@ -171,9 +158,9 @@ const TempScreen = () => {
             style={[
               globalStyles.mulish_400,
               globalStyles.fs_16,
-              deviceType === "tablet" && globalStyles.fs_10,
+              IsTablet && globalStyles.fs_10,
               {
-                color: colorWithOpacity(AppColors.Primary, 0.5),
+                color: colorWithOpacity(Colors.primary, 0.5),
               },
             ]}
           >
@@ -186,6 +173,4 @@ const TempScreen = () => {
   );
 };
 
-export default TempScreen;
-
-const styles = StyleSheet.create({});
+export default ScreenScheduleSession;

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { FlatList } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from 'react';
+import { FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import LearnAndGrowCard from '../../learn-grow/components/learn-grow-card';
+import { LearnAndGrowCardType } from '../../learn-grow/types';
+import ContentService from '../../service';
 
-import ContentService from "@app/services/content-services";
-import LearnAndGrowCard from "../../learn-grow-resources/components/learn-grow-card";
-import { LearnAndGrowCardType } from "../../learn-grow-resources/components/types";
-
-const LearnAndGrowCont = ({ setLoading }: { setLoading: any }) => {
+const LearnAndGrowCont = () => {
   const navigation = useNavigation();
   const [resources, setResources] = useState<LearnAndGrowCardType[]>([]);
 
@@ -20,15 +19,15 @@ const LearnAndGrowCont = ({ setLoading }: { setLoading: any }) => {
       },
       data: [
         {
-          key: "page",
+          key: 'page',
           value: 1,
         },
         //! this key is must as these represents the items that are specified by varun to show on home screen
         //* Only Works on Production that's why on dev it shows empty array
         {
-          key:"home",
-          value:1
-        }
+          key: 'home',
+          value: 1,
+        },
       ],
     });
   }, []);

@@ -17,7 +17,7 @@ import { AppText, Header, Heading, MyButton } from '@app/components';
 import { Colors } from '@app/constants';
 import { AppNavigator } from '@app/navigation/app-navigation';
 import { AuthNavigator } from '@app/domains/authentication';
-import { ThirtyxThirtyNavigator } from '../../navigation/thirty-x-thirty-navigation-stack';
+import { ThirtyXThirtyNavigator } from '../../navigation/thirty-x-thirty-navigation-stack';
 
 export default function ThirtyChallengeLandingScreen() {
   const navigation = useNavigation();
@@ -33,7 +33,7 @@ export default function ThirtyChallengeLandingScreen() {
         // User gets to landing screen of challenge iff he has not yet agreed or went through the fitness assessment.
         // if he has already taken the assessment, that will be checked and he shall be redirected to appropriate screen by RedirectingScreen
         screen: isUserLoggedIn
-          ? ThirtyxThirtyNavigator.AgreementScreen
+          ? ThirtyXThirtyNavigator.AgreementScreen
           : AuthNavigator.Login,
       },
     );

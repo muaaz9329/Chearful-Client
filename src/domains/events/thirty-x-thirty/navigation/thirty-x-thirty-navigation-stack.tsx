@@ -17,7 +17,7 @@ import {
   ScreenTypeOfChallenge,
 } from '../screens';
 
-export const enum ThirtyxThirtyNavigator {
+export const enum ThirtyXThirtyNavigator {
   'LandingScreen' = 'LandingScreen',
   'AgreementScreen' = 'AgreementScreen',
   'QuizAssessmentScreen' = 'QuizAssessmentScreen',
@@ -36,23 +36,23 @@ export default function ThirtyXThirtyNavigation() {
     >
       <Stack.Screen name="RedirectingScreen" component={RedirectScreen} />
       <Stack.Screen
-        name={ThirtyxThirtyNavigator.LandingScreen}
+        name={ThirtyXThirtyNavigator.LandingScreen}
         component={ScreenLanding}
       />
       <Stack.Screen
-        name={ThirtyxThirtyNavigator.AgreementScreen}
+        name={ThirtyXThirtyNavigator.AgreementScreen}
         component={ScreenAgreement}
       />
       <Stack.Screen
-        name={ThirtyxThirtyNavigator.QuizAssessmentScreen}
+        name={ThirtyXThirtyNavigator.QuizAssessmentScreen}
         component={ScreenQuizAssessment}
       />
       <Stack.Screen
-        name={ThirtyxThirtyNavigator.ChallengeHomeScreen}
+        name={ThirtyXThirtyNavigator.ChallengeHomeScreen}
         component={ScreenChallengeHome}
       />
       <Stack.Screen
-        name={ThirtyxThirtyNavigator.TypeOfChallengeScreen}
+        name={ThirtyXThirtyNavigator.TypeOfChallengeScreen}
         component={ScreenTypeOfChallenge}
       />
     </Stack.Navigator>
@@ -76,7 +76,7 @@ const RedirectScreen = ({ navigation }: { navigation: any }) => {
     if (hasCompletedAssessment === 'true') {
       // If the user is logged in and has already taken assessment, redirect to challenge screen
       if (isUserLoggedIn) {
-        navigation.replace(ThirtyxThirtyNavigator.ChallengeHomeScreen);
+        navigation.replace(ThirtyXThirtyNavigator.ChallengeHomeScreen);
       }
       // else ask him to login first to get to challenges screen
       else {
@@ -85,7 +85,7 @@ const RedirectScreen = ({ navigation }: { navigation: any }) => {
         });
       }
     } else {
-      navigation.replace(ThirtyxThirtyNavigator.LandingScreen);
+      navigation.replace(ThirtyXThirtyNavigator.LandingScreen);
     }
   };
 

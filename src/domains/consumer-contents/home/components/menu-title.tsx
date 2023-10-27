@@ -1,36 +1,40 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
-import { Nunito } from "@app/helper/FontWeight";
-import { Wp } from "@app/helper/CustomResponsive";
-import { AppColors as NoteAppcolor } from "@app/constants/app-colors";
-import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
-import { useNavigation } from "@react-navigation/native";
-import { IconArrowRight } from "tabler-icons-react-native";
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { IconArrowRight } from 'tabler-icons-react-native';
+import { AppNavigator } from '@app/navigation/app-navigation';
+import { ConsumerContentsNavigator } from '../../navigation/consumer-contents-navigation';
+import { IsPhone, IsTablet, Wp } from '@app/utils';
+import { Colors, Fonts } from '@app/constants';
 
-
-
-const MenuTitle = ({ children , path}: { children: React.ReactNode , path:string}) => {
-  const { deviceType } = useContext(DeviceContext);
-  const navigation = useNavigation()
+const MenuTitle = ({
+  children,
+  path,
+}: {
+  children: React.ReactNode;
+  path: ConsumerContentsNavigator;
+}) => {
+  const navigation = useNavigation();
 
   const handleNavigation = () => {
     // @ts-ignore
     // navigation.navigate(path)
-    navigation?.navigate("content-stack", {
+    navigation?.navigate(AppNavigator.ConsumerContents, {
       screen: path,
       // Pass the id as a parameter
-    })
-  }
+    });
+  };
   return (
-    <View style={{
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-    }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
       <Text
         style={[
           styles.titleTextStyles,
-          deviceType === "tablet" && {
+          IsTablet && {
             fontSize: Wp(12),
           },
         ]}
@@ -38,8 +42,10 @@ const MenuTitle = ({ children , path}: { children: React.ReactNode , path:string
         {children}
       </Text>
       <Pressable onPress={handleNavigation}>
-      <IconArrowRight color={NoteAppcolor.Primary} size={deviceType==='mobile'?Wp(23):Wp(16)}  />
-
+        <IconArrowRight
+          color={Colors.primary}
+          size={IsPhone ? Wp(23) : Wp(16)}
+        />
       </Pressable>
     </View>
   );
@@ -49,8 +55,8 @@ export default MenuTitle;
 
 const styles = StyleSheet.create({
   titleTextStyles: {
-    fontFamily: Nunito(400),
+    fontFamily: Fonts.Nunito['400'],
     fontSize: Wp(18),
-    color: NoteAppcolor.Primary,
+    color: Colors.primary,
   },
 });

@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Linking, Text } from 'react-native';
+import { Linking } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Colors } from '@app/constants/';
@@ -12,15 +11,12 @@ import { Hp, IsTablet, hp } from '@app/utils';
 import { ForumNavigation } from '@app/domains/forum';
 import AuthNavigation from '@app/domains/authentication/navigation';
 import ThirtyXThirtyNavigation from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
+import ConsumerContentsNavigation from '@app/domains/consumer-contents/navigation/consumer-contents-navigation';
+import ScreenConsumerContentsHome from '@app/domains/consumer-contents/home';
+import ScreenScheduleSession from '@app/domains/consumer-contents/schedule-session/screens';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
-const Test = () => (
-  <SafeAreaView>
-    <Text>Screen Text</Text>
-  </SafeAreaView>
-);
 
 /**
  * A touchable button that opens the given url in browser.
@@ -85,7 +81,7 @@ const RootTabNavigation = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName={RootTabNavigator.Home}
+      initialRouteName={HomeTabsNavigator.Home}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) =>
           getTabBarIcon(route, focused, color),
@@ -98,21 +94,21 @@ const RootTabNavigation = () => {
       })}
     >
       <Tab.Screen
-        name={RootTabNavigator.Home}
+        name={HomeTabsNavigator.Home}
         options={{
           tabBarLabel: 'Home',
         }}
-        component={Test}
+        component={ScreenConsumerContentsHome}
       />
       <Tab.Screen
-        name={RootTabNavigator.ScheduleSession}
+        name={HomeTabsNavigator.ScheduleSession}
         options={{
           tabBarLabel: 'Schedule a Session',
         }}
-        component={Test}
+        component={ScreenScheduleSession}
       />
       <Tab.Screen
-        name={RootTabNavigator.AskQuestion}
+        name={HomeTabsNavigator.AskQuestion}
         options={{
           tabBarLabel: 'Ask a Question',
         }}
@@ -139,6 +135,16 @@ export default function AppNavigation() {
       />
 
       <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
+
+      <Stack.Screen
+        name={AppNavigator.ThirtyXThirty}
+        component={ThirtyXThirtyNavigation}
+      />
+
+      <Stack.Screen
+        name={AppNavigator.ConsumerContents}
+        component={ConsumerContentsNavigation}
+      />
     </Stack.Navigator>
   );
 }
@@ -146,9 +152,11 @@ export default function AppNavigation() {
 export const enum AppNavigator {
   'HomeTabs' = 'HomeTabs',
   'Auth' = 'Auth',
+  'ThirtyXThirty' = 'ThirtyXThirty',
+  'ConsumerContents' = 'ConsumerContents',
 }
 
-export const enum RootTabNavigator {
+export const enum HomeTabsNavigator {
   'Home' = 'Home',
   'AskQuestion' = 'AskQuestion',
   'ScheduleSession' = 'ScheduleSession',

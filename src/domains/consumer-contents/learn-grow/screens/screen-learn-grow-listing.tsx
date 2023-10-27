@@ -1,25 +1,19 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import LearnAndGrowCard from "../components/learn-grow-card";
-import { SafeAreaView } from "react-native-safe-area-context";
-import useListing from "../../hooks/use-listing";
-import globalStyles from "@app/assets/styles/global-styles";
-import { useNavigation } from "@react-navigation/native";
-import Header from "@app/common/components/Header";
-import { ChevronLeft } from "@app/svgs/Index";
-import { IconComponent } from "@app/types";
-import TitleText from "../../components/title-text";
-import SearchInput from "@app/common/components/Inputs/search-input";
-import HirePrac from "../../components/hire-prac";
-import FooterComponent from "../../components/footer";
-import { Wp } from "@app/helper/CustomResponsive";
-import Loader from "@app/common/components/loader";
-import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
-import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
+import { FlatList, View } from 'react-native';
+import React, { useState } from 'react';
+import LearnAndGrowCard from '../components/learn-grow-card';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import useListing from '../../hooks/use-listing';
+import { useNavigation } from '@react-navigation/native';
+import TitleText from '../../components/title-text';
+import HirePrac from '../../components/hire-prac';
+import FooterComponent from '../../components/footer';
+import { ListingAndDetailLoadingType } from '../../types';
+import LoadingScreen from '@app/modules/loading-screen';
+import globalStyles from '@app/assets/global-styles';
+import { Header, Loader, SearchInput } from '@app/components';
+import { Wp } from '@app/utils';
 
-type Props = {};
-
-const LearnAndGrowListing = (props: Props) => {
+const LearnAndGrowListing = () => {
   const [loading, setloading] = useState<ListingAndDetailLoadingType>({
     categories: true,
     listing: true,
@@ -27,7 +21,6 @@ const LearnAndGrowListing = (props: Props) => {
     hidingNextBtn: false,
   });
   const navigation = useNavigation();
-  const { deviceType } = useContext(DeviceContext);
   const {
     LoadNextBatch,
     // categories,
@@ -35,7 +28,7 @@ const LearnAndGrowListing = (props: Props) => {
     onSubmitTitleSearch,
     setSearchTitle,
     // setSelectedCategory,
-  } = useListing(setloading, "getResources", "ailments", "all");
+  } = useListing(setloading, 'getResources', 'ailments', 'all');
 
   return (
     <>
@@ -43,12 +36,7 @@ const LearnAndGrowListing = (props: Props) => {
         <LoadingScreen />
       ) : (
         <SafeAreaView style={globalStyles.bodyWrapper}>
-          <Header
-            Icon={ChevronLeft as IconComponent}
-            navigation={navigation}
-            pram="back"
-            headerType="New"
-          >
+          <Header navigation={navigation} pram="back" headerType="New">
             <TitleText>Learn & Grow</TitleText>
           </Header>
           <View style={globalStyles.topMargin}>
@@ -76,7 +64,7 @@ const LearnAndGrowListing = (props: Props) => {
               keyExtractor={(item) => item.id.toString()}
               showsVerticalScrollIndicator={false}
               ListFooterComponent={() => {
-                return FooterComponent(loading, LoadNextBatch, deviceType);
+                return FooterComponent(loading, LoadNextBatch);
               }}
             />
           )}
@@ -88,4 +76,3 @@ const LearnAndGrowListing = (props: Props) => {
 };
 
 export default LearnAndGrowListing;
-const styles = StyleSheet.create({});

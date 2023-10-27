@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { ConfigParams } from '../components/config-pram';
 import ContentService, { ContentServiceTypes } from '../service';
 import { Category } from '@app/types';
 import { GetRequestParams } from '@app/services/api-service';
+
+const defaultParams = [
+  {
+    key: 'limit',
+    value: 10,
+  },
+  {
+    key: 'page',
+    value: 1,
+  },
+];
 
 /**
  *
@@ -76,7 +86,7 @@ const useListing = (
       let ParamData: GetRequestParams;
       if (selectedCategory.title === 'All') {
         // if All is selected in Categories then simple call the Api with Default Config , no need for adding category key in api call
-        ParamData = [...ConfigParams];
+        ParamData = [...defaultParams];
         handleSoundBitesApiCall(ParamData);
       } else {
         // as soon other category get selected , Add the Param Category with selected value and ask api for data that falls into that category
@@ -85,7 +95,7 @@ const useListing = (
             key: 'category',
             value: selectedCategory.slug,
           },
-          ...ConfigParams,
+          ...defaultParams,
         ];
         handleSoundBitesApiCall(ParamData);
       }
@@ -105,7 +115,7 @@ const useListing = (
             key: 'search',
             value: searchTitle,
           },
-          ...ConfigParams,
+          ...defaultParams,
         ];
         handleSoundBitesApiCall(ParamData);
       } else {
@@ -119,7 +129,7 @@ const useListing = (
             key: 'category',
             value: selectedCategory.slug,
           },
-          ...ConfigParams,
+          ...defaultParams,
         ];
         handleSoundBitesApiCall(ParamData);
       }
@@ -154,14 +164,14 @@ const useListing = (
       // @ts-ignore
       typeOfCategory: typeOfCategory,
     });
-    handleSoundBitesApiCall(ConfigParams);
+    handleSoundBitesApiCall(defaultParams);
   }, []); // returning all the categories or selected category and listing data
 
   //* Case 4 : when user cleans the search input
 
   useEffect(() => {
     if (searchTitle === '') {
-      handleSoundBitesApiCall(ConfigParams);
+      handleSoundBitesApiCall(defaultParams);
     }
   }, [searchTitle]); // watching :- searchTitle state for changes
 

@@ -1,29 +1,20 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useEffect } from "react";
-import useResourcesStore from "../hooks/use-resources-store";
-import * as Animatable from "react-native-animatable";
-import { SafeAreaView } from "react-native-safe-area-context";
-import globalStyles from "@app/assets/styles/global-styles";
-import { ChevronLeft } from "@app/svgs/Index";
-import { IconComponent } from "@app/types";
-import { useNavigation } from "@react-navigation/native";
-import Header from "@app/common/components/Header";
-import SubDetail from "../../components/sub-detail";
-import BottomSheet from "../../components/bottom-sheet";
-import Detail from "../../components/detail";
-import {
-  DeviceContext,
-  DeviceType,
-} from "@app/context/Device-Type/DeviceTypeProvider";
-import { Nunito } from "@app/helper/FontWeight";
-import { Wp, hp, wp } from "@app/helper/CustomResponsive";
-import { AppColors } from "@app/constants/app-colors";
-import { decodeHTML, stripHTML } from "@app/helper/customFunction";
-import { Divider } from "react-native-paper";
-import ArticleCont from "../../home/components/article-cont";
-import { SvgUri } from "react-native-svg";
-import AppText from "@app/common/components/app-text";
-import Heading from "@app/common/components/heading";
+import { Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import useResourcesStore from '../hooks/use-resources-store';
+import * as Animatable from 'react-native-animatable';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import SubDetail from '../../components/sub-detail';
+import BottomSheet from '../../components/bottom-sheet';
+import Detail from '../../components/detail';
+import { Divider } from 'react-native-paper';
+import ArticleCont from '../../home/components/article-cont';
+import { SvgUri } from 'react-native-svg';
+import globalStyles from '@app/assets/global-styles';
+import { IsTablet, Wp, decodeHTML, hp, stripHTML, wp } from '@app/utils';
+import { Colors, Fonts } from '@app/constants';
+import { BottomSheetRef } from '../../types';
+import { AppText, Header, Heading } from '@app/components';
 
 const ListExtraction = (html: any) => {
   try {
@@ -32,11 +23,10 @@ const ListExtraction = (html: any) => {
     // Use the regular expression to extract list items
     const listItems = html.match(listItemRegex);
 
-    console.log(listItemRegex.test(html));
     // Clean up the extracted list items
     const list = listItems.map((item: any) => {
       // Remove HTML tags and extra whitespace
-      return item.replace(/<\/?[^>]+(>|$)/g, "").trim();
+      return item.replace(/<\/?[^>]+(>|$)/g, '').trim();
     });
     console.log(listItems);
 
@@ -47,29 +37,25 @@ const ListExtraction = (html: any) => {
 };
 
 const isInfoList = (item: any[]) => {
-  console.log("item coming at line 52", item);
   try {
     if (item.length > 0) {
-      console.log("true at line 54");
       return true;
     }
-    console.log("false at line 57");
     return false;
   } catch {
-    console.log("false at line 63");
     return false;
   }
 };
 
-function ListComp(data: string, title: string, deviceType: DeviceType) {
+function ListComp(data: string, title: string) {
   return (
     <View style={globalStyles.topMargin}>
       <Text
         style={{
-          fontFamily: Nunito(700),
-          fontSize: deviceType === "tablet" ? Wp(13) : Wp(20),
-          color: AppColors.Primary,
-          marginBottom: deviceType === "tablet" ? Wp(5) : Wp(10),
+          fontFamily: Fonts.Nunito['700'],
+          fontSize: IsTablet ? Wp(13) : Wp(20),
+          color: Colors.primary,
+          marginBottom: IsTablet ? Wp(5) : Wp(10),
         }}
       >
         {title}
@@ -81,7 +67,7 @@ function ListComp(data: string, title: string, deviceType: DeviceType) {
             <View
               key={index}
               style={{
-                flexDirection: "row",
+                flexDirection: 'row',
                 marginVertical: Wp(3),
               }}
             >
@@ -111,17 +97,16 @@ function ListComp(data: string, title: string, deviceType: DeviceType) {
           marginVertical: Wp(10),
         }}
       >
-        <Divider accessibilityLabelledBy accessibilityLanguage />
+        <Divider accessibilityLabelledBy="" accessibilityLanguage="" />
       </View>
     </View>
   );
 }
 
-const LearningAndGrowDetail = () => {
+const ScreenLearnAndGrowDetail = () => {
   const { resources } = useResourcesStore();
   const navigation = useNavigation();
   const ActionSheetRef = React.useRef<BottomSheetRef>(null);
-  const { deviceType } = useContext(DeviceContext);
 
   useEffect(() => {
     setTimeout(() => {
@@ -137,25 +122,20 @@ const LearningAndGrowDetail = () => {
         }}
       >
         <SafeAreaView style={[globalStyles.bodyWrapper]}>
-          <Header
-            Icon={ChevronLeft as IconComponent}
-            pram="back"
-            headerType="New"
-            navigation={navigation}
-          />
+          <Header pram="back" headerType="New" navigation={navigation} />
           <View
             style={{
               flex: 0.7,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <Animatable.View
               animation="slideInDown"
-              iterationCount={"infinite"}
+              iterationCount={'infinite'}
               direction="alternate-reverse"
               duration={2500}
-              easing={"ease-in-out"}
+              easing={'ease-in-out'}
             >
               <SvgUri
                 uri={resources?.icon as string}
@@ -166,12 +146,11 @@ const LearningAndGrowDetail = () => {
           </View>
 
           <SubDetail
-            AuthorName={" "}
+            AuthorName={' '}
             title={resources?.title as string}
-            description={(resources?.desc + "...") as string}
-            deviceType={deviceType}
+            description={(resources?.desc + '...') as string}
             openBottomSheet={() => ActionSheetRef.current?.OpenDetail()}
-            authorImg={""}
+            authorImg={''}
           />
           <BottomSheet ref={ActionSheetRef}>
             <Detail>
@@ -192,7 +171,7 @@ const LearningAndGrowDetail = () => {
                   style={{
                     fontFamily: Nunito(700),
                     fontSize: deviceType === "tablet" ? Wp(13) : Wp(20),
-                    color: AppColors.Primary,
+                    color: Colors.primary,
                     marginBottom: deviceType === "tablet" ? Wp(5) : Wp(10),
                   }}
                 >
@@ -202,7 +181,7 @@ const LearningAndGrowDetail = () => {
                 <Heading
                   size="md"
                   style={{
-                    marginBottom: deviceType === "tablet" ? Wp(5) : Wp(10),
+                    marginBottom: IsTablet ? Wp(5) : Wp(10),
                   }}
                 >
                   Overview
@@ -222,37 +201,29 @@ const LearningAndGrowDetail = () => {
 
                 {
                   // ts-ignore
-                  ListComp(resources?.causes as string, "Causes", deviceType)
+                  ListComp(resources?.causes as string, 'Causes')
                 }
 
                 {
                   // ts-ignore
-                  ListComp(
-                    resources?.symptoms as string,
-                    "Symptoms",
-                    deviceType
-                  )
+                  ListComp(resources?.symptoms as string, 'Symptoms')
                 }
                 {
                   // ts-ignore
-                  ListComp(
-                    resources?.treatment as string,
-                    "Treatment",
-                    deviceType
-                  )
+                  ListComp(resources?.treatment as string, 'Treatment')
                 }
               </View>
               <Text
                 style={{
-                  fontFamily: Nunito(700),
-                  fontSize: deviceType === "tablet" ? Wp(13) : Wp(20),
-                  color: AppColors.Primary,
-                  marginBottom: deviceType === "tablet" ? Wp(5) : Wp(10),
+                  fontFamily: Fonts.Nunito['700'],
+                  fontSize: IsTablet ? Wp(13) : Wp(20),
+                  color: Colors.primary,
+                  marginBottom: IsTablet ? Wp(5) : Wp(10),
                 }}
               >
                 Article
               </Text>
-              <ArticleCont setLoading={() => {}} />
+              <ArticleCont />
             </Detail>
           </BottomSheet>
         </SafeAreaView>
@@ -261,16 +232,4 @@ const LearningAndGrowDetail = () => {
   );
 };
 
-export default LearningAndGrowDetail;
-
-const styles = StyleSheet.create({
-  TitlesStyles: {
-    fontFamily: Nunito(700),
-    fontSize: Wp(22),
-    color: AppColors.Primary,
-  },
-  TitleStyles_tablet: {
-    fontSize: Wp(16),
-    textAlign: "center",
-  },
-});
+export default ScreenLearnAndGrowDetail;

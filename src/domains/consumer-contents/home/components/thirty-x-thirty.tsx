@@ -1,18 +1,12 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
-import ModelLayout from "@app/common/Models/Model-Layout";
-import globalStyles, {
-  globalStylesFunc,
-} from "@app/assets/styles/global-styles";
-import { AppText, Heading, MyButton } from "@app/common/components";
-import { IconX } from "tabler-icons-react-native";
-import { Wp } from "@app/helper/CustomResponsive";
-import {
-  DeviceContext,
-  DeviceType,
-} from "../../../../context/Device-Type/DeviceTypeProvider";
-import { AppColors } from "@app/constants";
-import { NavigationHelpers } from "@react-navigation/native";
+import { Image, Pressable, View } from 'react-native';
+import { NavigationHelpers } from '@react-navigation/native';
+import { AppText, Heading, ModalLayout, MyButton } from '@app/components';
+import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
+import { Colors } from '@app/constants';
+import { Wp } from '@app/utils';
+import { IconX } from 'tabler-icons-react-native';
+import { AppNavigator } from '@app/navigation/app-navigation';
+import { ThirtyXThirtyNavigator } from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
 
 const ThirtyXThirtyModel = ({
   navigation,
@@ -23,17 +17,11 @@ const ThirtyXThirtyModel = ({
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { deviceType } = useContext(DeviceContext);
-
   const hideModel = () => {
     setVisible(false);
   };
   return (
-    <ModelLayout
-      visible={visible}
-      setVisible={setVisible}
-      DeviceType={deviceType}
-    >
+    <ModalLayout visible={visible} setVisible={setVisible}>
       <View style={[globalStyles.flexRow, globalStyles.justifyBetween]}>
         <Heading size="lg">Join Challenge</Heading>
         <Pressable
@@ -45,16 +33,16 @@ const ThirtyXThirtyModel = ({
           ]}
           onPress={hideModel}
         >
-          <IconX size={Wp(20)} color={AppColors.Primary} />
+          <IconX size={Wp(20)} color={Colors.primary} />
         </Pressable>
       </View>
       <Image
-        source={require("../../imgs/model-img.png")}
+        source={require('../../imgs/model-img.png')}
         style={[
           {
-            width: "100%",
-            height: "50%",
-            resizeMode: "contain",
+            width: '100%',
+            height: '50%',
+            resizeMode: 'contain',
             marginTop: Wp(15),
           },
         ]}
@@ -81,18 +69,16 @@ const ThirtyXThirtyModel = ({
           globalStyles.py_10,
         ]}
         onPress={() => {
-          //! navigation set to thirty x thirty module
-          navigation.navigate("THIRTY-X-THIRTY-MODULE", {
-            screen: "LANDING-SCREEN",
+          // navigation set to thirty x thirty module
+          navigation.navigate(AppNavigator.ThirtyXThirty, {
+            screen: ThirtyXThirtyNavigator.LandingScreen,
           });
 
           hideModel();
         }}
       />
-    </ModelLayout>
+    </ModalLayout>
   );
 };
 
 export default ThirtyXThirtyModel;
-
-const styles = StyleSheet.create({});
