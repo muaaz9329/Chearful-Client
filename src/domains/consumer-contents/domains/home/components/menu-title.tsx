@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { IconArrowRight } from 'tabler-icons-react-native';
 import { AppNavigator } from '@app/navigation/app-navigation';
-import { ConsumerContentsNavigator } from '../../navigation/consumer-contents-navigation';
+import { ConsumerContentsNavigator } from '../../../navigation/consumer-contents-navigation';
 import { IsPhone, IsTablet, Wp } from '@app/utils';
 import { Colors, Fonts } from '@app/constants';
 

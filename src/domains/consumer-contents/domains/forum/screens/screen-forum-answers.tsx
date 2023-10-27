@@ -17,7 +17,7 @@ import ErrorRetry from '@app/components/error-retry';
 import type { ForumAnswer as ForumAnswerT } from '../types';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Header } from '@app/components';
-import TitleText from '../../components/title-text';
+import TitleText from '../../../components/title-text';
 
 export default function ForumAnswersScreen({
   route,

@@ -4,16 +4,16 @@ import useResourcesStore from '../hooks/use-resources-store';
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import SubDetail from '../../components/sub-detail';
-import BottomSheet from '../../components/bottom-sheet';
-import Detail from '../../components/detail';
+import SubDetail from '../../../components/sub-detail';
+import BottomSheet from '../../../components/bottom-sheet';
+import Detail from '../../../components/detail';
 import { Divider } from 'react-native-paper';
 import ArticleCont from '../../home/components/article-cont';
 import { SvgUri } from 'react-native-svg';
 import globalStyles from '@app/assets/global-styles';
 import { IsTablet, Wp, decodeHTML, hp, stripHTML, wp } from '@app/utils';
 import { Colors, Fonts } from '@app/constants';
-import { BottomSheetRef } from '../../types';
+import { BottomSheetRef } from '../../../types';
 import { AppText, Header, Heading } from '@app/components';
 
 const ListExtraction = (html: any) => {

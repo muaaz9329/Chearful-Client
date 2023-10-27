@@ -3,7 +3,7 @@ import { FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LearnAndGrowCard from '../../learn-grow/components/learn-grow-card';
 import { LearnAndGrowCardType } from '../../learn-grow/types';
-import ContentService from '../../service';
+import ContentService from '../../../service';
 
 const LearnAndGrowCont = () => {
   const navigation = useNavigation();

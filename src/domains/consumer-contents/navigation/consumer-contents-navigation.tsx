@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import ContentArticlesNavigation from '../articles/navigation/article-navigation';
-import ContentForumNavigation from '../forum/navigation/forum-navigation';
+import ContentArticlesNavigation from '../domains/articles/navigation/article-navigation';
+import ContentForumNavigation from '../domains/forum/navigation/forum-navigation';
 
 export const enum ConsumerContentsNavigator {
   Articles = 'Articles',

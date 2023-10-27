@@ -1,13 +1,13 @@
 import { XGap } from '@app/components';
-import ForumQuestionsList from '@app/domains/consumer-contents/forum/components/forum-questions-list';
-import ForumService from '@app/domains/consumer-contents/forum/forum-service';
-import { AdaptedForumQuestion } from '@app/domains/consumer-contents/forum/types';
+import ForumQuestionsList from '@app/domains/consumer-contents/domains/forum/components/forum-questions-list';
+import ForumService from '@app/domains/consumer-contents/domains/forum/forum-service';
+import { AdaptedForumQuestion } from '@app/domains/consumer-contents/domains/forum/types';
 import { AppNavigator } from '@app/navigation/app-navigation';
 import { RequestState } from '@app/services/api-service';
 import { wp } from '@app/utils';
 import { NavigationHelpers } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { ConsumerContentsNavigator } from '../../navigation/consumer-contents-navigation';
+import { ConsumerContentsNavigator } from '../../../navigation/consumer-contents-navigation';
 import { ForumNavigator } from '../../forum';
 
 const HomeForumCont = ({

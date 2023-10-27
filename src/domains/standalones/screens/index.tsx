@@ -2,7 +2,7 @@
 
 import { Image, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import HirePrac from '../../components/hire-prac';
+import HirePrac from '../../consumer-contents/components/hire-prac';
 import { ChearfulLogo } from '@app/assets/svgs';
 import { Colors } from '@app/constants';
 import globalStyles from '@app/assets/global-styles';

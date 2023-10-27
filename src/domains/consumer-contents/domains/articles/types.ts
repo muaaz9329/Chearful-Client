@@ -1,5 +1,3 @@
-import { Category } from '@app/types';
-
 export type TArticle = {
   id: number;
   slug: string;
@@ -19,11 +17,11 @@ export type TArticle = {
   arabic_title: string | null;
   arabic_description: string | null;
   arabic_slug: string | null;
-  categories: Category[];
+  categories: IArticleCategory[];
   total_likes: number;
   liked_by_user: boolean;
-  author: ISoundBitesAuthor;
-  webpage: string;
+  // author?: ISoundBitesAuthor;
+  webpage?: string;
 };
 
 interface IArticleCategory {

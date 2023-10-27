@@ -8,12 +8,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Colors } from '@app/constants/';
 import { Hp, IsTablet, hp } from '@app/utils';
-import { ForumNavigation } from '@app/domains/consumer-contents/forum';
+import { ForumNavigation } from '@app/domains/consumer-contents/domains/forum';
 import AuthNavigation from '@app/domains/authentication/navigation';
 import ThirtyXThirtyNavigation from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
 import ConsumerContentsNavigation from '@app/domains/consumer-contents/navigation/consumer-contents-navigation';
-import ScreenConsumerContentsHome from '@app/domains/consumer-contents/home';
-import ScreenScheduleSession from '@app/domains/consumer-contents/schedule-session/screens';
+import ScreenConsumerContentsHome from '@app/domains/consumer-contents/domains/home';
+import ScreenScheduleSession from '@app/domains/standalones/screens';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

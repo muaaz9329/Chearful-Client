@@ -18,7 +18,7 @@ import { ChearfulLogo } from '@app/assets/svgs';
 import { Colors } from '@app/constants';
 import { Wp } from '@app/utils';
 import { AppNavigator } from '@app/navigation/app-navigation';
-import { ConsumerContentsNavigator } from '../navigation/consumer-contents-navigation';
+import { ConsumerContentsNavigator } from '../../navigation/consumer-contents-navigation';
 
 const ScreenConsumerContentsHome = ({
   navigation,

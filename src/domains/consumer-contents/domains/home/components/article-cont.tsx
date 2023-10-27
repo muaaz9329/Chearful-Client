@@ -3,7 +3,7 @@ import { FlatList } from 'react-native';
 import { TArticle } from '../../articles/types';
 import ArticleCard from '../../articles/components/article-card';
 import { Loader } from '@app/components';
-import ContentService from '../../service';
+import ContentService from '../../../service';
 
 const ArticleCont = () => {
   const [articles, setArticles] = useState<TArticle[]>([]);

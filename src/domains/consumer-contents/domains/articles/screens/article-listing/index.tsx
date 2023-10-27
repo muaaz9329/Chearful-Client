@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import TitleText from '../../../components/title-text';
-import FooterComponent from '../../../components/footer';
-import useListing from '../../../hooks/use-listing';
+import TitleText from '../../../../components/title-text';
+import FooterComponent from '../../../../components/footer';
+import useListing from '../../../../hooks/use-listing';
 import NoArticle from './components/no-article';
-import HirePrac from '../../../components/hire-prac';
+import HirePrac from '../../../../components/hire-prac';
 import LoadingScreen from '@app/modules/loading-screen';
 import globalStyles from '@app/assets/global-styles';
 import { CategoryFilter, Header, Loader, SearchInput } from '@app/components';

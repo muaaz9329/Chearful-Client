@@ -1,9 +1,9 @@
 import { ImageBackground } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SubDetail from '../../../components/sub-detail';
-import BottomSheet from '../../../components/bottom-sheet';
-import Detail from '../../../components/detail';
+import SubDetail from '../../../../components/sub-detail';
+import BottomSheet from '../../../../components/bottom-sheet';
+import Detail from '../../../../components/detail';
 import useArticleDetail from './hooks/use-article-detail';
 import { NavigationHelpers } from '@react-navigation/native';
 import LoadingScreen from '@app/modules/loading-screen';
