@@ -1,12 +1,14 @@
-import { StyleSheet, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { ArticleCard } from '@app/common/components/Cards';
-import ContentService from '@app/services/content-services';
-import Loader from '@app/common/components/loader';
+import { FlatList } from 'react-native';
+import { TArticle } from '../../articles/types';
+import ArticleCard from '../../articles/components/article-card';
+import { Loader } from '@app/components';
+import ContentService from '../../service';
 
-const ArticleCont = ({ setLoading }: { setLoading: any }) => {
+const ArticleCont = () => {
   const [articles, setArticles] = useState<TArticle[]>([]);
   const [loading, setloading] = useState(false);
+
   useEffect(() => {
     setloading(true);
     ContentService.getArticles({
@@ -49,5 +51,3 @@ const ArticleCont = ({ setLoading }: { setLoading: any }) => {
 };
 
 export default ArticleCont;
-
-const styles = StyleSheet.create({});

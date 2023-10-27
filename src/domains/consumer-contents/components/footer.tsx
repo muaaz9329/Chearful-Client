@@ -1,15 +1,14 @@
-import { View } from "react-native-animatable";
-import Loader from "../../../common/components/loader";
-import { Pressable, StyleSheet } from "react-native";
-import { IconArrowDown } from "tabler-icons-react-native";
-import { DeviceType } from "@app/context/Device-Type/DeviceTypeProvider";
-import { Wp } from "@app/helper/CustomResponsive";
-import { AppColors } from "@app/constants/app-colors";
+import { View } from 'react-native-animatable';
+import { ListingAndDetailLoadingType } from '../types';
+import { Loader } from '@app/components';
+import { Pressable, StyleSheet } from 'react-native';
+import { IconArrowDown } from 'tabler-icons-react-native';
+import { IsPhone, Wp } from '@app/utils';
+import { Colors } from '@app/constants';
 
 function FooterComponent(
   loading: ListingAndDetailLoadingType,
   LoadNextBatch: () => void,
-  deviceType?: DeviceType
 ): React.ReactElement<any, any> | null {
   return (
     <View style={styles.NextArrow}>
@@ -19,8 +18,8 @@ function FooterComponent(
         loading.hidingNextBtn || (
           <Pressable onPress={LoadNextBatch}>
             <IconArrowDown
-              size={deviceType === "mobile" ? Wp(30) : Wp(15)}
-              color={AppColors.Primary}
+              size={IsPhone ? Wp(30) : Wp(15)}
+              color={Colors.primary}
             />
           </Pressable>
         )
@@ -34,7 +33,7 @@ export default FooterComponent;
 const styles = StyleSheet.create({
   NextArrow: {
     marginVertical: Wp(10),
-    alignSelf: "center",
-    justifyContent: "center",
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });

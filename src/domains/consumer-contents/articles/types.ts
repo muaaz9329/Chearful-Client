@@ -1,3 +1,5 @@
+import { Category } from '@app/types';
+
 export type TArticle = {
   id: number;
   slug: string;

@@ -1,18 +1,15 @@
-import { StyleSheet } from "react-native";
-import React, { forwardRef, useContext, useImperativeHandle } from "react";
-import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
-import { Wp } from "@app/helper/CustomResponsive";
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { StyleSheet } from 'react-native';
+import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
+import { ScrollView } from 'react-native-gesture-handler';
+import { IsTablet, Wp } from '@app/utils';
 
-import { ScrollView } from "react-native-gesture-handler";
-
-import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 type Props = {
   children?: React.ReactNode;
 };
 
 const BottomSheet = forwardRef(({ children }: Props, ref) => {
   const actionSheetRef = React.useRef<ActionSheetRef>(null);
-  const { deviceType } = useContext(DeviceContext);
 
   useImperativeHandle(ref, () => ({
     OpenDetail: () => {
@@ -33,9 +30,7 @@ const BottomSheet = forwardRef(({ children }: Props, ref) => {
     >
       <ScrollView
         style={[{ flex: 1 }]}
-        contentContainerStyle={[
-          deviceType === "tablet" && { alignItems: "center" },
-        ]}
+        contentContainerStyle={[IsTablet && { alignItems: 'center' }]}
         showsVerticalScrollIndicator={false}
       >
         {children}
@@ -48,10 +43,10 @@ export default BottomSheet;
 
 const styles = StyleSheet.create({
   BottomSheetStyle: {
-    height: "80%",
+    height: '80%',
     paddingVertical: Wp(20),
     borderTopRightRadius: Wp(20),
     borderTopLeftRadius: Wp(20),
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
 });
