@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MenuTitle from './components/menu-title';
-// import SoundbitesCont from './components/soundbites-cont';
+import SoundbitesCont from './components/soundbites-cont';
 import ArticleCont from './components/article-cont';
 import HomeForumCont from './components/forum-cont';
 import { NavigationHelpers } from '@react-navigation/native';
@@ -53,7 +53,10 @@ const ScreenConsumerContentsHome = ({
     }
   }, []);
   return (
-    <SafeAreaView style={[globalStyles.bodyWrapper]} edges={['top']}>
+    <SafeAreaView
+      style={[globalStyles.bodyWrapper]}
+      edges={['top', 'right', 'left']}
+    >
       <ThirtyXThirtyModel
         visible={thirtyModel}
         setVisible={setThirtyModel}
@@ -86,7 +89,7 @@ const ScreenConsumerContentsHome = ({
               marginTop: Wp(10),
             }}
           >
-            {/* <SoundbitesCont /> */}
+            <SoundbitesCont />
           </View>
         </View>
         <View style={globalStyles.topMargin}>

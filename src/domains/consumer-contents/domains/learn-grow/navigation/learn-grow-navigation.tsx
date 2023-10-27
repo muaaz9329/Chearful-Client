@@ -7,7 +7,7 @@ export const enum LearnGrowNavigator {
   LearnGrowDetail = 'LEARN-GROW-DETAIL',
 }
 
-const LearnGrowNavigation = () => {
+const ContentLearnGrowNavigation = () => {
   const Stack = createStackNavigator();
   return (
     <Stack.Navigator
@@ -28,4 +28,4 @@ const LearnGrowNavigation = () => {
   );
 };
 
-export default LearnGrowNavigation;
+export default ContentLearnGrowNavigation;

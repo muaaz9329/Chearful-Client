@@ -287,198 +287,200 @@ const TypeOfChallenge = ({
 
   return (
     <SafeAreaView style={[globalStyles.bodyWrapper]}>
-      <Header pram="back" />
-      <View
-        style={[
-          globalStyles.flexRow,
-          globalStyles.alignCenter,
-          globalStyles.justifyBetween,
-          globalStyles.mt_10,
-        ]}
-      >
-        <Heading size="md">
-          {`${currentChallenge}/${numberOfChallenge}`} Challenges
-        </Heading>
-        <MyButton
-          title="Skip"
-          style={[globalStyles.bg_cont]}
-          textStyles={{
-            color: Colors.primary,
-          }}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      </View>
-
-      <View
-        style={[
-          globalStyles.bg_cont,
-          globalStylesFunc.py(8),
-          globalStyles.alignCenter,
-          globalStyles.justifyCenter,
-          globalStyles.flexRow,
-          globalStylesFunc.br(12),
-          globalStyles.mt_10,
-        ]}
-      >
-        <IconDiamond
-          size={IsTablet ? Wp(15) : Wp(20)}
-          color={Colors.primary}
-          style={{ marginRight: IsTablet ? Wp(3) : Wp(6) }}
-        />
-        <Heading size="sm">1000 Points</Heading>
-      </View>
-
-      <View
-        style={[
-          globalStyles.flexRow,
-          globalStyles.justifyBetween,
-          globalStyles.alignCenter,
-          globalStyles.mt_15,
-        ]}
-      >
-        {question?.assessment_groups[0].arrQuestions.map((item, index) => {
-          if (item.question_type === 'image') {
-            return (
-              <QuestionContainer
-                key={index}
-                title={item.question_title}
-                bgColor="#C2C9EE"
-                onPress={() => {
-                  setType('image');
-                  changeBorder(index);
-                }}
-                border={select[index].border}
-              />
-            );
-          } else if (item.question_type === 'video') {
-            return (
-              <QuestionContainer
-                key={index}
-                title={item.question_title}
-                bgColor="#C2EEC7"
-                onPress={() => {
-                  setType('video');
-                  changeBorder(index);
-                }}
-                border={select[index].border}
-              />
-            );
-          } else if (item.question_type === 'challenge_accepted') {
-            return (
-              <QuestionContainer
-                key={index}
-                title={item.question_title}
-                bgColor="#C2EEEB"
-                onPress={() => {
-                  setType('challenge_accepted');
-                  changeBorder(index);
-                }}
-                border={select[index].border}
-              />
-            );
-          } else {
-            return (
-              <QuestionContainer
-                key={index}
-                title={item.question_title}
-                bgColor="#C2EEEB"
-                onPress={() => {
-                  setType('text');
-                  changeBorder(index);
-                }}
-                border={select[index].border}
-              />
-            );
-          }
-        })}
-      </View>
-      {type === 'text' && (
-        <Animated.View entering={FadeIn}>
-          <TextInput
-            style={[
-              styles.textInputStyles,
-              IsTablet && styles.textInputStyles_tablet,
-              IsTablet && globalStylesFunc.p(8),
-            ]}
-            placeholder="Write an Answer"
-            multiline={true}
-            placeholderTextColor={Colors.primary}
-            onChangeText={(text) => setText(text)}
-          />
-        </Animated.View>
-      )}
-      {(type === 'image' || type == 'video') && (
-        <Animated.View entering={FadeIn}>
-          <Pressable
-            style={[
-              globalStylesFunc.H(180),
-              styles.uploadCont,
-              globalStyles.alignCenter,
-              globalStyles.justifyCenter,
-              IsTablet && styles.textInputStyles_tablet,
-            ]}
-            onPress={uploadMedia}
-          >
-            <IconCloudUpload
-              size={IsTablet ? Wp(40) : Wp(80)}
-              color={Colors.primary}
-            />
-            <Heading size="md">
-              {singleFile.name
-                ? singleFile.name.length > 20
-                  ? singleFile.name.slice(0, 20) + '...'
-                  : singleFile.name
-                : `Upload ${type === 'image' ? 'Image' : 'Video'} `}
-            </Heading>
-          </Pressable>
-        </Animated.View>
-      )}
-
-      {type === 'challenge_accepted' && (
-        <Animated.View entering={FadeIn}>
+      <View>
+        <Header pram="back" />
+        <View
+          style={[
+            globalStyles.flexRow,
+            globalStyles.alignCenter,
+            globalStyles.justifyBetween,
+            globalStyles.mt_10,
+          ]}
+        >
+          <Heading size="md">
+            {`${currentChallenge}/${numberOfChallenge}`} Challenges
+          </Heading>
           <MyButton
-            title="Challenge Accepted"
-            style={[globalStyles.my_18, globalStylesFunc.br(12)]}
-            onPress={handleApi}
-          ></MyButton>
-        </Animated.View>
-      )}
+            title="Skip"
+            style={[globalStyles.bg_cont]}
+            textStyles={{
+              color: Colors.primary,
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
+        </View>
 
-      <View
-        style={[
-          globalStyles.flexRow,
-          globalStyles.justifyBetween,
-          globalStyles.mt_15,
-        ]}
-      >
-        <MyButton
-          title="Cancel"
+        <View
           style={[
             globalStyles.bg_cont,
-            globalStyles.px_18,
-            globalStylesFunc.py(10),
+            globalStylesFunc.py(8),
+            globalStyles.alignCenter,
+            globalStyles.justifyCenter,
+            globalStyles.flexRow,
             globalStylesFunc.br(12),
+            globalStyles.mt_10,
           ]}
-          textStyles={{
-            color: Colors.primary,
-          }}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
+        >
+          <IconDiamond
+            size={IsTablet ? Wp(15) : Wp(20)}
+            color={Colors.primary}
+            style={{ marginRight: IsTablet ? Wp(3) : Wp(6) }}
+          />
+          <Heading size="sm">1000 Points</Heading>
+        </View>
 
-        <MyButton
-          title="Upload"
+        <View
           style={[
-            ,
-            globalStyles.px_18,
-            globalStylesFunc.py(10),
-            globalStylesFunc.br(12),
+            globalStyles.flexRow,
+            globalStyles.justifyBetween,
+            globalStyles.alignCenter,
+            globalStyles.mt_15,
           ]}
-          onPress={handleApi}
-        />
+        >
+          {question?.assessment_groups[0].arrQuestions.map((item, index) => {
+            if (item.question_type === 'image') {
+              return (
+                <QuestionContainer
+                  key={index}
+                  title={item.question_title}
+                  bgColor="#C2C9EE"
+                  onPress={() => {
+                    setType('image');
+                    changeBorder(index);
+                  }}
+                  border={select[index].border}
+                />
+              );
+            } else if (item.question_type === 'video') {
+              return (
+                <QuestionContainer
+                  key={index}
+                  title={item.question_title}
+                  bgColor="#C2EEC7"
+                  onPress={() => {
+                    setType('video');
+                    changeBorder(index);
+                  }}
+                  border={select[index].border}
+                />
+              );
+            } else if (item.question_type === 'challenge_accepted') {
+              return (
+                <QuestionContainer
+                  key={index}
+                  title={item.question_title}
+                  bgColor="#C2EEEB"
+                  onPress={() => {
+                    setType('challenge_accepted');
+                    changeBorder(index);
+                  }}
+                  border={select[index].border}
+                />
+              );
+            } else {
+              return (
+                <QuestionContainer
+                  key={index}
+                  title={item.question_title}
+                  bgColor="#C2EEEB"
+                  onPress={() => {
+                    setType('text');
+                    changeBorder(index);
+                  }}
+                  border={select[index].border}
+                />
+              );
+            }
+          })}
+        </View>
+        {type === 'text' && (
+          <Animated.View entering={FadeIn}>
+            <TextInput
+              style={[
+                styles.textInputStyles,
+                IsTablet && styles.textInputStyles_tablet,
+                IsTablet && globalStylesFunc.p(8),
+              ]}
+              placeholder="Write an Answer"
+              multiline={true}
+              placeholderTextColor={Colors.primary}
+              onChangeText={(text) => setText(text)}
+            />
+          </Animated.View>
+        )}
+        {(type === 'image' || type == 'video') && (
+          <Animated.View entering={FadeIn}>
+            <Pressable
+              style={[
+                globalStylesFunc.H(180),
+                styles.uploadCont,
+                globalStyles.alignCenter,
+                globalStyles.justifyCenter,
+                IsTablet && styles.textInputStyles_tablet,
+              ]}
+              onPress={uploadMedia}
+            >
+              <IconCloudUpload
+                size={IsTablet ? Wp(40) : Wp(80)}
+                color={Colors.primary}
+              />
+              <Heading size="md">
+                {singleFile.name
+                  ? singleFile.name.length > 20
+                    ? singleFile.name.slice(0, 20) + '...'
+                    : singleFile.name
+                  : `Upload ${type === 'image' ? 'Image' : 'Video'} `}
+              </Heading>
+            </Pressable>
+          </Animated.View>
+        )}
+
+        {type === 'challenge_accepted' && (
+          <Animated.View entering={FadeIn}>
+            <MyButton
+              title="Challenge Accepted"
+              style={[globalStyles.my_18, globalStylesFunc.br(12)]}
+              onPress={handleApi}
+            ></MyButton>
+          </Animated.View>
+        )}
+
+        <View
+          style={[
+            globalStyles.flexRow,
+            globalStyles.justifyBetween,
+            globalStyles.mt_15,
+          ]}
+        >
+          <MyButton
+            title="Cancel"
+            style={[
+              globalStyles.bg_cont,
+              globalStyles.px_18,
+              globalStylesFunc.py(10),
+              globalStylesFunc.br(12),
+            ]}
+            textStyles={{
+              color: Colors.primary,
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
+
+          <MyButton
+            title="Upload"
+            style={[
+              ,
+              globalStyles.px_18,
+              globalStylesFunc.py(10),
+              globalStylesFunc.br(12),
+            ]}
+            onPress={handleApi}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );

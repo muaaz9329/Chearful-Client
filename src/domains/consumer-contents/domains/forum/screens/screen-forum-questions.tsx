@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 import useForumStore from '../hooks/use-forum-store';
 import ForumService from '../forum-service';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet, View } from 'react-native';
-import { Mulish, Wp } from '@app/utils';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { IsPhone, IsTablet, LinkingText, Mulish, Wp } from '@app/utils';
 import globalStyles from '@app/assets/global-styles';
 import Loader from '@app/components/loader';
 import ForumQuestionsList from '../components/forum-questions-list';
@@ -18,6 +18,7 @@ import SearchInput from '@app/components/search-input';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import CategoryFilter from '@app/components/category-filter';
 import { ForumNavigator } from '../navigation/forum-navigation';
+import { Header } from '@app/components';
 
 export default function ForumQuestionsScreen({
   navigation,
@@ -108,8 +109,8 @@ export default function ForumQuestionsScreen({
   }, [triggerer]);
 
   return (
-    <SafeAreaView style={globalStyles.bodyWrapper}>
-      {/* <Header headerType="New" pram="back" navigation={navigation}>
+    <SafeAreaView style={globalStyles.bodyWrapper} edges={['top']}>
+      <Header headerType="New" pram="back" navigation={navigation}>
         <View
           style={{
             flex: 1,
@@ -124,9 +125,9 @@ export default function ForumQuestionsScreen({
               flexDirection: 'row',
               alignItems: 'center',
               backgroundColor: Colors.primary,
-              paddingHorizontal: deviceType == 'tablet' ? Wp(8) : Wp(12),
-              borderRadius: deviceType == 'tablet' ? Wp(8) : Wp(10),
-              paddingVertical: deviceType == 'mobile' ? Wp(14) : Wp(8),
+              paddingHorizontal: IsTablet ? Wp(8) : Wp(12),
+              borderRadius: IsTablet ? Wp(8) : Wp(10),
+              paddingVertical: IsPhone ? Wp(14) : Wp(8),
             }}
             onPress={() => {
               LinkingText('https://chearful.com/community');
@@ -134,17 +135,17 @@ export default function ForumQuestionsScreen({
           >
             <Text
               style={{
-                color: Colors.White,
+                color: Colors.white,
 
                 fontFamily: Mulish(700),
-                fontSize: deviceType == 'tablet' ? Wp(10) : Wp(16),
+                fontSize: IsTablet ? Wp(10) : Wp(16),
               }}
             >
               Ask a Question
             </Text>
           </Pressable>
         </View>
-      </Header> */}
+      </Header>
 
       {/* Search Component */}
       <View style={styles.searchBox}>
@@ -227,7 +228,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: Wp(20),
-    paddingVertical: Wp(16),
+    paddingTop: Wp(16),
   },
   title: {
     fontSize: Wp(20),

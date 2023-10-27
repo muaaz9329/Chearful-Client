@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { Linking } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Colors } from '@app/constants/';
 import { Hp, IsTablet, hp } from '@app/utils';
@@ -14,29 +12,24 @@ import ThirtyXThirtyNavigation from '@app/domains/events/thirty-x-thirty/navigat
 import ConsumerContentsNavigation from '@app/domains/consumer-contents/navigation/consumer-contents-navigation';
 import ScreenConsumerContentsHome from '@app/domains/consumer-contents/domains/home';
 import ScreenScheduleSession from '@app/domains/standalones/screens';
+import { WebLinkTabButton } from './components';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-/**
- * A touchable button that opens the given url in browser.
- * @description Used in bottom tab
- */
-const WebLinkTabButton = ({
-  url,
-  iconName,
-  icon: Icon = IonIcon,
-  color,
-}: {
-  url: string;
-  iconName: string;
-  color: string;
-  icon?: any;
-}) => (
-  <TouchableOpacity onPress={() => Linking.openURL(url)}>
-    <Icon name={iconName} size={30} color={color} />
-  </TouchableOpacity>
-);
+export const enum AppNavigator {
+  'HomeTabs' = 'HomeTabs',
+  'Auth' = 'Auth',
+  'ThirtyXThirty' = 'ThirtyXThirty',
+  'ConsumerContents' = 'ConsumerContents',
+}
+
+export const enum HomeTabsNavigator {
+  'Home' = 'Home',
+  'AskQuestion' = 'AskQuestion',
+  'ScheduleSession' = 'ScheduleSession',
+  'Profile' = 'Profile',
+}
 
 /*
   ---------------- Navigators Here ----------------
@@ -155,18 +148,4 @@ export default function AppNavigation() {
       />
     </Stack.Navigator>
   );
-}
-
-export const enum AppNavigator {
-  'HomeTabs' = 'HomeTabs',
-  'Auth' = 'Auth',
-  'ThirtyXThirty' = 'ThirtyXThirty',
-  'ConsumerContents' = 'ConsumerContents',
-}
-
-export const enum HomeTabsNavigator {
-  'Home' = 'Home',
-  'AskQuestion' = 'AskQuestion',
-  'ScheduleSession' = 'ScheduleSession',
-  'Profile' = 'Profile',
 }

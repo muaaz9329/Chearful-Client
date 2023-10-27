@@ -15,7 +15,16 @@ const HirePrac = ({
         IsTablet && styles.SignupbtnTablet,
         {
           position: position,
-          bottom: position === 'absolute' ? Wp(20) : 0,
+          bottom: position === 'absolute' ? Wp(39) : 0,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 3,
+          },
+          shadowOpacity: 0.27,
+          shadowRadius: 4.65,
+
+          elevation: 6,
         },
       ]}
       onPress={() => {

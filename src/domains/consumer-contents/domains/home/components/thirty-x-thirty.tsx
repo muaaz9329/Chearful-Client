@@ -37,7 +37,7 @@ const ThirtyXThirtyModel = ({
         </Pressable>
       </View>
       <Image
-        source={require('../../imgs/model-img.png')}
+        source={require('../../../imgs/model-img.png')}
         style={[
           {
             width: '100%',

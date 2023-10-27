@@ -1,6 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import ContentArticlesNavigation from '../domains/articles/navigation/article-navigation';
 import ContentForumNavigation from '../domains/forum/navigation/forum-navigation';
+import ContentLearnGrowNavigation from '../domains/learn-grow/navigation/learn-grow-navigation';
+import ContentSoundbitesNavigation from '../domains/sound-bites/navigation/soundbites-navigation-stack';
 
 export const enum ConsumerContentsNavigator {
   Articles = 'Articles',
@@ -22,14 +24,14 @@ export default function ConsumerContentsNavigation() {
         name={ConsumerContentsNavigator.Articles}
         component={ContentArticlesNavigation}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name={ConsumerContentsNavigator.SoundBites}
-        component={ContentSoundBitesNavigation}
-      /> */}
-      {/* <Stack.Screen
+        component={ContentSoundbitesNavigation}
+      />
+      <Stack.Screen
         name={ConsumerContentsNavigator.LearnAndGrow}
-        component={ContentLearnAndGrowNavigation}
-      /> */}
+        component={ContentLearnGrowNavigation}
+      />
       <Stack.Screen
         name={ConsumerContentsNavigator.Forum}
         component={ContentForumNavigation}
