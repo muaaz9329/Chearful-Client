@@ -5,7 +5,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { Colors } from '@app/constants/';
-import { Hp, IsTablet, hp } from '@app/utils';
+import { Hp, IsTablet, hp, wp } from '@app/utils';
 import { ForumNavigation } from '@app/domains/consumer-contents/domains/forum';
 import AuthNavigation from '@app/domains/authentication/navigation';
 import ThirtyXThirtyNavigation from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
@@ -13,6 +13,7 @@ import ConsumerContentsNavigation from '@app/domains/consumer-contents/navigatio
 import ScreenConsumerContentsHome from '@app/domains/consumer-contents/domains/home';
 import ScreenScheduleSession from '@app/domains/standalones/screens';
 import { WebLinkTabButton } from './components';
+import { Platform } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -89,7 +90,11 @@ const RootTabNavigation = () => {
         headerShown: false,
         tabBarStyle: {
           paddingVertical: Hp(8),
-          height: IsTablet ? hp(6) : hp(11),
+          height: IsTablet
+            ? hp(6)
+            : Platform.OS === 'android'
+            ? wp(15)
+            : hp(11),
         },
         tabBarActiveTintColor: Colors.primary,
       })}

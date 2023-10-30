@@ -25,18 +25,17 @@ import {
 import { ChearfulLogo } from '@app/assets/svgs/';
 import { AuthNavigator } from '../../navigation';
 import { AppNavigator } from '@app/navigation/app-navigation';
+import { Header } from '@app/components';
 
 interface props {
   navigation: NavigationHelpers<any, any>;
-  route?:{
-    params:{
-      redirect: string,
-      module:string
-    }
-  }
+  route?: {
+    params: {
+      redirect: string;
+      module: string;
+    };
+  };
 }
-
-
 
 const Login = ({ navigation, route }: props) => {
   const [param, setParam] = useState<
@@ -130,13 +129,13 @@ const Login = ({ navigation, route }: props) => {
                 screen: param?.screen,
               }),
             ); //? if param is object then it will redirect to the screen which is passed in param
-            //@ts-ignore
-            console.log(
-              'I am going to redirect to module ' +
-                param?.module +
-                ' and screen ' +
-                param?.screen,
-            );
+            // //@ts-ignore
+            // console.log(
+            //   'I am going to redirect to module ' +
+            //     param?.module +
+            //     ' and screen ' +
+            //     param?.screen,
+            // );
           } //? if module and screen is passed in param then it will redirect to the screen which is passed in param
           else {
             // *otherwise it will redirect to the screen which is passed in param
@@ -202,6 +201,10 @@ const Login = ({ navigation, route }: props) => {
   return (
     <View style={styles.Container}>
       <KeyboardAwareScrollView enableOnAndroid={true}>
+        <View style={{ position: 'absolute', top: 16, left: 20 }}>
+          <Header navigation={navigation} pram="back" />
+        </View>
+
         <View style={[styles.FirstCont, IsTablet && { height: hp(34) }]}>
           <View
             style={{ justifyContent: 'space-between', alignItems: 'center' }}

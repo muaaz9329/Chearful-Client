@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Banner from './components/banner';
@@ -24,6 +24,7 @@ import { ThirtyXThirtyNavigator } from '../../navigation/thirty-x-thirty-navigat
 const ChallengeHome = () => {
   const navigation = useNavigation();
   const { setQuizAssessment } = useQuizAssessment();
+  const challengeNo = useRef(0);
 
   const handleNavigation = (questionId: number, assessmentId: number) => {
     // @ts-ignore
@@ -87,6 +88,8 @@ const ChallengeHome = () => {
   useEffect(() => {
     if (assessment.status === 'loaded') {
       setNumberOfChallenge(assessment.assessments.length);
+
+      challengeNo.current = 0;
     }
   }, [assessment]);
 
@@ -140,7 +143,12 @@ const ChallengeHome = () => {
               <View style={styles.assessmentWrapper}>
                 {assessment.assessments?.map((item: Assessment, index) => {
                   if (item.assesment.assessment_type === 'challenge') {
-                    const assessmentData = deserializeAssessment(item, index);
+                    const assessmentData = deserializeAssessment(
+                      item,
+                      challengeNo.current + 1,
+                    );
+                    challengeNo.current += 1;
+
                     return (
                       <ChallengeBox
                         key={index}

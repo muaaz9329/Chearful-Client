@@ -77,6 +77,7 @@ function ListComp(data: string, title: string) {
                 style={{
                   flex: 1,
                   paddingLeft: Wp(5),
+                  color: Colors.black,
                 }}
               >{`${decodeHTML(item)}`}</Text>
             </View>

@@ -30,10 +30,6 @@ const ArticleListing = () => {
     setSelectedCategory,
   } = useListing(setLoading, 'getArticles', 'articles', 'article');
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <>
       {loading.categories && loading.listing ? (

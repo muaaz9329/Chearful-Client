@@ -30,8 +30,12 @@ const ScreenArticleDetail = ({ route }: Props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      //ts-ignore
-      ActionSheetRef.current?.OpenDetail();
+      try {
+        //@ts-ignore
+        ActionSheetRef.current.OpenDetail();
+      } catch (e) {
+        console.log(e);
+      }
     }, 700);
   }, []); //? For opening Action sheet as soon as the page is loaded , Varun Req
 
@@ -70,7 +74,7 @@ const ScreenArticleDetail = ({ route }: Props) => {
               title={data.title}
               openBottomSheet={() => ActionSheetRef.current?.OpenDetail()}
               TextStyle="Article"
-              authorImg={data.author?.avatar as string}
+              authorImg={data?.author?.avatar as string}
             />
 
             <BottomSheet ref={ActionSheetRef}>
@@ -85,7 +89,7 @@ const ScreenArticleDetail = ({ route }: Props) => {
                 description={data.description}
                 categories={data.categories}
                 views={data.views}
-                authorImg={data.author?.avatar as string}
+                authorImg={data?.author?.avatar as string}
                 link={data?.webpage}
               />
             </BottomSheet>
