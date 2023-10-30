@@ -28,16 +28,22 @@ import { AppNavigator } from '@app/navigation/app-navigation';
 
 interface props {
   navigation: NavigationHelpers<any, any>;
-  route?: {
-    params: {
-      redirect: string;
-    };
-  };
+  route?:{
+    params:{
+      redirect: string,
+      module:string
+    }
+  }
 }
-const Login = ({ navigation, route }: props) => {
-  const [param, setParam] = useState<'back' | string>('back');
 
-  const { Success, error, setLoginSuccess, setLoginError } = useLoginStore();
+
+
+const Login = ({ navigation, route }: props) => {
+  const [param, setParam] = useState<
+    'back' | string | { module: string; screen: string }
+  >('back');
+
+  const { error, setLoginSuccess, setLoginError } = useLoginStore();
 
   const [InputBoxBorders, setInputBoxBorders] = useState<string>('#EFF3F2');
   const [validation, setValidation] = useState({
@@ -91,9 +97,8 @@ const Login = ({ navigation, route }: props) => {
       LoginServices.setLogin({
         email: User.email,
         password: User.password,
-        onSuccess: ({ data, message }) => {
+        onSuccess: ({ data }) => {
           // If changing this key in future, change it at all used places probably in getAuthHeaders function
-
           if (data.role === 'doctor') {
             Toast.show({
               type: 'ErrorToast',
@@ -112,11 +117,31 @@ const Login = ({ navigation, route }: props) => {
           });
 
           if (param === 'back') {
-            navigation.goBack(); //? if param is back then it will redirect to the previous screen
-          } else {
-            //* otherwise it will redirect to the screen which is passed in param
-            // !remove the login screen from stack and redirect to the screen which is passed in param
-            navigation.dispatch(StackActions.replace(param));
+            //? if param is back then it will redirect to the previous screen
+            navigation.goBack();
+          }
+          //@ts-ignore
+          else if (param?.module && param?.screen) {
+            //@ts-ignore
+            navigation.dispatch(
+              //@ts-ignore
+              StackActions.replace(param?.module, {
+                //@ts-ignore
+                screen: param?.screen,
+              }),
+            ); //? if param is object then it will redirect to the screen which is passed in param
+            //@ts-ignore
+            console.log(
+              'I am going to redirect to module ' +
+                param?.module +
+                ' and screen ' +
+                param?.screen,
+            );
+          } //? if module and screen is passed in param then it will redirect to the screen which is passed in param
+          else {
+            // *otherwise it will redirect to the screen which is passed in param
+            // remove the login screen from stack and redirect to the screen which is passed in param
+            navigation.dispatch(StackActions.replace(param as string));
           }
         },
         onFailure: ({ message }) => {
@@ -131,13 +156,6 @@ const Login = ({ navigation, route }: props) => {
     // ExtraReducers in the AuthReducer can also be used as it consist of the State of the Request
     // test email:"hammad.khan@beaconhousetechnology.com" , password:"12345678@"
   };
-
-  useEffect(() => {
-    if (Success) {
-      console.log('Success');
-      //! this is form which we will set navigation to next page
-    }
-  }, [Success]); // if Success is True then it will navigate to the Practitioner Home Screen
 
   useEffect(() => {
     if (error.status) {
@@ -171,6 +189,13 @@ const Login = ({ navigation, route }: props) => {
     //* if param is back then it will redirect to the previous screen
     if (route?.params?.redirect) {
       setParam(route?.params?.redirect);
+    }
+
+    if (route?.params?.module && route?.params?.redirect) {
+      setParam({
+        module: route?.params?.module,
+        screen: route?.params?.redirect,
+      });
     }
   }, []);
 

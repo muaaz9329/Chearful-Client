@@ -11,6 +11,16 @@ import { Colors } from '@app/constants';
 import { challengeStorageKeys } from '@app/domains/events/thirty-x-thirty/constants';
 import { AppNavigator } from '@app/navigation/app-navigation';
 import { AuthNavigator } from '@app/domains/authentication';
+import { ThirtyXThirtyNavigator } from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
+
+function isFeatureAvailable() {
+  const currentDate = new Date();
+  const startDate = new Date('2023-10-28');
+  const endDate = new Date('2023-11-26');
+
+  // to return boolean if the feature is available or not according to the date
+  return currentDate >= startDate && currentDate <= endDate;
+}
 
 const ThirtyXThirtyCont = ({
   navigation,
@@ -37,12 +47,21 @@ const ThirtyXThirtyCont = ({
 
   const handleNavigation = async () => {
     if (isUserLoggedIn) {
-      navigation.navigate(AppNavigator.ThirtyXThirty);
+      if (isFeatureAvailable()) {
+        navigation.navigate(AppNavigator.ThirtyXThirty);
+      } else {
+        navigation.navigate(AppNavigator.ThirtyXThirty, {
+          screen: ThirtyXThirtyNavigator.ChallengeHomeScreen,
+        });
+      }
     } else {
       navigation.navigate(AppNavigator.Auth, {
         screen: AuthNavigator.Login,
         params: {
-          redirect: AppNavigator.ThirtyXThirty,
+          redirect: isFeatureAvailable()
+            ? ThirtyXThirtyNavigator.LandingScreen
+            : ThirtyXThirtyNavigator.ChallengeHomeScreen,
+          module: AppNavigator.ThirtyXThirty,
         },
       });
     }

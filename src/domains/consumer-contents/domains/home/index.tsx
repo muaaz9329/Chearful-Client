@@ -22,8 +22,8 @@ import { challengeStorageKeys } from '@app/domains/events/thirty-x-thirty/consta
 
 // function isFeatureAvailable() {
 //   const currentDate = new Date();
-//   const startDate = new Date("2023-10-28");
-//   const endDate = new Date("2023-11-26");
+//   const startDate = new Date('2023-10-28');
+//   const endDate = new Date('2023-11-26');
 //   return currentDate >= startDate && currentDate <= endDate;
 // }
 
@@ -63,8 +63,6 @@ const ScreenConsumerContentsHome = ({
     }
   };
 
-  const [thirtyModel, setThirtyModel] = useState<boolean>(false);
-
   useEffect(() => {
     if (!isUserLoggedIn) {
       setVisible(true);
@@ -76,11 +74,6 @@ const ScreenConsumerContentsHome = ({
       style={[globalStyles.bodyWrapper]}
       edges={['top', 'right', 'left']}
     >
-      <ThirtyXThirtyModel
-        visible={thirtyModel}
-        setVisible={setThirtyModel}
-        navigation={navigation}
-      />
       <ProfileModel
         visible={visible}
         setVisible={setVisible}
@@ -96,9 +89,11 @@ const ScreenConsumerContentsHome = ({
         showsVerticalScrollIndicator={false}
         style={globalStyles.flex1}
       >
+        {/* {isThirtyXThirtyAvailable && ( */}
         <View style={globalStyles.topMargin}>
           <ThirtyXThirtyCont navigation={navigation} />
         </View>
+        {/* )} */}
         <View style={globalStyles.topMargin}>
           <MenuTitle path={ConsumerContentsNavigator.SoundBites}>
             Soundbites

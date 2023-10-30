@@ -191,9 +191,9 @@ function MobileView({ handleForm }: Props) {
             ref={CoursalRef}
             renderItem={({ item, index }) => {
               if (index === 0) {
-                return <FirstSlide {...{handleForm}} />;
+                return <FirstSlide {...{ handleForm }} />;
               } else if (index === 1) {
-                return <SecondSlide {...{handleForm}} />;
+                return <SecondSlide {...{ handleForm }} />;
               } else {
                 return (
                   <View>
@@ -204,18 +204,18 @@ function MobileView({ handleForm }: Props) {
             }}
           />
         </View>
-      </KeyboardAwareScrollView>
 
-      <View style={styles.btnCont}>
-        <NextBtn
-          percentage={25}
-          radius={wp(2.45 * 4.5)}
-          color={Colors.primary}
-          HandleFunction={HandleFunction}
-          index={index}
-          ref={NextBtnRef}
-        />
-      </View>
+        <View style={styles.btnCont}>
+          <NextBtn
+            percentage={25}
+            radius={wp(2.45 * 4.5)}
+            color={Colors.primary}
+            HandleFunction={HandleFunction}
+            index={index}
+            ref={NextBtnRef}
+          />
+        </View>
+      </KeyboardAwareScrollView>
     </Layout>
   );
 }
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
   },
   btnCont: {
     alignSelf: 'center',
-    marginVertical: hp(2),
+    marginTop: hp(10),
   },
   itemContainer: {
     flexDirection: 'row',
