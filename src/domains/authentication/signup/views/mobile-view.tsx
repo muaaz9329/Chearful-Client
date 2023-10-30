@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { EmailFieldIcon } from '@app/assets/svgs/';
 import { IconComponent } from '@app/types';
 import { IconLock, IconMail } from 'tabler-icons-react-native';
-import Layout from '../components/layout';
+import Layout from '../components/sign-up-layout';
 import { Wp } from '@app/utils';
 import {
   heightPercentageToDP as hp,

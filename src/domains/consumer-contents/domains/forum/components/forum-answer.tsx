@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { ForumAnswer as ForumAnswerT } from '../types';
 import { SvgUri } from 'react-native-svg';
-import { IsTablet, Wp } from '@app/utils';
+import { IsTablet, Wp, isSvg } from '@app/utils';
 import ReadMore from '@app/components/read-more';
 import { Colors } from '@app/constants';
 import globalStyles from '@app/assets/global-styles';
@@ -18,7 +18,14 @@ export default function ForumAnswer(props: ForumAnswerT) {
         ]}
       >
         <View style={styles.mr_10}>
-          <SvgUri uri={props.user.avatar} width={Wp(40)} height={Wp(40)} />
+          {isSvg(props.user.avatar) ? (
+            <SvgUri uri={props.user.avatar} width={Wp(40)} height={Wp(40)} />
+          ) : (
+            <Image
+              source={{ uri: props.user.avatar }}
+              style={styles.avatarImage}
+            />
+          )}
         </View>
 
         <View>
@@ -48,6 +55,11 @@ export default function ForumAnswer(props: ForumAnswerT) {
 }
 
 const styles = StyleSheet.create({
+  avatarImage: {
+    width: Wp(40),
+    height: Wp(40),
+    borderRadius: Wp(40 / 2),
+  },
   borderBottom: {
     borderBottomWidth: 1,
     borderColor: Colors.contrast,

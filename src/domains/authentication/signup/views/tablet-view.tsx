@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import Layout from '../components/layout';
+import TestLayout from '../components/sign-up-layout';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -158,7 +158,7 @@ const TabletView = ({ handleForm }: Props) => {
   // using for validation and moving the screen to otp if it is valid
 
   return (
-    <Layout>
+    <TestLayout>
       <KeyboardAwareScrollView
         enableOnAndroid={true}
         style={{
@@ -208,7 +208,7 @@ const TabletView = ({ handleForm }: Props) => {
           />
         </View>
       </KeyboardAwareScrollView>
-    </Layout>
+    </TestLayout>
   );
 };
 
