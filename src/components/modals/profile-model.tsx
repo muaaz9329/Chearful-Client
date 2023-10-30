@@ -65,6 +65,9 @@ const ProfileModel = ({
 
             navigation?.navigate(AppNavigator.Auth, {
               screen: AuthNavigator.Login,
+              params: {
+                redirect: 'back',
+              },
             });
             setVisible(false);
           }}

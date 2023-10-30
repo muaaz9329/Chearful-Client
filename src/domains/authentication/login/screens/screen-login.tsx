@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Platform, Pressable } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { NavigationHelpers } from '@react-navigation/native';
+import { NavigationHelpers, StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
@@ -28,10 +28,14 @@ import { AppNavigator } from '@app/navigation/app-navigation';
 
 interface props {
   navigation: NavigationHelpers<any, any>;
+  route?: {
+    params: {
+      redirect: string;
+    };
+  };
 }
-
-const Login = ({ navigation }: props) => {
-  //TODO : State Types Redux needed to be added
+const Login = ({ navigation, route }: props) => {
+  const [param, setParam] = useState<'back' | string>('back');
 
   const { Success, error, setLoginSuccess, setLoginError } = useLoginStore();
 
@@ -107,8 +111,13 @@ const Login = ({ navigation }: props) => {
             isUserLoggedIn: true,
           });
 
-          //TODO: Temp changes for testing. This redirect info should be passed through navigation params
-          navigation.navigate(AppNavigator.ThirtyXThirty);
+          if (param === 'back') {
+            navigation.goBack(); //? if param is back then it will redirect to the previous screen
+          } else {
+            //* otherwise it will redirect to the screen which is passed in param
+            // !remove the login screen from stack and redirect to the screen which is passed in param
+            navigation.dispatch(StackActions.replace(param));
+          }
         },
         onFailure: ({ message }) => {
           setLoginError(message);
@@ -156,6 +165,14 @@ const Login = ({ navigation }: props) => {
       });
     }
   }, [validation, error]); // used to show the toast message when error occurs
+
+  useEffect(() => {
+    //? Tells what to do when user logged in, as where to redirect him after that
+    //* if param is back then it will redirect to the previous screen
+    if (route?.params?.redirect) {
+      setParam(route?.params?.redirect);
+    }
+  }, []);
 
   return (
     <View style={styles.Container}>
@@ -283,14 +300,14 @@ const Login = ({ navigation }: props) => {
             </View>
             <LoginBtn HandleLogin={HandleLogin} Validation={validation} />
 
-            <Text
+            {/* <Text
               style={[styles.ForgetPassCont, IsTablet && { fontSize: s(10) }]}
               onPress={() => {
                 navigation.navigate(AuthNavigator.ForgetPassword);
               }}
             >
               Forgot Password?
-            </Text>
+            </Text> */}
             <View>
               <Pressable
                 style={[styles.Signupbtn, IsTablet && styles.SignupbtnTablet]}

@@ -1,15 +1,58 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { NavigationHelpers } from '@react-navigation/native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import useAppState from '@app/hooks/use-app-state';
 import { IsTablet, Wp, wp } from '@app/utils';
 import { AppText, Heading, MyButton } from '@app/components';
 import { Colors } from '@app/constants';
+import { challengeStorageKeys } from '@app/domains/events/thirty-x-thirty/constants';
+import { AppNavigator } from '@app/navigation/app-navigation';
+import { AuthNavigator } from '@app/domains/authentication';
 
-const ThirtyXThirtyCont = () => {
+const ThirtyXThirtyCont = ({
+  navigation,
+}: {
+  navigation: NavigationHelpers<any, any>;
+}) => {
   const { isUserLoggedIn } = useAppState();
 
-  const handleNavigation = () => {};
+  const btnString = async () => {
+    const hanCompletedAssessment = await AsyncStorage.getItem(
+      challengeStorageKeys.hasCompletedAssessment,
+    );
+
+    if (isUserLoggedIn) {
+      if (hanCompletedAssessment) {
+        return 'Accept Challenge';
+      } else {
+        return 'Start Now';
+      }
+    } else {
+      return 'Register Now';
+    }
+  };
+
+  const handleNavigation = async () => {
+    if (isUserLoggedIn) {
+      navigation.navigate(AppNavigator.ThirtyXThirty);
+    } else {
+      navigation.navigate(AppNavigator.Auth, {
+        screen: AuthNavigator.Login,
+        params: {
+          redirect: AppNavigator.ThirtyXThirty,
+        },
+      });
+    }
+  };
+
+  const [btnTitle, setBtnTitle] = useState<string>('');
+
+  useEffect(() => {
+    btnString().then((res) => setBtnTitle(res));
+  }, [isUserLoggedIn]);
 
   return (
     <View>
@@ -39,7 +82,7 @@ const ThirtyXThirtyCont = () => {
         </AppText>
 
         <MyButton
-          title={isUserLoggedIn ? 'Start Now' : 'Register Now'}
+          title={btnTitle}
           onPress={handleNavigation}
           style={{ width: wp(50), alignSelf: 'center', borderRadius: Wp(12) }}
         />

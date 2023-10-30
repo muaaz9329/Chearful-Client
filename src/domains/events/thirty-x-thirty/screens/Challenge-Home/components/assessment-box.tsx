@@ -1,8 +1,9 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import Loader from './slider-loader';
 import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
-import { IsTablet, colorWithOpacity, mergeStyles } from '@app/utils';
+import { IsTablet, Wp, colorWithOpacity, mergeStyles } from '@app/utils';
 import { Heading } from '@app/components';
+import { IconLock } from 'tabler-icons-react-native';
 
 const assessmentColors = {
   upcoming: '#FFDE6B',
@@ -11,6 +12,7 @@ const assessmentColors = {
   level3: '#F69388',
   level4: '#F48477',
   level5: '#F17668',
+  missed: '#FFDE6D',
 };
 
 const assessmentStrings = {
@@ -20,6 +22,7 @@ const assessmentStrings = {
   level3: 'Level - 03',
   level4: 'Level - 04',
   level5: 'Level - 05',
+  missed: 'Assessment',
 };
 
 const assessmentPercentage = {
@@ -29,19 +32,27 @@ const assessmentPercentage = {
   level3: 60,
   level4: 80,
   level5: 100,
+  missed: 0,
 };
 
 const AssessmentBox = ({
   conditon = 'level2',
   onPress,
 }: {
-  conditon: 'upcoming' | 'level1' | 'level2' | 'level3' | 'level4' | 'level5';
+  conditon:
+    | 'upcoming'
+    | 'level1'
+    | 'level2'
+    | 'level3'
+    | 'level4'
+    | 'level5'
+    | 'missed';
   onPress: () => void;
 }) => {
   return (
     <Pressable
       onPress={onPress}
-      disabled={!(conditon === 'upcoming')}
+      disabled={!(conditon === 'missed')}
       style={[
         globalStylesFunc.W(140),
         globalStylesFunc.H(140),
@@ -62,11 +73,22 @@ const AssessmentBox = ({
           ),
 
         globalStylesFunc.bg(assessmentColors[conditon]),
-        conditon === 'upcoming' &&
+        (conditon === 'upcoming' || conditon === 'missed') &&
           mergeStyles(globalStyles.justifyCenter, globalStyles.alignCenter),
       ]}
     >
-      <View style={conditon != 'upcoming' && styles.notUpcomingCont}>
+      <View
+        style={
+          conditon !== 'upcoming' &&
+          conditon !== 'missed' &&
+          styles.notUpcomingCont
+        }
+      >
+        {conditon === 'upcoming' && (
+          <View style={[globalStyles.alignSelfCenter, globalStyles.mb_10]}>
+            <IconLock size={Wp(30)} color={colorWithOpacity('#000', 0.5)} />
+          </View>
+        )}
         <Heading
           size="sm"
           style={[
@@ -76,9 +98,11 @@ const AssessmentBox = ({
             globalStyles.nunito_600,
           ]}
         >
-          {conditon === 'upcoming' ? 'Assessment Day' : 'Assessment Result'}
+          {conditon === 'upcoming' || conditon === 'missed'
+            ? 'Assessment Day'
+            : 'Assessment Result'}
         </Heading>
-        {conditon !== 'upcoming' && (
+        {conditon !== 'upcoming' && conditon !== 'missed' && (
           <View>
             <Heading
               size="sm"
