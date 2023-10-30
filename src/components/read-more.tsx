@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: Wp(14),
     lineHeight: Wp(18),
+    color: Colors.black,
   },
   actionText: {
     color: Colors.primary,

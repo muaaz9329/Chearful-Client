@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TextInput, Pressable, Platform } from 'react-native';
 import { IconSearch } from 'tabler-icons-react-native';
 import { Wp, Mulish, IsTablet, IsPhone } from '@app/utils';
+import { Colors } from '@app/constants';
 
 const defaultProps = {
   placeholder: 'Search',
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
     fontFamily: Mulish(400),
     fontSize: Wp(14),
     marginLeft: Wp(5),
+    color: Colors.black,
   },
   cont: {
     borderWidth: 1,

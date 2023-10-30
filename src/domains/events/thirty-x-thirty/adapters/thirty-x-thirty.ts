@@ -61,7 +61,6 @@ export const deserializeAssessment = (
             index,
           };
         }
-        break;
       }
 
       case 'Submitted': {
@@ -104,11 +103,19 @@ export const serializeMedia = async (filePath: string): Promise<string> => {
 export const deserializeAsses = (assessment: Assessment) => {
   switch (assessment.assesment_status) {
     case 'Pending': {
-      return {
-        status: 'upcoming',
-        questionId: assessment.id,
-        assessmentId: assessment.assesment_id,
-      };
+      if (new Date(assessment.challenge_date as string) <= new Date()) {
+        return {
+          status: 'missed',
+          questionId: assessment.id,
+          assessmentId: assessment.assesment_id,
+        };
+      } else {
+        return {
+          status: 'upcoming',
+          questionId: assessment.id,
+          assessmentId: assessment.assesment_id,
+        };
+      }
     }
     case 'Submitted': {
       return {

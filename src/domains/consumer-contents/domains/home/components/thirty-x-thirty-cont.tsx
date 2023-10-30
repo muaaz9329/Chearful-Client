@@ -1,15 +1,77 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { NavigationHelpers } from '@react-navigation/native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import useAppState from '@app/hooks/use-app-state';
 import { IsTablet, Wp, wp } from '@app/utils';
 import { AppText, Heading, MyButton } from '@app/components';
 import { Colors } from '@app/constants';
+import { challengeStorageKeys } from '@app/domains/events/thirty-x-thirty/constants';
+import { AppNavigator } from '@app/navigation/app-navigation';
+import { AuthNavigator } from '@app/domains/authentication';
+import { ThirtyXThirtyNavigator } from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
 
-const ThirtyXThirtyCont = () => {
+function isFeatureAvailable() {
+  const currentDate = new Date();
+  const startDate = new Date('2023-10-28');
+  const endDate = new Date('2023-11-26');
+
+  // to return boolean if the feature is available or not according to the date
+  return currentDate >= startDate && currentDate <= endDate;
+}
+
+const ThirtyXThirtyCont = ({
+  navigation,
+}: {
+  navigation: NavigationHelpers<any, any>;
+}) => {
   const { isUserLoggedIn } = useAppState();
 
-  const handleNavigation = () => {};
+  const btnString = async () => {
+    const hanCompletedAssessment = await AsyncStorage.getItem(
+      challengeStorageKeys.hasCompletedAssessment,
+    );
+
+    if (isUserLoggedIn) {
+      if (hanCompletedAssessment) {
+        return 'Accept Challenge';
+      } else {
+        return 'Start Now';
+      }
+    } else {
+      return 'Register Now';
+    }
+  };
+
+  const handleNavigation = async () => {
+    if (isUserLoggedIn) {
+      if (isFeatureAvailable()) {
+        navigation.navigate(AppNavigator.ThirtyXThirty);
+      } else {
+        navigation.navigate(AppNavigator.ThirtyXThirty, {
+          screen: ThirtyXThirtyNavigator.ChallengeHomeScreen,
+        });
+      }
+    } else {
+      navigation.navigate(AppNavigator.Auth, {
+        screen: AuthNavigator.Login,
+        params: {
+          redirect: isFeatureAvailable()
+            ? ThirtyXThirtyNavigator.LandingScreen
+            : ThirtyXThirtyNavigator.ChallengeHomeScreen,
+          module: AppNavigator.ThirtyXThirty,
+        },
+      });
+    }
+  };
+
+  const [btnTitle, setBtnTitle] = useState<string>('');
+
+  useEffect(() => {
+    btnString().then((res) => setBtnTitle(res));
+  }, [isUserLoggedIn]);
 
   return (
     <View>
@@ -39,7 +101,7 @@ const ThirtyXThirtyCont = () => {
         </AppText>
 
         <MyButton
-          title={isUserLoggedIn ? 'Start Now' : 'Register Now'}
+          title={btnTitle}
           onPress={handleNavigation}
           style={{ width: wp(50), alignSelf: 'center', borderRadius: Wp(12) }}
         />

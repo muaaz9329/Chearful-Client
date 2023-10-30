@@ -2,6 +2,7 @@ export type TArticle = {
   id: number;
   slug: string;
   author_id: number;
+  author?: any;
   tags: null | any[]; // You can replace 'any[]' with a more specific type if you know the data type.
   views: number;
   likes: null | any[]; // You can replace 'any[]' with a more specific type if you know the data type.

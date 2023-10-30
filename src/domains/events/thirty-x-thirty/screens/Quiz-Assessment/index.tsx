@@ -115,7 +115,11 @@ export default function QuizAssessmentScreen({
           if (params?.questionId) setReloadChallenge(true);
 
           // This behavior is static now. Gonna implement dynamic behavior soon
-          navigation.navigate(ThirtyXThirtyNavigator.ChallengeHomeScreen);
+          // Resetting the stack and removing all the Screens from the stack except the CHALLENGE-SCREEN , now user can't go back to the previous screens
+          navigation.reset({
+            index: 0,
+            routes: [{ name: ThirtyXThirtyNavigator.ChallengeHomeScreen }],
+          });
         },
         onFailure: ({ message, error }) => {
           console.log(error);

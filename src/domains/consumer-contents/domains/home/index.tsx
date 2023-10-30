@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MenuTitle from './components/menu-title';
 import SoundbitesCont from './components/soundbites-cont';
@@ -17,8 +17,15 @@ import ProfileModel from '@app/components/modals/profile-model';
 import { ChearfulLogo } from '@app/assets/svgs';
 import { Colors } from '@app/constants';
 import { Wp } from '@app/utils';
-import { AppNavigator } from '@app/navigation/app-navigation';
 import { ConsumerContentsNavigator } from '../../navigation/consumer-contents-navigation';
+import { challengeStorageKeys } from '@app/domains/events/thirty-x-thirty/constants';
+
+// function isFeatureAvailable() {
+//   const currentDate = new Date();
+//   const startDate = new Date('2023-10-28');
+//   const endDate = new Date('2023-11-26');
+//   return currentDate >= startDate && currentDate <= endDate;
+// }
 
 const ScreenConsumerContentsHome = ({
   navigation,
@@ -27,41 +34,46 @@ const ScreenConsumerContentsHome = ({
 }) => {
   const [visible, setVisible] = React.useState(false);
   const { isUserLoggedIn } = useAppState();
+  const { updateAppState } = useAppState();
 
   const handleUser = async () => {
     const token = await AsyncStorage.getItem('token');
     if (token !== null) {
-      navigation.navigate(
-        AppNavigator.ThirtyXThirty,
-        // From here the user will be redirected if he/she is logged in
-
-        // , {
-        //   screen: "CHALLENGE-HOME",
-        // }
-      );
+      Alert.alert('Logout', 'Are you sure you want to logout?', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: async () => {
+            await AsyncStorage.removeItem('token');
+            await AsyncStorage.removeItem(
+              challengeStorageKeys.hasCompletedAssessment,
+            );
+            updateAppState({ isUserLoggedIn: false });
+          },
+          style: 'destructive',
+        },
+      ]);
     } else {
       // From here the user will be redirected to login or sign up if he/she is not logged in
-
       setVisible(true);
     }
   };
-  const [thirtyModel, setThirtyModel] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isUserLoggedIn) {
       setVisible(true);
     }
   }, []);
+
   return (
     <SafeAreaView
       style={[globalStyles.bodyWrapper]}
       edges={['top', 'right', 'left']}
     >
-      <ThirtyXThirtyModel
-        visible={thirtyModel}
-        setVisible={setThirtyModel}
-        navigation={navigation}
-      />
       <ProfileModel
         visible={visible}
         setVisible={setVisible}
@@ -77,9 +89,11 @@ const ScreenConsumerContentsHome = ({
         showsVerticalScrollIndicator={false}
         style={globalStyles.flex1}
       >
+        {/* {isThirtyXThirtyAvailable && ( */}
         <View style={globalStyles.topMargin}>
-          <ThirtyXThirtyCont />
+          <ThirtyXThirtyCont navigation={navigation} />
         </View>
+        {/* )} */}
         <View style={globalStyles.topMargin}>
           <MenuTitle path={ConsumerContentsNavigator.SoundBites}>
             Soundbites

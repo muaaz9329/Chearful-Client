@@ -193,9 +193,9 @@ function MobileView({ handleForm }: Props) {
             ref={CoursalRef}
             renderItem={({ item, index }) => {
               if (index === 0) {
-                return <FirstSlide {...{handleForm}} />;
+                return <FirstSlide {...{ handleForm }} />;
               } else if (index === 1) {
-                return <SecondSlide {...{handleForm}} />;
+                return <SecondSlide {...{ handleForm }} />;
               } else {
                 return (
                   <View>
@@ -206,7 +206,6 @@ function MobileView({ handleForm }: Props) {
             }}
           />
         </View>
-      </KeyboardAwareScrollView>
 
       <View style={styles.btnCont}>
         <NextBtn
@@ -233,7 +232,7 @@ const styles = StyleSheet.create({
   },
   btnCont: {
     alignSelf: 'center',
-    marginVertical: hp(2),
+    marginTop: hp(10),
   },
   itemContainer: {
     flexDirection: 'row',

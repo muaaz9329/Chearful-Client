@@ -133,14 +133,7 @@ const Detail = ({
                 IsTablet && styles.descriptionStyles_tablet,
               ]}
             >
-              {IsTablet ? (
-                decodeHTML(stripHTML(description!))
-              ) : (
-                <RenderHtml
-                  source={{ html: description! }}
-                  contentWidth={wp(90)}
-                />
-              )}
+              {decodeHTML(stripHTML(description!))}
             </Text>
           </View>
         </>
