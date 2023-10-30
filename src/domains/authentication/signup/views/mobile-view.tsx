@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { EmailFieldIcon } from '@app/assets/svgs/';
 import { IconComponent } from '@app/types';
 import { IconLock, IconMail } from 'tabler-icons-react-native';
-import Layout from '../components/sign-up-layout';
+import SignUpLayout from '../components/sign-up-layout';
 import { Wp } from '@app/utils';
 import {
   heightPercentageToDP as hp,
@@ -168,15 +168,17 @@ function MobileView({ handleForm }: Props) {
   };
 
   return (
-    <Layout>
+    <SignUpLayout>
       <KeyboardAwareScrollView enableOnAndroid={true}>
         <View style={styles.Cont}>
           <Carousel
             width={wp(92)}
+            height={hp(60)}
             data={data ? [1, 2, 3] : [1, 2]}
             loop={false}
             style={{
               flex: 1,
+              
             }}
             autoPlay={false}
             onSnapToItem={(i) => {
@@ -216,7 +218,7 @@ function MobileView({ handleForm }: Props) {
           ref={NextBtnRef}
         />
       </View>
-    </Layout>
+    </SignUpLayout>
   );
 }
 
