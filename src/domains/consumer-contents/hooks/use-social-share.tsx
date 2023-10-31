@@ -1,9 +1,8 @@
 import { LinkingText } from '@app/utils';
 import Share from 'react-native-share';
-
 const useSocialShare = (link: string) => {
   const shareOnFacebook = async () => {
-    LinkingText('https://www.facebook.com/sharer/sharer.php?u=' + link);
+    'https://www.facebook.com/sharer/sharer.php?u=' + link;
   };
 
   const shareOnLinkedIn = async () => {

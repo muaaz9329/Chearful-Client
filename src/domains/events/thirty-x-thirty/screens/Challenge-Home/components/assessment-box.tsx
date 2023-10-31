@@ -1,9 +1,17 @@
+import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import Loader from './slider-loader';
+import apiService from '@app/services/api-service/api-service';
+import {
+  IsTablet,
+  Wp,
+  colorWithOpacity,
+  getAuthHeaders,
+  mergeStyles,
+} from '@app/utils';
 import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
-import { IsTablet, Wp, colorWithOpacity, mergeStyles } from '@app/utils';
-import { Heading } from '@app/components';
 import { IconLock } from 'tabler-icons-react-native';
+import { Heading } from '@app/components';
+import SlideLoader from './slider-loader';
 
 const assessmentColors = {
   upcoming: '#FFDE6B',
@@ -25,34 +33,79 @@ const assessmentStrings = {
   missed: 'Assessment',
 };
 
-const assessmentPercentage = {
-  upcoming: 0,
-  level1: 20,
-  level2: 40,
-  level3: 60,
-  level4: 80,
-  level5: 100,
-  missed: 0,
+// const assessmentPercentage = {
+//   upcoming: 0,
+//   level1: 20,
+//   level2: 40,
+//   level3: 60,
+//   level4: 80,
+//   level5: 100,
+//   missed: 0,
+// };
+
+// const percentage = {
+//   level1: 20,
+//   level2: 40,
+//   level3: 60,
+//   level4: 80,
+//   level5: 100,
+// };
+
+const PercentageToLevel = (percentage: number) => {
+  if (percentage <= 20) {
+    return 'level1';
+  } else if (percentage <= 40) {
+    return 'level2';
+  } else if (percentage <= 60) {
+    return 'level3';
+  } else if (percentage <= 80) {
+    return 'level4';
+  } else if (percentage <= 100) {
+    return 'level5';
+  }
 };
 
 const AssessmentBox = ({
-  conditon = 'level2',
+  conditon = 'submit',
   onPress,
+  assessmentId,
+  userAssementId,
 }: {
-  conditon:
-    | 'upcoming'
-    | 'level1'
-    | 'level2'
-    | 'level3'
-    | 'level4'
-    | 'level5'
-    | 'missed';
+  conditon: 'upcoming' | 'missed' | 'submit' | 'today';
+
   onPress: () => void;
+  assessmentId: number;
+  userAssementId: number;
 }) => {
+  const [assessment, setAssessment] = useState<{
+    description: string;
+    percentage: number;
+  }>();
+  const handleApi = () => {
+    getAuthHeaders().then((headers) => {
+      apiService.get({
+        url: `/website/assessments/getAssessmentScore/${assessmentId}/${userAssementId}`,
+        headers,
+        onSuccess: ({ data, ...extras }) => {
+          //@ts-ignore
+          setAssessment(extras);
+        },
+        onFailure: ({ error }) => {
+          console.log(error);
+        },
+      });
+    });
+  };
+  useEffect(() => {
+    if (conditon === 'submit') {
+      handleApi();
+    }
+  }, []);
+
   return (
     <Pressable
       onPress={onPress}
-      disabled={!(conditon === 'missed')}
+      disabled={!(conditon === 'today')}
       style={[
         globalStylesFunc.W(140),
         globalStylesFunc.H(140),
@@ -72,9 +125,19 @@ const AssessmentBox = ({
             globalStylesFunc.py(8),
           ),
 
-        globalStylesFunc.bg(assessmentColors[conditon]),
-        (conditon === 'upcoming' || conditon === 'missed') &&
+        conditon === 'upcoming' &&
+          globalStylesFunc.bg(assessmentColors.upcoming),
+        conditon === 'missed' && globalStylesFunc.bg(assessmentColors.missed),
+        conditon === 'submit' &&
+          globalStylesFunc.bg(
+            //@ts-ignore
+            assessmentColors[PercentageToLevel(assessment?.percentage || 0)],
+          ),
+        (conditon === 'upcoming' ||
+          conditon === 'missed' ||
+          conditon === 'today') &&
           mergeStyles(globalStyles.justifyCenter, globalStyles.alignCenter),
+        conditon === 'today' && globalStylesFunc.bg(assessmentColors.missed),
       ]}
     >
       <View
@@ -102,24 +165,28 @@ const AssessmentBox = ({
             ? 'Assessment Day'
             : 'Assessment Result'}
         </Heading>
-        {conditon !== 'upcoming' && conditon !== 'missed' && (
-          <View>
-            <Heading
-              size="sm"
-              style={[
-                globalStylesFunc.px(8),
-                globalStylesFunc.text(colorWithOpacity('#000', 0.5)),
-                globalStyles.textCenter,
-              ]}
-            >
-              {assessmentStrings[conditon]}
-            </Heading>
-
+        {conditon !== 'upcoming' &&
+          conditon !== 'missed' &&
+          conditon !== 'today' && (
             <View>
-              <Loader percentage={assessmentPercentage[conditon]} />
+              <Heading
+                size="sm"
+                style={[
+                  globalStylesFunc.px(8),
+                  globalStylesFunc.text(colorWithOpacity('#000', 0.5)),
+                  globalStyles.textCenter,
+                ]}
+              >
+                {assessment?.description}
+              </Heading>
+
+              <View>
+                <SlideLoader
+                  percentage={(assessment?.percentage as number) || 0}
+                />
+              </View>
             </View>
-          </View>
-        )}
+          )}
       </View>
     </Pressable>
   );

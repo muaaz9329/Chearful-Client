@@ -201,7 +201,14 @@ const Login = ({ navigation, route }: props) => {
   return (
     <View style={styles.Container}>
       <KeyboardAwareScrollView enableOnAndroid={true}>
-        <View style={{ position: 'absolute', top: 16, left: 20 }}>
+        <View
+          style={{
+            position: 'absolute',
+            top: Wp(Platform.OS === 'android' ? 16 : 50),
+            left: Wp(20),
+            zIndex: 100,
+          }}
+        >
           <Header navigation={navigation} pram="back" />
         </View>
 

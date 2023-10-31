@@ -14,10 +14,9 @@ import { AuthNavigator } from '@app/domains/authentication';
 import { ThirtyXThirtyNavigator } from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
 
 function isFeatureAvailable() {
-  const currentDate = new Date();
-  const startDate = new Date('2023-10-28');
-  const endDate = new Date('2023-11-26');
-
+  const currentDate = new Date().toDateString();
+  const startDate = new Date('2023-10-28').toDateString();
+  const endDate = new Date('2023-11-26').toDateString();
   // to return boolean if the feature is available or not according to the date
   return currentDate >= startDate && currentDate <= endDate;
 }

@@ -18,6 +18,7 @@ import { AuthorCont } from '@app/components';
 import SocialBtn from './social-btn';
 import { Colors, Fonts } from '@app/constants';
 import { AppImages } from '@app/assets/images';
+import { Image } from 'react-native';
 
 const Detail = ({
   AuthorName,
@@ -92,23 +93,21 @@ const Detail = ({
               </View>
 
               <View style={styles.flexRow}>
-                <SocialBtn
-                  img={AppImages.linkedin}
-                  onPress={() => {
-                    shareOnLinkedIn();
+                <TouchableOpacity
+                  onPress={shareOnLinkedIn}
+                  style={{
+                    marginHorizontal: IsPhone ? Wp(10) : Wp(5),
                   }}
-                  width={IsPhone ? 20 : 15}
-                  height={IsPhone ? 20 : 15}
-                />
-
-                <SocialBtn
-                  img={AppImages.facebook}
-                  onPress={() => {
-                    shareOnFacebook();
-                  }}
-                  width={IsPhone ? 20 : 15}
-                  height={IsPhone ? 20 : 15}
-                />
+                >
+                  <Image
+                    source={require('../imgs/linkedin.png')}
+                    style={{
+                      width: Wp(IsPhone ? 20 : 15),
+                      height: Wp(IsPhone ? 20 : 15),
+                      resizeMode: 'contain',
+                    }}
+                  />
+                </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => {

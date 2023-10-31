@@ -15,7 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import useValidation from '../hooks/use-validation';
 
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 import useSignupStore from '../hooks/use-signup-store';
 import { AuthNavigator } from '../../navigation';
 
@@ -30,7 +30,7 @@ const SignUp = () => {
   useEffect(() => {
     if (Success) {
       //ts-ignore
-      navigation.navigate(AuthNavigator.Login as never);
+      navigation.dispatch(StackActions.replace(AuthNavigator.Login));
     }
   }, [Success]);
 
