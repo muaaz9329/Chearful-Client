@@ -10,7 +10,7 @@ type StoreType = {
 };
 
 export const useChallengeStore = create<StoreType>((set) => ({
-  numberOfChallenge: 0,
+  numberOfChallenge: 30,
   setNumberOfChallenge: (num) => set({ numberOfChallenge: num }),
   currentChallenge: 0,
   setCurrentChallenge: (num) => set({ currentChallenge: num }),

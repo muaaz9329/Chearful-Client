@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Alert, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import MyButton from '@app/components/my-button';
@@ -334,6 +334,9 @@ const TypeOfChallenge = ({
             <Heading size="sm">1000 Points</Heading>
           </View>
 
+          <Heading size="lg" style={[globalStyles.mt_15]}>
+            Select any one Challenge
+          </Heading>
           <View
             style={[
               globalStyles.flexRow,
@@ -405,6 +408,9 @@ const TypeOfChallenge = ({
                   styles.textInputStyles,
                   IsTablet && styles.textInputStyles_tablet,
                   IsTablet && globalStylesFunc.p(8),
+                  Platform.OS === 'android' && {
+                    textAlignVertical: 'top',
+                  },
                 ]}
                 placeholder="Write an Answer"
                 multiline={true}
@@ -425,10 +431,12 @@ const TypeOfChallenge = ({
                 ]}
                 onPress={uploadMedia}
               >
-                <IconCloudUpload
-                  size={IsTablet ? Wp(40) : Wp(80)}
-                  color={Colors.primary}
-                />
+               {
+              !(singleFile.name) && (<IconCloudUpload
+                size={IsTablet ? Wp(40) : Wp(80)}
+                color={Colors.primary}
+              />)
+}
                 <Heading size="md">
                   {singleFile.name
                     ? singleFile.name.length > 20
@@ -453,7 +461,7 @@ const TypeOfChallenge = ({
           <View
             style={[
               globalStyles.flexRow,
-              globalStyles.justifyBetween,
+              type === "challenge_accepted" ? globalStyles.justifyStart:globalStyles.justifyBetween,
               globalStyles.mt_15,
             ]}
           >
@@ -473,16 +481,18 @@ const TypeOfChallenge = ({
               }}
             />
 
+{ !(type === "challenge_accepted" )&&  (
             <MyButton
               title="Upload"
               style={[
-                ,
+
                 globalStyles.px_18,
                 globalStylesFunc.py(10),
                 globalStylesFunc.br(12),
               ]}
               onPress={handleApi}
             />
+)}
           </View>
         </KeyboardAwareScrollView>
       </View>

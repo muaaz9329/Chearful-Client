@@ -28,6 +28,7 @@ const MobileInput = ({
   useEffect(() => {
     handleFunc(dialcode.dail_code, 'countryCode');
   }, [dialcode]);
+
   useEffect(() => {
     handleFunc(dialcode.dail_code, 'countryCode');
   }, []);

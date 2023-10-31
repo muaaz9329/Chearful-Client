@@ -93,12 +93,13 @@ export default function QuizAssessmentScreen({
         headers,
         data: {
           assessment_id: assessment?.survey_id,
-          answers: selectedOptions.reduce((acc, curr) => {
+          answer: selectedOptions.reduce((acc, curr) => {
             acc[curr.qId] = {
               answer: curr.value,
+              question: curr.qId,
             };
             return acc;
-          }, {} as { [key: string]: { answer: string | number } }),
+          }, {} as { [key: string]: { answer: string | number; question: string | number } }),
         },
         onSuccess: ({ message }) => {
           AsyncStorage.setItem(

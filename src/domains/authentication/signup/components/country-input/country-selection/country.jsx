@@ -15,7 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import { countries } from '../countries';
 import CountryItem from './country-item';
-import { Hp, Wp } from '@app/utils';
+import { Hp, Wp, colorWithOpacity } from '@app/utils';
 import { SearchIcon } from '@app/assets/svgs';
 import { Colors, Fonts } from '@app/constants';
 import { IsPhone, IsTablet } from '@app/utils';
@@ -28,20 +28,20 @@ const Country = ({
 }) => {
   const [query, setQuery] = useState('');
 
-  const [btnShow, setBtnShow] = useState(false);
   const heandlerSearch = (text) => {
     setQuery(text);
     if (text === '') {
-      setBtnShow(false);
     }
   };
   const filterdData = countries.filter(({ name }) => {
-    return name.includes(query);
+    return name.includes(query) || name.toLowerCase().includes(query);
   });
   const handerCountry = (item) => {
     setQuery(item?.name);
-    setBtnShow(true);
     setFlag(item);
+    setTimeout(() => {
+      sheetClose();
+    }, 300);
   };
 
   return (
@@ -85,6 +85,7 @@ const Country = ({
                 paddingVertical: Wp(2),
               },
             ]}
+            placeholderTextColor={colorWithOpacity('#000', 0.5)}
           />
         </View>
         <View
@@ -112,33 +113,6 @@ const Country = ({
             keyExtractor={(item) => item.name}
           />
         </View>
-        {btnShow ? (
-          <View>
-            <TouchableOpacity onPress={() => sheetClose()}>
-              <View
-                style={[
-                  styles.contBtn,
-                  IsTablet && {
-                    padding: Wp(6),
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.btnText,
-                    IsTablet && {
-                      fontSize: Wp(8),
-                    },
-                  ]}
-                >
-                  Continue
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          ''
-        )}
       </View>
     </SafeAreaView>
   );
@@ -162,6 +136,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: Hp(14),
     fontFamily: Fonts.Mulish['700'],
     fontSize: Wp(14),
+    color: Colors.black,
   },
   searchContainer: {
     flexDirection: 'row',

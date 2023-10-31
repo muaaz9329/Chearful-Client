@@ -114,6 +114,11 @@ const useValidation = () => {
           text1: 'Please enter a valid 8 characters password',
         });
         setSignUpDataValid(false);
+      } else if (userInfo.lisenseAgreement === '0') {
+        Toast.show({
+          type: 'ErrorToast',
+          text1: 'Please agree to the terms and conditions',
+        });
       } else {
         setSignUpLoading(true);
 
@@ -141,7 +146,7 @@ const useValidation = () => {
             data: {
               token: string;
             };
-            message: string;
+            message?: string;
           }) {
             console.log(data);
             console.log(message);
@@ -149,8 +154,10 @@ const useValidation = () => {
             setMoveNextSlide(true); // telling to move to next slide
             setToken(data.token);
           },
-          onFailure({ message, error }: { message: string; error: string }) {
-            console.log(message), console.log(error);
+          onFailure({ message, error }: { message: string; error?: string }) {
+            console.log(message);
+            console.log(error);
+
             setSignUpLoading(false);
             Toast.show({
               type: 'ErrorToast',

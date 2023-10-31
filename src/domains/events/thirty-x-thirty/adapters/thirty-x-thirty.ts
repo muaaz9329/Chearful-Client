@@ -1,5 +1,5 @@
 import { convertFileToBase64 } from '@app/utils';
-import { Assessment } from '../types';
+import { Assessment, AssessmentData } from '../types';
 
 export const deserializeAssessmentData = (assessmentData: any) => {
   console.log('assessmentData', JSON.stringify(assessmentData));
@@ -103,25 +103,41 @@ export const serializeMedia = async (filePath: string): Promise<string> => {
 export const deserializeAsses = (assessment: Assessment) => {
   switch (assessment.assesment_status) {
     case 'Pending': {
-      if (new Date(assessment.challenge_date as string) <= new Date()) {
+      if (
+        new Date(assessment.challenge_date as string).toDateString() ==
+        new Date().toDateString()
+      ) {
+        return {
+          status: 'today',
+          questionId: assessment.id,
+          assessmentId: assessment.assesment_id,
+          userId: assessment.id,
+        };
+      } else if (
+        new Date(assessment.challenge_date as string).toDateString() <
+        new Date().toDateString()
+      ) {
         return {
           status: 'missed',
           questionId: assessment.id,
           assessmentId: assessment.assesment_id,
+          userId: assessment.id,
         };
       } else {
         return {
           status: 'upcoming',
           questionId: assessment.id,
           assessmentId: assessment.assesment_id,
+          userId: assessment.id,
         };
       }
     }
     case 'Submitted': {
       return {
-        status: 'level5',
+        status: 'submit',
         questionId: assessment.id,
         assessmentId: assessment.assesment_id,
+        userId: assessment.id,
       };
     }
   }

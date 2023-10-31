@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Banner from './components/banner';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ChallengeBox from './components/challenge-box';
@@ -34,8 +34,7 @@ const ChallengeHome = () => {
     });
   };
 
-  const { setNumberOfChallenge, reloadChallenge, setReloadChallenge } =
-    useChallengeStore();
+  const { reloadChallenge, setReloadChallenge } = useChallengeStore();
 
   const [assessment, setAssessment] = useState<{
     assessments: Assessment[];
@@ -87,11 +86,13 @@ const ChallengeHome = () => {
   //* Setting no of challenges and current challenge
   useEffect(() => {
     if (assessment.status === 'loaded') {
-      setNumberOfChallenge(assessment.assessments.length);
-
       challengeNo.current = 0;
     }
   }, [assessment]);
+
+  useFocusEffect(() => {
+    challengeNo.current = 0;
+  });
 
   return (
     <SafeAreaView style={[globalStyles.pt_16, globalStyles.bg_white]}>
@@ -176,6 +177,8 @@ const ChallengeHome = () => {
                             },
                           );
                         }}
+                        assessmentId={assessmentData?.assessmentId as number}
+                        userAssementId={assessmentData?.userId as number}
                       />
                     );
                   }
