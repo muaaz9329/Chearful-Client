@@ -205,18 +205,18 @@ function MobileView({ handleForm }: Props) {
             }}
           />
         </View>
-
-        <View style={styles.btnCont}>
-          <NextBtn
-            percentage={25}
-            radius={wp(2.45 * 4.5)}
-            color={Colors.primary}
-            HandleFunction={HandleFunction}
-            index={index}
-            ref={NextBtnRef}
-          />
-        </View>
       </KeyboardAwareScrollView>
+
+      <View style={styles.btnCont}>
+        <NextBtn
+          percentage={25}
+          radius={wp(2.45 * 4.5)}
+          color={Colors.primary}
+          HandleFunction={HandleFunction}
+          index={index}
+          ref={NextBtnRef}
+        />
+      </View>
     </SignUpLayout>
   );
 }
@@ -232,7 +232,6 @@ const styles = StyleSheet.create({
   },
   btnCont: {
     alignSelf: 'center',
-    marginTop: hp(10),
   },
   itemContainer: {
     flexDirection: 'row',
