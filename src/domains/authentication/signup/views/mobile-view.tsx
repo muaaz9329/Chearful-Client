@@ -170,7 +170,7 @@ function MobileView({ handleForm }: Props) {
   return (
     <SignUpLayout>
       <KeyboardAwareScrollView enableOnAndroid={true}>
-        <View style={styles.Cont}>
+      <View style={styles.Cont}>
           <Carousel
             width={wp(92)}
             height={hp(60)}
@@ -206,6 +206,7 @@ function MobileView({ handleForm }: Props) {
             }}
           />
         </View>
+        </KeyboardAwareScrollView>
 
       <View style={styles.btnCont}>
         <NextBtn
@@ -217,6 +218,7 @@ function MobileView({ handleForm }: Props) {
           ref={NextBtnRef}
         />
       </View>
+      
     </SignUpLayout>
   );
 }
@@ -232,7 +234,7 @@ const styles = StyleSheet.create({
   },
   btnCont: {
     alignSelf: 'center',
-    marginTop: hp(10),
+   
   },
   itemContainer: {
     flexDirection: 'row',
