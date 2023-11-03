@@ -41,7 +41,7 @@ const Detail = ({
   authorImg?: string;
   children?: React.ReactNode;
 }) => {
-  const { shareOnFacebook, shareOnLinkedIn, shareLink } = useSocialShare(link!);
+  const { shareOnLinkedIn, shareLink } = useSocialShare(link!);
 
   return (
     <SafeAreaView
@@ -100,7 +100,7 @@ const Detail = ({
                   }}
                 >
                   <Image
-                    source={require('../imgs/linkedin.png')}
+                    source={AppImages.linkedin}
                     style={{
                       width: Wp(IsPhone ? 20 : 15),
                       height: Wp(IsPhone ? 20 : 15),

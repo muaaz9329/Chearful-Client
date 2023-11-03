@@ -178,7 +178,6 @@ function MobileView({ handleForm }: Props) {
             loop={false}
             style={{
               flex: 1,
-              
             }}
             autoPlay={false}
             onSnapToItem={(i) => {
@@ -207,16 +206,17 @@ function MobileView({ handleForm }: Props) {
           />
         </View>
 
-      <View style={styles.btnCont}>
-        <NextBtn
-          percentage={25}
-          radius={wp(2.45 * 4.5)}
-          color={Colors.primary}
-          HandleFunction={HandleFunction}
-          index={index}
-          ref={NextBtnRef}
-        />
-      </View>
+        <View style={styles.btnCont}>
+          <NextBtn
+            percentage={25}
+            radius={wp(2.45 * 4.5)}
+            color={Colors.primary}
+            HandleFunction={HandleFunction}
+            index={index}
+            ref={NextBtnRef}
+          />
+        </View>
+      </KeyboardAwareScrollView>
     </SignUpLayout>
   );
 }
