@@ -94,7 +94,7 @@ const RootTabNavigation = () => {
             ? hp(6)
             : Platform.OS === 'android'
             ? wp(15)
-            : hp(11),
+            : hp(9),
         },
         tabBarActiveTintColor: Colors.primary,
       })}
