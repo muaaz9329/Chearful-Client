@@ -14,6 +14,7 @@ import ScreenConsumerContentsHome from '@app/domains/consumer-contents/domains/h
 import ScreenScheduleSession from '@app/domains/standalones/screens';
 import { WebLinkTabButton } from './components';
 import { Platform } from 'react-native';
+import Calender from '@app/domains/mood-dairy/components/weekly-calender';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -94,7 +95,7 @@ const RootTabNavigation = () => {
             ? hp(6)
             : Platform.OS === 'android'
             ? wp(15)
-            : hp(9),
+            : hp(11),
         },
         tabBarActiveTintColor: Colors.primary,
       })}
@@ -152,5 +153,6 @@ export default function AppNavigation() {
         component={ConsumerContentsNavigation}
       />
     </Stack.Navigator>
+  
   );
 }
