@@ -348,6 +348,24 @@ const globalStyles = StyleSheet.create({
   pb_20: {
     paddingBottom: Wp(20),
   },
+  py_2:{
+    paddingVertical: Wp(2),
+  },
+
+  py_4:{
+    paddingVertical: Wp(4),
+  },
+
+  py_6:{
+    paddingVertical: Wp(6),
+  },
+
+  py_8:{
+    paddingVertical: Wp(8),
+  },
+  py_9:{
+    paddingVertical: Wp(9),
+  },
   py_10: {
     paddingVertical: Wp(10),
   },
@@ -381,6 +399,22 @@ const globalStyles = StyleSheet.create({
   py_20: {
     paddingVertical: Wp(20),
   },
+  px_2:{
+    paddingHorizontal: Wp(2),
+  },
+  px_4:{
+    paddingHorizontal: Wp(4),
+  },
+  px_6:{
+    paddingHorizontal: Wp(6),
+  },
+  px_8:{
+    paddingHorizontal: Wp(8),
+  },
+  px_9:{
+    paddingHorizontal: Wp(9),
+  },
+  
   px_10: {
     paddingHorizontal: Wp(10),
   },
