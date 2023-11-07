@@ -148,7 +148,9 @@ type GlobalStyleName =
   | 'flexRow'
   | 'flexColumn'
   | 'flex1'
+  | 'flexWrap'
   | 'stone'
   | 'stone__tablet'
   | 'avatar'
-  | 'avatar__tablet';
+  | 'avatar__tablet'
+  | 'Wrapper';

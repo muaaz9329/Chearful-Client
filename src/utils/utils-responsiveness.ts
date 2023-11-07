@@ -7,11 +7,11 @@ import {
 } from 'react-native-responsive-screen';
 
 export const Wp = (size: number) => {
-  return wp(2.5 * (size / 10));
+  return wp(2.5 * (Number(size) / 10));
 };
 
 export const Hp = (size: number) => {
-  return hp(1.5 * (size / 10));
+  return hp(1.5 * (Number(size) / 10));
 };
 
 export const Mulish = (weight: number, italic?: boolean) => {
