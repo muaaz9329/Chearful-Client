@@ -16,7 +16,7 @@
     "install:ios": "cd ios && pod install && cd ../",
     "ios:ipad": "react-native run-ios --simulator='iPad Pro (9.7-inch)'",
     "version": "react-native-version --never-amend",
-    "check" : "react-native doctor"
+    "check": "react-native doctor"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.3",

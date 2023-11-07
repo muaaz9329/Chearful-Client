@@ -280,6 +280,8 @@ const globalStyles = StyleSheet.create({
     marginVertical: Wp(20),
   },
 
+
+
   // Paddings
   pt_10: {
     paddingTop: Wp(10),
@@ -484,6 +486,9 @@ const globalStyles = StyleSheet.create({
   flex1: {
     flex: 1,
   },
+  flexWrap:{
+    flexWrap:'wrap'
+  },
 
   // App Styles
   stone: {
@@ -506,6 +511,12 @@ const globalStyles = StyleSheet.create({
     width: Wp(35),
     height: Wp(35),
   },
+  Wrapper:{
+    flex:1,
+    backgroundColor:Colors.white,
+    paddingHorizontal:Wp(20),
+    paddingTop:Wp(16)
+  }
 });
 
 //* Custom Functions for Global Styles
@@ -525,9 +536,24 @@ const globalStylesFunc = {
       marginBottom: Wp(size),
     };
   },
+  ml: (size: number) => {
+    return {
+      marginLeft: Wp(size),
+    };
+  },
+  mr:(size: number) => {
+    return {
+      marginRight: Wp(size),
+    };
+  },
   my: (size: number) => {
     return {
       marginVertical: Wp(size),
+    };
+  },
+  mx: (size: number) => {
+    return {
+      marginHorizontal: Wp(size),
     };
   },
   pt: (size: number) => {
