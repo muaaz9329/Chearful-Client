@@ -15,6 +15,9 @@ import ScreenScheduleSession from '@app/domains/standalones/screens';
 import { WebLinkTabButton } from './components';
 import { Platform } from 'react-native';
 import Calender from '@app/domains/mood-dairy/components/weekly-calender';
+import MoodSelection from '@app/domains/mood-dairy/components/mood-selection';
+import MoodCard from '@app/domains/mood-dairy/components/mood-card';
+import MoodSlider from '@app/domains/mood-dairy/components/mood-slider';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -153,6 +156,9 @@ export default function AppNavigation() {
         component={ConsumerContentsNavigation}
       />
     </Stack.Navigator>
+
+  
+   
   
   );
 }

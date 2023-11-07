@@ -420,3 +420,9 @@ export function isSvgExtension(url: string) {
     return false;
   }
 }
+
+export function formatDateTo12HourTime(date:Date) {
+  const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+  // @ts-ignore
+  return date.toLocaleTimeString('en-US', options).toLowerCase();
+}
