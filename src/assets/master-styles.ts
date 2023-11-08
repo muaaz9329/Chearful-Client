@@ -14,10 +14,10 @@ type ShorthandStyleNumbers = `${
   | 'mx'
   | 'my'
   | 'W'
-  | 'H'}:${number }`;
+  | 'H'
+  | 'flex'}:${number}`;
 
-  type ShorthandStyleString = `${'bg'
-  | 'text'}:${string }`;
+type ShorthandStyleString = `${'bg' | 'text'}:${string}`;
 
 /**
  *
