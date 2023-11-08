@@ -18,6 +18,7 @@ import Calender from '@app/domains/mood-dairy/components/weekly-calender';
 import MoodSelection from '@app/domains/mood-dairy/components/mood-selection';
 import MoodCard from '@app/domains/mood-dairy/components/mood-card';
 import MoodSlider from '@app/domains/mood-dairy/components/mood-slider';
+import AddMood from '@app/domains/mood-dairy/screens/add-mood/add-mood';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -133,29 +134,32 @@ const RootTabNavigation = () => {
  */
 export default function AppNavigation() {
   return (
-    <Stack.Navigator
-      initialRouteName={AppNavigator.HomeTabs}
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen
-        name={AppNavigator.HomeTabs}
-        component={RootTabNavigation}
-      />
+    // <Stack.Navigator
+    //   initialRouteName={AppNavigator.HomeTabs}
+    //   screenOptions={{
+    //     headerShown: false,
+    //   }}
+    // >
+    //   <Stack.Screen
+    //     name={AppNavigator.HomeTabs}
+    //     component={RootTabNavigation}
+    //   />
 
-      <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
+    //   <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
 
-      <Stack.Screen
-        name={AppNavigator.ThirtyXThirty}
-        component={ThirtyXThirtyNavigation}
-      />
+    //   <Stack.Screen
+    //     name={AppNavigator.ThirtyXThirty}
+    //     component={ThirtyXThirtyNavigation}
+    //   />
 
-      <Stack.Screen
-        name={AppNavigator.ConsumerContents}
-        component={ConsumerContentsNavigation}
-      />
-    </Stack.Navigator>
+    //   <Stack.Screen
+    //     name={AppNavigator.ConsumerContents}
+    //     component={ConsumerContentsNavigation}
+    //   />
+    // </Stack.Navigator>
+
+    <AddMood/>
+
 
   
    

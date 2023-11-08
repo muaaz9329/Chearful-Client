@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 
 export default function Badge({
   onPress,
-  //   style,
+    style,
   text,
 }: {
   onPress?: () => void;
@@ -15,7 +15,7 @@ export default function Badge({
   return (
     <Pressable
       onPress={() => onPress?.()}
-      style={[styles.container, IsTablet ? styles.container__tablet : {}]}
+      style={[styles.container, IsTablet ? styles.container__tablet : {}, style]}
     >
       <Text
         style={[styles.badgeText, IsTablet ? styles.badgeText__tablet : {}]}
