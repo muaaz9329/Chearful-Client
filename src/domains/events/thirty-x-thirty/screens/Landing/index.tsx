@@ -28,7 +28,7 @@ export default function ThirtyChallengeLandingScreen() {
     navigation?.navigate(
       // @ts-ignore
       // TODO: add enum for remaining
-      isUserLoggedIn ? 'THIRTY-X-THIRTY-MODULE' : AppNavigator.Auth,
+      isUserLoggedIn ? AppNavigator.ThirtyXThirty : AppNavigator.Auth,
       {
         // User gets to landing screen of challenge iff he has not yet agreed or went through the fitness assessment.
         // if he has already taken the assessment, that will be checked and he shall be redirected to appropriate screen by RedirectingScreen

@@ -46,13 +46,15 @@ const ThirtyXThirtyCont = ({
 
   const handleNavigation = async () => {
     if (isUserLoggedIn) {
-      if (isFeatureAvailable()) {
-        navigation.navigate(AppNavigator.ThirtyXThirty);
-      } else {
-        navigation.navigate(AppNavigator.ThirtyXThirty, {
-          screen: ThirtyXThirtyNavigator.ChallengeHomeScreen,
-        });
-      }
+      navigation.navigate(AppNavigator.ThirtyXThirty);
+      // if (isFeatureAvailable()) {
+      //   navigation.navigate(AppNavigator.ThirtyXThirty);
+      // }
+      // else {
+      //   navigation.navigate(AppNavigator.ThirtyXThirty, {
+      //     screen: ThirtyXThirtyNavigator.ChallengeHomeScreen,
+      //   });
+      // }
     } else {
       navigation.navigate(AppNavigator.Auth, {
         screen: AuthNavigator.Login,
