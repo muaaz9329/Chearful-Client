@@ -67,6 +67,11 @@ const RedirectScreen = ({ navigation }: { navigation: any }) => {
       challengeStorageKeys.hasCompletedAssessment,
     );
 
+    console.log({
+      hasCompletedAssessment,
+      isUserLoggedIn,
+    });
+
     /*
     Redirecting to correct screen:
       if user has completed assessment, redirect to challenge screen.

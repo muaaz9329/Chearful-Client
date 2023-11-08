@@ -24,7 +24,7 @@ export function isValidEmail(email: string) {
 }
 
 export const getAuthHeaders = async () => {
-  const token = await AsyncStorage.getItem('USER_accessToken');
+  const token = await AsyncStorage.getItem('token');
 
   return {
     Authorization: `Bearer ${token}`,
