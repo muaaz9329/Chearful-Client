@@ -11,7 +11,7 @@ import { Colors } from '@app/constants';
 
 type Props = {};
 
-const images = {
+export const images = {
   happy: moodDiaryImages.happy,
   sad: moodDiaryImages.sad,
   angry: moodDiaryImages.angry,
@@ -19,12 +19,15 @@ const images = {
   neutral: moodDiaryImages.neutral,
 };
 
+
+
+export type MoodTypes = 'happy' | 'sad' | 'angry' | 'peaceful' | 'neutral';
 const MoodCard = ({
   mood = 'happy',
   date = new Date(),
   rating = 4.5,
 }: {
-  mood: 'happy' | 'sad' | 'angry' | 'peaceful' | 'neutral';
+  mood: MoodTypes;
   date: Date;
   rating: number;
 }) => {
@@ -39,13 +42,19 @@ const MoodCard = ({
           'px:12',
           'py_10',
           'br:14',
+       
         ])}
       >
         <View style={ms(['flexRow', 'alignCenter'])}>
-            <Image source={images[mood]} style={ms(['mx:4','W:30' ,'H:30' ])}  />
-            <AppText size='base' style={ms(['textPrimary','mulish_600' , 'mr:5'])} >{`${capitalizeFirstLetter(mood)} (${rating}/10)`}</AppText>
-            <Dot width={Wp(5)} height={Wp(5)} color={Colors.primary} />
-            <AppText size='base' style={ms(['textMuted','mulish_600' , 'ml:5'])} >{formatDateTo12HourTime(date)}</AppText>
+          <Image source={images[mood]} style={ms(['mx:4', 'W:30', 'H:30'])} />
+          <AppText
+            size="base"
+            style={ms(['textPrimary', 'mulish_600', 'mr:5'])}
+          >{`${capitalizeFirstLetter(mood)} (${rating}/10)`}</AppText>
+          <Dot width={Wp(5)} height={Wp(5)} color={Colors.primary} />
+          <AppText size="base" style={ms(['textMuted', 'mulish_600', 'ml:5'])}>
+            {formatDateTo12HourTime(date)}
+          </AppText>
         </View>
         <View>
           <IconChevronRight size={Wp(25)} color={'#000'} />

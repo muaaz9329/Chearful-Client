@@ -19,6 +19,8 @@ import MoodSelection from '@app/domains/mood-dairy/components/mood-selection';
 import MoodCard from '@app/domains/mood-dairy/components/mood-card';
 import MoodSlider from '@app/domains/mood-dairy/components/mood-slider';
 import JournalNavigation from '@app/domains/journal/navigation';
+import AddMood from '@app/domains/mood-dairy/screens/add-mood/add-mood';
+import ViewMood from '@app/domains/mood-dairy/screens/view-mood/view-mood';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

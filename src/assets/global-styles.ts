@@ -481,6 +481,12 @@ const globalStyles = StyleSheet.create({
   flexColumn: {
     flexDirection: 'column',
   },
+  flexColumnReverse: {
+    flexDirection: 'column-reverse',
+  },
+  flexRowReverse: {
+    flexDirection: 'row-reverse',
+  },
   flex1: {
     flex: 1,
   },
@@ -513,7 +519,31 @@ const globalStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white,
     paddingHorizontal: Wp(20),
-    paddingTop: Wp(16),
+    paddingTop: Wp(10),
+  },
+  'w-full': {
+    width: '100%',
+  },
+  'h-full': {
+    height: '100%',
+  },
+  round: {
+    borderRadius: Wp(100),
+  },
+  'rounded-full': {
+    borderRadius: Wp(8),
+  },
+  'rounded-2': {
+    borderRadius: Wp(12),
+  },
+  'rounded-3': {
+    borderRadius: Wp(16),
+  },
+  'rounded-4': {
+    borderRadius: Wp(24),
+  },
+  'rounded-5': {
+    borderRadius: Wp(38),
   },
 });
 
@@ -627,6 +657,11 @@ const globalStylesFunc = {
   bw: (size: number) => {
     return {
       borderWidth: size,
+    };
+  },
+  flex: (size: number) => {
+    return {
+      flex: size,
     };
   },
 };
