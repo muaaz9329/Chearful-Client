@@ -29,4 +29,5 @@ export type SliderProps = {
   renderIndicator?: (value: number) => JSX.Element | null;
   showEmoji?: boolean;
   EmojiComponent?: ()=> JSX.Element | null ;
+  enable?:boolean;
 };

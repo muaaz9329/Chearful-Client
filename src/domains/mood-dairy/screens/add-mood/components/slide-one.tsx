@@ -5,7 +5,7 @@ import { Heading } from '@app/components';
 import VerticalSlider from '@app/modules/vertical-slider/src';
 import { Colors } from '@app/constants';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Wp } from '@app/utils';
+import { Hp, Wp } from '@app/utils';
 import { moodDiaryImages } from '@app/domains/mood-dairy/assets/images';
 
 type Props = {};
@@ -22,8 +22,8 @@ const SlideOne = (props: Props) => {
       </Heading>
       <GestureHandlerRootView>
         <VerticalSlider
-          height={Wp(290)}
-          width={Wp(50)}
+          height={Hp(280)}
+          width={Wp(55)}
           value={value}
           min={0}
           max={10}
@@ -52,8 +52,8 @@ export default SlideOne;
 
 const styles = StyleSheet.create({
   emojiCont: {
-    width: Wp(45),
-    height: Wp(45),
+    width: Wp(50),
+    height: Wp(50),
     borderRadius: Wp(50),
     backgroundColor: Colors.white,
     justifyContent: 'center',
@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
   },
 
   EmojiStyles: {
-    width: Wp(40),
-    height: Wp(40),
+    width: Wp(45),
+    height: Wp(45),
     resizeMode: 'contain',
   },
 });

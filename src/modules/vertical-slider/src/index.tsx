@@ -43,6 +43,7 @@ const VerticalSlider: React.FC<SliderProps> = ({
   value: currentValue = 0,
   EmojiComponent,
   showEmoji,
+  enable=true
 }: SliderProps) => {
   const {
     shadowOffsetWidth = 0,
@@ -227,6 +228,16 @@ const VerticalSlider: React.FC<SliderProps> = ({
 
   return (
     <View style={[shadowStyles, sliderBaseStyles]}>
+    { !enable &&  <View style={{
+        
+        height:height,
+        width:width,
+        borderRadius:borderRadius,
+        position:'absolute',
+        zIndex:5
+      }} >
+
+      </View>}
       <View
         style={[
           styles.container,
