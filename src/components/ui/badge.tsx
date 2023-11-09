@@ -1,24 +1,40 @@
 import React from 'react';
 import { Colors } from '@app/constants';
 import { IsTablet, Wp } from '@app/utils';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import {
+  Pressable,
+  ViewStyle,
+  StyleSheet,
+  Text,
+  TextStyle,
+} from 'react-native';
 
 export default function Badge({
   onPress,
-    style,
+  style,
   text,
+  textStyle,
 }: {
   onPress?: () => void;
-  style?: any;
+  style?: ViewStyle | any;
   text?: string;
+  textStyle?: TextStyle;
 }) {
   return (
     <Pressable
       onPress={() => onPress?.()}
-      style={[styles.container, IsTablet ? styles.container__tablet : {}, style]}
+      style={[
+        styles.container,
+        IsTablet ? styles.container__tablet : {},
+        style,
+      ]}
     >
       <Text
-        style={[styles.badgeText, IsTablet ? styles.badgeText__tablet : {}]}
+        style={[
+          styles.badgeText,
+          IsTablet ? styles.badgeText__tablet : {},
+          textStyle,
+        ]}
       >
         {text}
       </Text>
