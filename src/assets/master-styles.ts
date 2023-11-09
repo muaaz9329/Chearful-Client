@@ -14,10 +14,9 @@ type ShorthandStyleNumbers = `${
   | 'mx'
   | 'my'
   | 'W'
-  | 'H'}:${number }`;
+  | 'H'}:${number}`;
 
-  type ShorthandStyleString = `${'bg'
-  | 'text'}:${string }`;
+type ShorthandStyleString = `${'bg' | 'text'}:${string}`;
 
 /**
  *

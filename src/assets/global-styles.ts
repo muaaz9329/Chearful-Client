@@ -280,8 +280,6 @@ const globalStyles = StyleSheet.create({
     marginVertical: Wp(20),
   },
 
-
-
   // Paddings
   pt_10: {
     paddingTop: Wp(10),
@@ -350,22 +348,22 @@ const globalStyles = StyleSheet.create({
   pb_20: {
     paddingBottom: Wp(20),
   },
-  py_2:{
+  py_2: {
     paddingVertical: Wp(2),
   },
 
-  py_4:{
+  py_4: {
     paddingVertical: Wp(4),
   },
 
-  py_6:{
+  py_6: {
     paddingVertical: Wp(6),
   },
 
-  py_8:{
+  py_8: {
     paddingVertical: Wp(8),
   },
-  py_9:{
+  py_9: {
     paddingVertical: Wp(9),
   },
   py_10: {
@@ -401,22 +399,22 @@ const globalStyles = StyleSheet.create({
   py_20: {
     paddingVertical: Wp(20),
   },
-  px_2:{
+  px_2: {
     paddingHorizontal: Wp(2),
   },
-  px_4:{
+  px_4: {
     paddingHorizontal: Wp(4),
   },
-  px_6:{
+  px_6: {
     paddingHorizontal: Wp(6),
   },
-  px_8:{
+  px_8: {
     paddingHorizontal: Wp(8),
   },
-  px_9:{
+  px_9: {
     paddingHorizontal: Wp(9),
   },
-  
+
   px_10: {
     paddingHorizontal: Wp(10),
   },
@@ -486,8 +484,8 @@ const globalStyles = StyleSheet.create({
   flex1: {
     flex: 1,
   },
-  flexWrap:{
-    flexWrap:'wrap'
+  flexWrap: {
+    flexWrap: 'wrap',
   },
 
   // App Styles
@@ -511,12 +509,12 @@ const globalStyles = StyleSheet.create({
     width: Wp(35),
     height: Wp(35),
   },
-  Wrapper:{
-    flex:1,
-    backgroundColor:Colors.white,
-    paddingHorizontal:Wp(20),
-    paddingTop:Wp(16)
-  }
+  Wrapper: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    paddingHorizontal: Wp(20),
+    paddingTop: Wp(16),
+  },
 });
 
 //* Custom Functions for Global Styles
@@ -541,7 +539,7 @@ const globalStylesFunc = {
       marginLeft: Wp(size),
     };
   },
-  mr:(size: number) => {
+  mr: (size: number) => {
     return {
       marginRight: Wp(size),
     };

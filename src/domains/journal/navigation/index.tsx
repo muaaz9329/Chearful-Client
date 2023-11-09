@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import { ScreenJournalPlaceholder } from '../screens';
 
 export const enum JournalNavigator {
   'Placeholder' = 'Placeholder',
@@ -11,7 +12,7 @@ export default function JournalNavigation() {
     <Stack.Navigator>
       <Stack.Screen
         name={JournalNavigator.Placeholder}
-        component={() => null}
+        component={ScreenJournalPlaceholder}
       />
     </Stack.Navigator>
   );

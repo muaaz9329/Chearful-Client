@@ -18,6 +18,7 @@ import Calender from '@app/domains/mood-dairy/components/weekly-calender';
 import MoodSelection from '@app/domains/mood-dairy/components/mood-selection';
 import MoodCard from '@app/domains/mood-dairy/components/mood-card';
 import MoodSlider from '@app/domains/mood-dairy/components/mood-slider';
+import JournalNavigation from '@app/domains/journal/navigation';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -27,6 +28,7 @@ export const enum AppNavigator {
   'Auth' = 'Auth',
   'ThirtyXThirty' = 'ThirtyXThirty',
   'ConsumerContents' = 'ConsumerContents',
+  'Journal' = 'Journal',
 }
 
 export const enum HomeTabsNavigator {
@@ -134,11 +136,12 @@ const RootTabNavigation = () => {
 export default function AppNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName={AppNavigator.HomeTabs}
+      // initialRouteName={AppNavigator.HomeTabs}
       screenOptions={{
         headerShown: false,
       }}
     >
+      <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} />
       <Stack.Screen
         name={AppNavigator.HomeTabs}
         component={RootTabNavigation}
@@ -156,9 +159,5 @@ export default function AppNavigation() {
         component={ConsumerContentsNavigation}
       />
     </Stack.Navigator>
-
-  
-   
-  
   );
 }
