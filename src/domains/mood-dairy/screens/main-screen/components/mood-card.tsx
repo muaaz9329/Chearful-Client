@@ -1,7 +1,6 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { moodDiaryImages } from '../assets/images';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { moodDiaryImages } from '../../../assets/images';
 import ms from '@app/assets/master-styles';
 import { IconChevronRight } from 'tabler-icons-react-native';
 import { Wp, capitalizeFirstLetter, formatDateTo12HourTime } from '@app/utils';
@@ -32,7 +31,7 @@ const MoodCard = ({
   rating: number;
 }) => {
   return (
-    <SafeAreaView>
+
       <View
         style={ms([
           'flexRow',
@@ -42,6 +41,7 @@ const MoodCard = ({
           'px:12',
           'py_10',
           'br:14',
+          'my:5'
        
         ])}
       >
@@ -60,7 +60,7 @@ const MoodCard = ({
           <IconChevronRight size={Wp(25)} color={'#000'} />
         </View>
       </View>
-    </SafeAreaView>
+
   );
 };
 

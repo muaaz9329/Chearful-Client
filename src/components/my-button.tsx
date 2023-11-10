@@ -25,11 +25,13 @@ export default function MyButton({
   title,
   display = 'block',
   textStyles,
+  icon,
   ...props
 }: TouchableOpacityProps & {
   title: string;
   display?: 'block' | 'inline-start' | 'inline-center';
   textStyles?: TextStyle;
+  icon?: React.ReactNode;
 }) {
   const styles: TouchableOpacityProps['style'] = {
     justifyContent: 'center',
@@ -37,6 +39,7 @@ export default function MyButton({
     backgroundColor: Colors.primary,
     borderRadius: Wp(8),
     padding: wp(2.3),
+    flexDirection: 'row',
   };
 
   return (
@@ -51,6 +54,7 @@ export default function MyButton({
       }}
     >
       <TouchableOpacity {...props} style={[styles, style]}>
+        {icon && icon}
         <AppText
           style={[
             globalStyles.textWhite,

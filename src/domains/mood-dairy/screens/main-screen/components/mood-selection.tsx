@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText, Heading } from '@app/components';
 import ms from '@app/assets/master-styles';
 import { Wp } from '@app/utils';
-import { moodDiaryImages } from '../assets/images';
+import { moodDiaryImages } from '../../../assets/images';
 
 
 type Props = {};

@@ -14,12 +14,13 @@ import ScreenConsumerContentsHome from '@app/domains/consumer-contents/domains/h
 import ScreenScheduleSession from '@app/domains/standalones/screens';
 import { WebLinkTabButton } from './components';
 import { Platform } from 'react-native';
-import Calender from '@app/domains/mood-dairy/components/weekly-calender';
-import MoodSelection from '@app/domains/mood-dairy/components/mood-selection';
-import MoodCard from '@app/domains/mood-dairy/components/mood-card';
+import Calender from '@app/domains/mood-dairy/screens/main-screen/components/weekly-calender';
+import MoodSelection from '@app/domains/mood-dairy/screens/main-screen/components/mood-selection';
+import MoodCard from '@app/domains/mood-dairy/screens/main-screen/components/mood-card';
 import MoodSlider from '@app/domains/mood-dairy/components/mood-slider';
 import AddMood from '@app/domains/mood-dairy/screens/add-mood/add-mood';
 import ViewMood from '@app/domains/mood-dairy/screens/view-mood/view-mood';
+import MainScreen from '@app/domains/mood-dairy/screens/main-screen/main-screen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

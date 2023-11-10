@@ -50,7 +50,7 @@ const ViewMood = (props: Props) => {
               </Heading>
             </View>
 
-            <Heading size="md" style={ms(['nunito_500','my_15'])}>
+            <Heading size="md" style={ms(['nunito_500','my_10'])}>
               Describe how you feel{' '}
             </Heading>
             <View style={ms([styles.BadgeCont,'mb_15'])}>
@@ -59,14 +59,14 @@ const ViewMood = (props: Props) => {
                   <Badge
                     key={index}
                     text={item}
-                    style={ms(['rounded-3', 'my:3', 'mx:2','px_12',])}
+                    style={ms(['rounded-3', 'my:2', 'mx:2','px_12',])}
                     //@ts-ignore
                     textStyle={ms(['nunito_500', 'fs_13'])}
                   />
                 );
               })}
             </View>
-            <Heading size="md" style={ms(['nunito_500','my_15'])}>
+            <Heading size="md" style={ms(['nunito_500','my_10'])}>
             What made you feel this way?
             </Heading>
             <View style={styles.BadgeCont}>
@@ -75,7 +75,7 @@ const ViewMood = (props: Props) => {
                   <Badge
                     key={index}
                     text={item}
-                    style={ms(['rounded-3', 'my:3', 'mx:2','px_12'])}
+                    style={ms(['rounded-3', 'my:2', 'mx:2','px_12'])}
                     //@ts-ignore
                     textStyle={ms(['nunito_500', 'fs_13'])}
                   />
