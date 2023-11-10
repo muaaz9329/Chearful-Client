@@ -3,25 +3,30 @@ import { Image, Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import { IsTablet, Nunito, Wp, isSvg, wp } from '@app/utils';
 import { Colors } from '@app/constants';
-import { Category } from '@app/types';
 
-type Props = {
-  tags?: Category[];
-  onChangeTag?: (tag: Category) => void;
-  showImg?: boolean;
+type Item = {
+  id: number;
+  title: string;
+  image?: string;
 };
 
-const DEFAULT_TAGS = [{ id: 0, slug: 'All', title: 'All' }];
+interface Props {
+  tags?: Item[];
+  onChangeTag?: (tag: Item) => void;
+  showImg?: boolean;
+}
+
+const DEFAULT_TAGS = [{ id: 0, title: 'All' }];
 
 const CategoryFilter = ({
   tags = DEFAULT_TAGS,
   onChangeTag,
   showImg = true,
 }: Props) => {
-  const [selectedTag, setSelectedTag] = React.useState<Category>(tags[0]);
+  const [selectedTag, setSelectedTag] = React.useState<Item>(tags[0]);
 
   const changeTagColor = (
-    tag: Category,
+    tag: Item,
   ): {
     tagColor: string;
     tagTextColor: string;
@@ -112,18 +117,20 @@ const styles = StyleSheet.create({
   tagTextStyles_tablet: {
     fontSize: Wp(7),
   },
-  tag_tablet: {
-    padding: Wp(7),
-    marginRight: Wp(3),
-    borderRadius: Wp(70),
-  },
+
   TagCont: {
     minWidth: wp(100),
+  },
+  tag_tablet: {
+    paddingVertical: Wp(7),
+    paddingHorizontal: Wp(10),
+    marginRight: Wp(3),
   },
   tag: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: Wp(15),
+    paddingVertical: Wp(15),
+    paddingHorizontal: Wp(20),
     marginRight: Wp(4),
     borderRadius: Wp(70),
     backgroundColor: Colors.light,

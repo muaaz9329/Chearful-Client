@@ -1,7 +1,7 @@
-import React from 'react';
 import { Colors } from '@app/constants';
-import { IsTablet, Wp, hp, wp } from '@app/utils';
+import { IsTablet, Wp, hp } from '@app/utils';
 import { View, ViewProps } from 'react-native';
+import { moderateVerticalScale } from 'react-native-size-matters';
 
 export default function BaseCard({ children, style, ...props }: ViewProps) {
   return (
@@ -12,7 +12,7 @@ export default function BaseCard({ children, style, ...props }: ViewProps) {
           maxWidth: IsTablet ? Wp(240) : Wp(345),
           backgroundColor: Colors.greenDim,
           borderRadius: 20,
-          padding: wp(4),
+          padding: moderateVerticalScale(22),
         },
         style,
       ]}

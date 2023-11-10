@@ -8,6 +8,8 @@ import { Colors } from '@app/constants';
 import { Wp, decodeHTML } from '@app/utils';
 import { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
+import { AppText } from './ui';
+import ms from '@app/assets/master-styles';
 
 type ReadMoreProps = {
   text: string;
@@ -28,7 +30,7 @@ export default function ReadMore({
   const truncatedText = text.slice(0, charsLimit);
 
   return (
-    <Text style={[styles.text, style]}>
+    <AppText style={[style]}>
       {decodeHTML(
         showAll
           ? `${text} `
@@ -39,26 +41,25 @@ export default function ReadMore({
       )}
 
       {text.length > charsLimit && (
-        <Text
+        <AppText
           onPress={onPress ? onPress : () => setShowAll(!showAll)}
-          style={styles.actionText}
+          style={{
+            color: Colors.primary,
+            textDecorationLine: 'underline',
+          }}
         >
           {showAll ? 'Read Less' : 'Read More'}
-        </Text>
+        </AppText>
       )}
-    </Text>
+    </AppText>
   );
 }
 
-const styles = StyleSheet.create({
-  text: {
-    fontSize: Wp(14),
-    lineHeight: Wp(18),
-    color: Colors.black,
-  },
-  actionText: {
-    color: Colors.primary,
-    fontSize: Wp(13),
-    textDecorationLine: 'underline',
-  },
-});
+// const styles = StyleSheet.create({
+//   text: {
+//     fontSize: Wp(14),
+//     lineHeight: Wp(18),
+//     color: Colors.black,
+//   },
+
+// });

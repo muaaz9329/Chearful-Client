@@ -1,3 +1,5 @@
 import ScreenJournalPlaceholder from './0-placeholder';
+import ScreenJournalHome from './1-home';
+import ScreenChooseJournal from './2-choose-journal';
 
-export { ScreenJournalPlaceholder };
+export { ScreenJournalPlaceholder, ScreenJournalHome, ScreenChooseJournal };

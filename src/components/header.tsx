@@ -92,7 +92,6 @@ const Header = ({
             {
               marginRight: Wp(10),
               borderRadius: Wp(10),
-
             },
             IsTablet && styles.HeaderIconStyles_tablet,
           ]}
