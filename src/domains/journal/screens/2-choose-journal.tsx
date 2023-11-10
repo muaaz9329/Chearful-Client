@@ -1,16 +1,10 @@
 import globalStyles from '@app/assets/global-styles';
-import {
-  CategoryFilter,
-  Header,
-  Heading,
-  SearchInput,
-  YGap,
-} from '@app/components';
+import { Header, Heading, SearchInput, YGap } from '@app/components';
 import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { journalTypes } from '../data/journal-data';
 import JournalTypeCard from '../components/journal-type-card';
-import { IsTablet } from '@app/utils';
+import { IsTablet, hp } from '@app/utils';
 
 export default function ScreenChooseJournal() {
   return (
@@ -33,7 +27,15 @@ export default function ScreenChooseJournal() {
         <SearchInput placeholder="Search" />
       </View>
 
-      <View style={globalStyles.mt_15}>
+      <View
+        style={[
+          globalStyles.mt_15,
+          {
+            flex: 1,
+            paddingBottom: hp(2),
+          },
+        ]}
+      >
         <FlatList
           data={journalTypes}
           renderItem={({ item }) => (

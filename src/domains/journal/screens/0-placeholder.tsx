@@ -1,15 +1,7 @@
 import globalStyles from '@app/assets/global-styles';
 import { AppImages } from '@app/assets/images';
 import ms from '@app/assets/master-styles';
-import {
-  AppText,
-  BaseCard,
-  Header,
-  Heading,
-  MyButton,
-  XGap,
-  YGap,
-} from '@app/components';
+import { AppText, Header, Heading, MyButton, XGap } from '@app/components';
 import { hp, wp } from '@app/utils';
 import { FlatList, Image, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -73,6 +65,10 @@ export default function ScreenJournalPlaceholder() {
           </AppText>
 
           <FlatList
+            contentContainerStyle={{
+              flex: 1,
+            }}
+            horizontal
             data={journalTypes}
             renderItem={({ item }) => (
               <JournalTypeCard
@@ -80,7 +76,6 @@ export default function ScreenJournalPlaceholder() {
                 description={item.description}
               />
             )}
-            horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id.toString()}
             ItemSeparatorComponent={XGap}

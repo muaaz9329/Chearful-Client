@@ -1,5 +1,6 @@
 import { AppImages } from '@app/assets/images';
 import { AppText, BaseCard, Heading } from '@app/components';
+import { Colors } from '@app/constants';
 import { wp } from '@app/utils';
 import { Image, View } from 'react-native';
 import {
@@ -32,7 +33,6 @@ const JournalTypeCard = ({
           position: 'absolute',
           right: 0,
           bottom: 0,
-          //   width: moderateScale(100),
           height: moderateVerticalScale(80),
           resizeMode: 'contain',
         }}
