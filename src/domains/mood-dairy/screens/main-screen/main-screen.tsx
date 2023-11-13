@@ -14,12 +14,15 @@ import WeeklyCalender from './components/weekly-calender';
 import MoodCard from './components/mood-card';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
 import MoodSelection from './components/mood-selection';
+import MonthlyCalendar from './components/calender';
 
 type Props = {};
 
 const MainScreen = (props: Props) => {
   const navigation = useNavigation();
   const bottomSheetRef = React.useRef<ActionSheetRef>(null);
+  const bottomSheetRef2 = React.useRef<ActionSheetRef>(null);
+  const [calenderType, setCalenderType] = React.useState<'weekly' | 'monthly'>('weekly');
   return (
     <SafeAreaView style={ms(['Wrapper'])} edges={['top', 'bottom']}>
       <View style={styles.btnCont}>
@@ -52,7 +55,9 @@ const MainScreen = (props: Props) => {
           style={ms(['justifyBetween', 'alignCenter', 'w-full', 'flexRow'])}
         >
           <Heading style={ms(['ml:6'])}>Mood Dairy</Heading>
-          <Pressable>
+          <Pressable onPress={()=>{
+            bottomSheetRef2.current?.show()
+          }}>
             <IconDotsVertical size={Wp(24)} color={Colors.primary} />
           </Pressable>
         </View>
@@ -61,7 +66,9 @@ const MainScreen = (props: Props) => {
         
       </View>
       <View style={ms(['topMargin'])}>
-        <WeeklyCalender />
+       {
+          calenderType === 'weekly' ? <WeeklyCalender/> : <MonthlyCalendar/>
+       }
       </View>
       <View style={ms(['topMargin'])}>
         <AppText size="md" style={ms(['mb_10', 'py_15'])}>
@@ -88,6 +95,43 @@ const MainScreen = (props: Props) => {
        >
         <MoodSelection/>
         </ActionSheet>
+        <ActionSheet
+      containerStyle={{
+        height:hp(20),
+        backgroundColor:Colors.white,
+    borderTopLeftRadius:Wp(20),
+    borderTopRightRadius:Wp(20),
+    paddingTop:Wp(30),
+    paddingHorizontal:Wp(20),
+      }}
+      ref={bottomSheetRef2}
+        >
+        <Heading style={ms(['textMuted'])}>
+          Views
+        </Heading>
+        <View style={ms(['flexRow','alignCenter','justifyCenter'])}>
+        <MyButton
+        title='Monthly'
+        style={ms(['py_12','px:50','mr:10','mt_10'])}
+        onPress={()=>{
+          bottomSheetRef2.current?.hide()
+          setCalenderType('monthly')
+        }}
+        />
+         <MyButton
+        title='Weekly'
+        style={ms(['py_12','px:50','mr:10','mt_10'])}
+        onPress={()=>{
+          bottomSheetRef2.current?.hide()
+          setCalenderType('weekly')
+        }
+        }
+        />
+   
+        </View>
+        
+        </ActionSheet>
+        
     </SafeAreaView>
   );
 };

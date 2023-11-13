@@ -66,11 +66,11 @@ const MonthlyCalendar = () => {
               style={ms([
                 'alignCenter',
                 'alignSelfStart',
-
+                'mt_10',
                 'py_10',
                 {
-                  padding: 5,
-                  width: Wp(55),
+                
+                  width: Wp(50),
                 },
               ])}
             >
@@ -101,7 +101,7 @@ const MonthlyCalendar = () => {
                   {
                     
                     paddingVertical: Wp(10),
-                    width: Wp(55),
+                    width: Wp(50),
                     alignItems: 'center',
                     justifyContent: 'center',
                   },

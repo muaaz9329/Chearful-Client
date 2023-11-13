@@ -77,14 +77,15 @@ const WeeklyCalendar = () => {
                   indexDate > todayDate && { opacity: 0.5 },
                   'py_10',
                   {
-                    padding: 5,
-                    width: Wp(55),
+                    
+                    width: Wp(50),
                   },
                   //@ts-ignore
                   selectedDate &&
                   selectedDate.toDateString() === day.toDateString()
                     ? selectedDay
                     : {},
+                  'mt_10'
                 ])}
                 disabled={indexDate > todayDate}
               >

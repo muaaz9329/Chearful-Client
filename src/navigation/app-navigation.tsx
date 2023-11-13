@@ -18,6 +18,9 @@ import NewCalendar from '@app/domains/mood-dairy/screens/main-screen/components/
 import { SafeAreaView } from 'react-native-safe-area-context';
 import WeeklyCalendar from '@app/domains/mood-dairy/screens/main-screen/components/weekly-calender';
 import MonthlyCalendar from '@app/domains/mood-dairy/screens/main-screen/components/calender';
+import MainScreen from '@app/domains/mood-dairy/screens/main-screen/main-screen';
+import AddMood from '@app/domains/mood-dairy/screens/add-mood/add-mood';
+import ViewMood from '@app/domains/mood-dairy/screens/view-mood/view-mood';
 
 
 const Tab = createBottomTabNavigator();
@@ -157,9 +160,9 @@ export default function AppNavigation() {
     //     component={ConsumerContentsNavigation}
     //   />
     // </Stack.Navigator>
-    <SafeAreaView>
-<MonthlyCalendar/>
-</SafeAreaView>
+   
+<MainScreen/>
+
 
 
   
