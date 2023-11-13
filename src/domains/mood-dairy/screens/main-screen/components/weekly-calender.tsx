@@ -1,87 +1,122 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useRef, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import globalStyles from '@app/assets/global-styles';
-import AppText from '../../../../../components/ui/app-text';
 import ms from '@app/assets/master-styles';
-import { Wp } from '@app/utils';
-import { ViewStyle } from 'react-native-size-matters';
+import { AppText } from '@app/components';
 import { Colors } from '@app/constants';
+import { Wp } from '@app/utils';
+import React, { useState } from 'react';
+import { View, Text, Button, TouchableOpacity } from 'react-native';
+import { ViewStyle } from 'react-native-size-matters';
+import MonthSelection from './month-selection';
 
-type Props = {};
-
-const WeeklyCalender = (props: Props) => {
-
-
+const WeeklyCalendar = () => {
+  const [currentWeek, setCurrentWeek] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const selectedDay: ViewStyle = {
     borderRadius: Wp(25),
     backgroundColor: Colors.greenDim,
   };
- 
+  const getDaysInWeek = (date: any) => {
+    const daysArray = [];
+    const currentDay = new Date(date);
+    const startDay = new Date(currentDay);
+    startDay.setDate(currentDay.getDate() - currentDay.getDay()); // Move back to Sunday of the current week
 
-  const [selected, setSelected] = useState<
-    {
-      day: number;
-      isSelected: boolean;
-    }[]
-  >([
-    { day: 0, isSelected: false },
-    { day: 1, isSelected: false },
-    { day: 2, isSelected: false },
-    { day: 3, isSelected: false },
-    { day: 4, isSelected: false },
-    { day: 5, isSelected: false },
-    { day: 6, isSelected: false },
-  ]);
-
-  const handleCalenderPress = (day: number) => {
-    if (selected[day]?.isSelected) {
-      // for unselecting the day
-      setSelected(
-        selected.map((item) => {
-          if (item.day === day) {
-            return { ...item, isSelected: false };
-          }
-          return item;
-        }),
-      );
-    } else {
-      // for selecting only one day at a time
-      setSelected(
-        selected.map((item) => {
-          if (item.day === day) {
-            return { ...item, isSelected: true };
-          }
-          return { ...item, isSelected: false };
-        }),
-      );
+    for (let i = 0; i < 7; i++) {
+      daysArray.push(new Date(startDay));
+      startDay.setDate(startDay.getDate() + 1);
     }
+
+    return daysArray;
   };
 
-  return (
-    <View style={ms(['flexRow', 'justifyAround'])}>
-      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((item, index) => {
-        return (
-          <Pressable
-            style={ms([
-              'alignCenter',
-              'alignSelfStart',
-              'px_8',
-              'py_10',
-              selected[index]?.isSelected && (selectedDay as any),
-            ])}
-            onPress={() => handleCalenderPress(index)}
-            key={index}
-          >
-            <AppText style={[globalStyles.nunito_700,{textTransform:'uppercase'}]}>{item}</AppText>
-            <AppText style={globalStyles.mt_18}>26</AppText>
-          </Pressable>
-        );
-      })}
-    </View>
-  );
+  const previousWeek = () => {
+    const prevWeek = new Date(currentWeek);
+    prevWeek.setDate(prevWeek.getDate() - 7);
+    setCurrentWeek(prevWeek);
+  };
+
+  const nextWeek = () => {
+    const next = new Date(currentWeek);
+    next.setDate(next.getDate() + 7);
+    setCurrentWeek(next);
+  };
+
+  const handleDayClick = (day: any) => {
+    setSelectedDate(day);
+    console.log(day); // Log the selected date
+  };
+
+  const renderWeek = () => {
+    const daysArray = getDaysInWeek(currentWeek);
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    return (
+      <View>
+        <MonthSelection
+          text={`${currentWeek.toLocaleDateString('default', {
+            month: 'long',
+          })} ${currentWeek.getFullYear()}`}
+          onPressNextMonth={nextWeek}
+          onPressPreviousMonth={previousWeek}
+        />
+
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          {daysArray.map((day, i) => {
+            const todayDate = new Date();
+            const indexDate = daysArray[i];
+            return (
+              <TouchableOpacity
+                key={day.getDate()}
+                onPress={() => {
+                  handleDayClick(day);
+                }}
+                style={ms([
+                  'alignCenter',
+                  'alignSelfStart',
+                  //@ts-ignore
+                  indexDate > todayDate && { opacity: 0.5 },
+                  'py_10',
+                  {
+                    
+                    width: Wp(50),
+                  },
+                  //@ts-ignore
+                  selectedDate &&
+                  selectedDate.toDateString() === day.toDateString()
+                    ? selectedDay
+                    : {},
+                  'mt_10'
+                ])}
+                disabled={indexDate > todayDate}
+              >
+                {/* <Text>{dayNames[i]+" "}{day.getDate()}</Text> */}
+
+                <AppText
+                  style={[
+                    globalStyles.nunito_700,
+                    { textTransform: 'uppercase' },
+                    indexDate > todayDate && { opacity: 0.5 },
+                  ]}
+                >
+                  {dayNames[i]}
+                </AppText>
+                <AppText
+                  style={[
+                    globalStyles.mt_18,
+                    // indexDate > todayDate && { opacity: 0.5 },
+                  ]}
+                >
+                  {day.getDate()}
+                </AppText>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </View>
+    );
+  };
+
+  return <View>{renderWeek()}</View>;
 };
 
-export default WeeklyCalender;
-
-const styles = StyleSheet.create({});
+export default WeeklyCalendar;
