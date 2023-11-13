@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-  ScreenChooseJournal,
-  // ScreenJournalHome,
+  // ScreenChooseJournal,
+  ScreenJournalHome,
   // ScreenJournalPlaceholder,
 } from '../screens';
 
@@ -23,15 +23,15 @@ export default function JournalNavigation() {
         name={JournalNavigator.Placeholder}
         component={ScreenJournalPlaceholder}
       /> */}
-      {/* <Stack.Screen
-        name={JournalNavigator.Home}
-        component={ScreenJournalHome}
-      /> */}
-
       <Stack.Screen
         name={JournalNavigator.Home}
-        component={ScreenChooseJournal}
+        component={ScreenJournalHome}
       />
+
+      {/* <Stack.Screen
+        name={JournalNavigator.Home}
+        component={ScreenChooseJournal}
+      /> */}
     </Stack.Navigator>
   );
 }

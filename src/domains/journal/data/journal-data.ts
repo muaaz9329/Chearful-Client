@@ -1,3 +1,5 @@
+import { JournalEntry } from '../types';
+
 export const journalTypes = [
   {
     id: 1,
@@ -46,7 +48,7 @@ export const journalEntryTimes = [
   },
 ];
 
-export const journalEntries = [
+export const journalEntries: JournalEntry[] = [
   {
     id: 1,
     type: {
@@ -168,13 +170,13 @@ export const journalEntries = [
       {
         id: 1,
         title: 'Highlight of the day with family.',
-        type: 'text',
+        type: 'question',
         answer: '',
       },
       {
         id: 2,
         title: 'What could have been improved in family interactions?',
-        type: 'text',
+        type: 'question',
         answer: '',
       },
       {
@@ -205,7 +207,7 @@ export const journalEntries = [
       {
         id: 1,
         title: 'Describe your physical activity today.',
-        type: 'text',
+        type: 'question',
         answer: '',
       },
       {
@@ -261,7 +263,7 @@ export const journalEntries = [
       {
         id: 1,
         title: 'Reflect on a spiritual thought or quote.',
-        type: 'text',
+        type: 'question',
         answer: '',
       },
       {

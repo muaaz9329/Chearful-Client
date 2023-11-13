@@ -12,7 +12,7 @@ export default function BaseCard({ children, style, ...props }: ViewProps) {
           maxWidth: IsTablet ? Wp(240) : Wp(345),
           backgroundColor: Colors.greenDim,
           borderRadius: 20,
-          padding: moderateVerticalScale(22),
+          padding: moderateVerticalScale(20),
         },
         style,
       ]}

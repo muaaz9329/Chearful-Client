@@ -1,8 +1,17 @@
 import globalStyles from '@app/assets/global-styles';
-import { CategoryFilter, Header, Heading, SearchInput } from '@app/components';
-import { View } from 'react-native';
+import {
+  CategoryFilter,
+  Header,
+  Heading,
+  SearchInput,
+  XGap,
+  YGap,
+} from '@app/components';
+import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { journalTypes } from '../data/journal-data';
+import { journalEntries, journalTypes } from '../data/journal-data';
+import { hp } from '@app/utils';
+import JournalEntryCard from '../components/journal-entry-card';
 
 export default function ScreenJournalHome() {
   return (
@@ -27,6 +36,25 @@ export default function ScreenJournalHome() {
 
       <View style={globalStyles.mt_15}>
         <CategoryFilter tags={journalTypes} />
+      </View>
+
+      <View
+        style={[
+          globalStyles.mt_15,
+          {
+            // flex: 1,
+            paddingBottom: hp(2),
+          },
+        ]}
+      >
+        <FlatList
+          data={journalEntries}
+          renderItem={({ item }) => <JournalEntryCard entry={item} />}
+          showsVerticalScrollIndicator={false}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={XGap}
+        />
       </View>
     </SafeAreaView>
   );
