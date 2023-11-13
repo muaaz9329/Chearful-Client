@@ -58,7 +58,7 @@ const MainScreen = (props: Props) => {
         </View>
       </Header>
       <View style={ms(['topMargin'])}>
-        <MonthSelection />
+        
       </View>
       <View style={ms(['topMargin'])}>
         <WeeklyCalender />
