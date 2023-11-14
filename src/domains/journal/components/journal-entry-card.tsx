@@ -16,7 +16,6 @@ const JournalEntryCard = ({ entry, onPress }: Props) => {
     <TouchableOpacity onPress={onPress}>
       <BaseCard
         style={{
-          justifyContent: 'space-between',
           minWidth: mvs(200),
         }}
       >
@@ -30,35 +29,46 @@ const JournalEntryCard = ({ entry, onPress }: Props) => {
             })}
           </AppText>
         </View>
+
         <View
           style={{
-            flexDirection: 'row',
-            columnGap: Wp(10),
-            alignItems: 'center',
+            marginTop: 'auto',
           }}
         >
-          <Image
-            source={AppImages.userGoal}
-            style={{
-              width: ms(45),
-              height: ms(45),
-              borderRadius: ms(20),
-              borderWidth: 2,
-              borderColor: '#E0E0E0',
-              resizeMode: 'contain',
-            }}
-          />
-          <View>
-            <AppText>Reminded By </AppText>
-            <AppText
-              size="md"
+          {!entry.assignedBy ? (
+            <AppText>Self Assigned</AppText>
+          ) : (
+            <View
               style={{
-                color: Colors.primary,
+                flexDirection: 'row',
+                columnGap: Wp(10),
+                alignItems: 'center',
               }}
             >
-              Dr. Philip
-            </AppText>
-          </View>
+              <Image
+                source={AppImages.userGoal}
+                style={{
+                  width: ms(45),
+                  height: ms(45),
+                  borderRadius: ms(20),
+                  borderWidth: 1,
+                  borderColor: '#E0E0E0',
+                  resizeMode: 'contain',
+                }}
+              />
+              <View>
+                <AppText>Reminded By </AppText>
+                <AppText
+                  size="md"
+                  style={{
+                    color: Colors.primary,
+                  }}
+                >
+                  {entry.assignedBy.title}
+                </AppText>
+              </View>
+            </View>
+          )}
         </View>
       </BaseCard>
     </TouchableOpacity>
