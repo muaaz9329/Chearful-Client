@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from '@app/assets/svgs';
 import { IconComponent } from '@app/types';
 import ms from '@app/assets/master-styles';
-import { Wp, wp } from '@app/utils';
+import { IsTablet, Wp, wp } from '@app/utils';
 import { Colors } from '@app/constants';
 import MoodBox from '../../components/mood-box';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
@@ -73,12 +73,12 @@ const AddMood = () => {
           </View>
           <View style={ms(['flexRow', 'justifyAround'])}>
             <RoundButton bgColor={Colors.muted} onPress={() => handlePrev()}>
-              <IconArrowLeft size={Wp(20)} color={'#fff'} />
+              <IconArrowLeft size={IsTablet ? Wp(15):Wp(20)} color={'#fff'} />
             </RoundButton>
 
             <RoundButton bgColor={Colors.primary} onPress={() => handleNext()}>
               {index < 2 ? (
-                <IconArrowRight size={Wp(20)} color={'#fff'} />
+                <IconArrowRight size={IsTablet ? Wp(15):Wp(20)} color={'#fff'} />
               ) : (
                 <AppText size="lg" style={ms(['textWhite','mulish_700'])}>
                   Save

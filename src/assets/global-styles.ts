@@ -546,6 +546,9 @@ const globalStyles = StyleSheet.create({
   },
   'rounded-5':{
     borderRadius:Wp(38)
+  },
+  'rounded-1':{
+    borderRadius:Wp(8)
   }
 });
 
