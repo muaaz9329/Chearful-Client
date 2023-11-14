@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -13,15 +13,15 @@ import ConsumerContentsNavigation from '@app/domains/consumer-contents/navigatio
 import ScreenConsumerContentsHome from '@app/domains/consumer-contents/domains/home';
 import ScreenScheduleSession from '@app/domains/standalones/screens';
 import { WebLinkTabButton } from './components';
-import { Platform } from 'react-native';
-import NewCalendar from '@app/domains/mood-dairy/screens/main-screen/components/calender';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import WeeklyCalendar from '@app/domains/mood-dairy/screens/main-screen/components/weekly-calender';
-import MonthlyCalendar from '@app/domains/mood-dairy/screens/main-screen/components/calender';
-import MainScreen from '@app/domains/mood-dairy/screens/main-screen/main-screen';
-import AddMood from '@app/domains/mood-dairy/screens/add-mood/add-mood';
-import ViewMood from '@app/domains/mood-dairy/screens/view-mood/view-mood';
 
+// import NewCalendar from '@app/domains/mood-dairy/screens/main-screen/components/calender';
+// import WeeklyCalendar from '@app/domains/mood-dairy/screens/main-screen/components/weekly-calender';
+// import MonthlyCalendar from '@app/domains/mood-dairy/screens/main-screen/components/calender';
+// import AddMood from '@app/domains/mood-dairy/screens/add-mood/add-mood';
+// import ViewMood from '@app/domains/mood-dairy/screens/view-mood/view-mood';
+
+import MainScreen from '@app/domains/mood-dairy/screens/main-screen/main-screen';
+import JournalNavigation from '@app/domains/journal/navigation';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -31,6 +31,7 @@ export const enum AppNavigator {
   'Auth' = 'Auth',
   'ThirtyXThirty' = 'ThirtyXThirty',
   'ConsumerContents' = 'ConsumerContents',
+  'Journal' = 'Journal',
 }
 
 export const enum HomeTabsNavigator {
@@ -137,36 +138,29 @@ const RootTabNavigation = () => {
  */
 export default function AppNavigation() {
   return (
-    // <Stack.Navigator
-    //   initialRouteName={AppNavigator.HomeTabs}
-    //   screenOptions={{
-    //     headerShown: false,
-    //   }}
-    // >
-    //   <Stack.Screen
-    //     name={AppNavigator.HomeTabs}
-    //     component={RootTabNavigation}
-    //   />
+    <Stack.Navigator
+      // initialRouteName={AppNavigator.HomeTabs}
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} />
+      <Stack.Screen
+        name={AppNavigator.HomeTabs}
+        component={RootTabNavigation}
+      />
 
-    //   <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
+      <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
 
-    //   <Stack.Screen
-    //     name={AppNavigator.ThirtyXThirty}
-    //     component={ThirtyXThirtyNavigation}
-    //   />
+      <Stack.Screen
+        name={AppNavigator.ThirtyXThirty}
+        component={ThirtyXThirtyNavigation}
+      />
 
-    //   <Stack.Screen
-    //     name={AppNavigator.ConsumerContents}
-    //     component={ConsumerContentsNavigation}
-    //   />
-    // </Stack.Navigator>
-   
-<MainScreen/>
-
-
-
-  
-   
-  
+      <Stack.Screen
+        name={AppNavigator.ConsumerContents}
+        component={ConsumerContentsNavigation}
+      />
+    </Stack.Navigator>
   );
 }
