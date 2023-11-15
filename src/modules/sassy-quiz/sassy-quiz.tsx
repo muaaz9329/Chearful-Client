@@ -29,6 +29,8 @@ export default function SassyQuiz(props: SassyQuizProps) {
         titleProps,
         style = {},
         data,
+        showQuestionTxt = true,
+        showSubmitBtn = true,
         questionProps,
         selectedOptions,
         questionNo,
@@ -60,12 +62,15 @@ export default function SassyQuiz(props: SassyQuizProps) {
 
             <View>
               {/* Question  */}
-              <Heading
-                size="md"
-                style={[globalStyles.textCenter, questionProps?.style || {}]}
-              >
-                {currentQuestion.question}
-              </Heading>
+
+              {showQuestionTxt && (
+                <Heading
+                  size="md"
+                  style={[globalStyles.textCenter, questionProps?.style || {}]}
+                >
+                  {currentQuestion.question}
+                </Heading>
+              )}
 
               {/* Options */}
               {currentQuestion.options.map((option, index) => (
@@ -135,7 +140,7 @@ export default function SassyQuiz(props: SassyQuizProps) {
 
               {
                 // If there are no more questions then show the submit button
-                !hasNextQuestion && (
+                !hasNextQuestion && showSubmitBtn && (
                   <MyButton
                     title="Submit"
                     onPress={() => {

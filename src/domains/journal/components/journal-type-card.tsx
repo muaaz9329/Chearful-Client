@@ -1,13 +1,8 @@
 import { AppImages } from '@app/assets/images';
 import { AppText, BaseCard, Heading } from '@app/components';
-import { Colors } from '@app/constants';
 import { wp } from '@app/utils';
 import { Image, TouchableOpacity, View } from 'react-native';
-import {
-  moderateScale,
-  moderateVerticalScale,
-  scale,
-} from 'react-native-size-matters';
+import { moderateVerticalScale } from 'react-native-size-matters';
 
 type Props = {
   title: string;
@@ -23,7 +18,12 @@ const JournalTypeCard = ({
   onPress,
 }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        flexDirection: 'row',
+      }}
+    >
       <BaseCard
         style={{
           minHeight: wp(17),

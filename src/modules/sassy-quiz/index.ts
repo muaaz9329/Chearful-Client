@@ -28,6 +28,8 @@ export type SassyQuizProps = {
   data: SassyQuizData;
   style?: ViewStyle;
   title?: string;
+  showQuestionTxt?: boolean;
+  showSubmitBtn?: boolean;
   titleProps?: Partial<HeadingProps>;
   questionProps?: Partial<HeadingProps>;
   optionStyles?: TouchableOpacityProps['style'];

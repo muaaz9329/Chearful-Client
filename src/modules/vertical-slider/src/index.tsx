@@ -1,8 +1,7 @@
 /**
  * made by: Muaaz Bin Sarfaraz
- * !used it with caution as it is not fully tested
+ * !use it with caution as it is not fully tested
  */
-
 
 import * as React from 'react';
 import {
@@ -17,7 +16,6 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import type { SliderProps } from './slider.types';
-import { Text } from 'react-native-paper';
 
 const VerticalSlider: React.FC<SliderProps> = ({
   min = 0,
@@ -43,7 +41,7 @@ const VerticalSlider: React.FC<SliderProps> = ({
   value: currentValue = 0,
   EmojiComponent,
   showEmoji,
-  enable=true
+  enable = true,
 }: SliderProps) => {
   const {
     shadowOffsetWidth = 0,
@@ -228,16 +226,17 @@ const VerticalSlider: React.FC<SliderProps> = ({
 
   return (
     <View style={[shadowStyles, sliderBaseStyles]}>
-    { !enable &&  <View style={{
-        
-        height:height,
-        width:width,
-        borderRadius:borderRadius,
-        position:'absolute',
-        zIndex:5
-      }} >
-
-      </View>}
+      {!enable && (
+        <View
+          style={{
+            height: height,
+            width: width,
+            borderRadius: borderRadius,
+            position: 'absolute',
+            zIndex: 5,
+          }}
+        ></View>
+      )}
       <View
         style={[
           styles.container,
@@ -247,9 +246,7 @@ const VerticalSlider: React.FC<SliderProps> = ({
         {...panResponder.panHandlers}
       >
         <Animated.View style={[sliderBaseStyles, styles.slider, sliderStyle]}>
-          {showEmoji && EmojiComponent
-            ? EmojiComponent()
-            : null}
+          {showEmoji && EmojiComponent ? EmojiComponent() : null}
         </Animated.View>
       </View>
       {showBallIndicator && (
