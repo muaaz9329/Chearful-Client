@@ -5,8 +5,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { journalTypes } from '../data/journal-data';
 import JournalTypeCard from '../components/journal-type-card';
 import { IsTablet, hp } from '@app/utils';
+import { NavigationHelpers } from '@react-navigation/native';
+import { JournalNavigator } from '../navigation';
 
-export default function ScreenChooseJournal() {
+export default function ScreenChooseJournal({
+  navigation,
+}: {
+  navigation: NavigationHelpers<any, any>;
+}) {
   return (
     <SafeAreaView style={globalStyles.Wrapper}>
       <Header headerType="New" pram="back">
@@ -42,6 +48,11 @@ export default function ScreenChooseJournal() {
             <JournalTypeCard
               title={item.title}
               description={item.description}
+              onPress={() =>
+                navigation.navigate(JournalNavigator.AddEntry, {
+                  journalType: item,
+                })
+              }
             />
           )}
           contentContainerStyle={

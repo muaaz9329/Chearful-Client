@@ -1,13 +1,17 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-  // ScreenChooseJournal,
+  ScreenChooseJournal,
   ScreenJournalHome,
-  // ScreenJournalPlaceholder,
+  ScreenJournalPlaceholder,
+  ScreenAddJournalEntry,
 } from '../screens';
 
 export const enum JournalNavigator {
   'Placeholder' = 'Placeholder',
   'Home' = 'Home',
+  'ChooseJournal' = 'ChooseJournal',
+  'AddEntry' = 'AddEntry',
+  'EntryDetailed' = 'EntryDetailed',
 }
 
 export default function JournalNavigation() {
@@ -19,19 +23,24 @@ export default function JournalNavigation() {
         headerShown: false,
       }}
     >
-      {/* <Stack.Screen
+      <Stack.Screen
         name={JournalNavigator.Placeholder}
         component={ScreenJournalPlaceholder}
-      /> */}
+      />
       <Stack.Screen
         name={JournalNavigator.Home}
         component={ScreenJournalHome}
       />
 
-      {/* <Stack.Screen
-        name={JournalNavigator.Home}
+      <Stack.Screen
+        name={JournalNavigator.ChooseJournal}
         component={ScreenChooseJournal}
-      /> */}
+      />
+
+      <Stack.Screen
+        name={JournalNavigator.AddEntry}
+        component={ScreenAddJournalEntry}
+      />
     </Stack.Navigator>
   );
 }

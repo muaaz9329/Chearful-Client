@@ -8,8 +8,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale } from 'react-native-size-matters';
 import JournalTypeCard from '../components/journal-type-card';
 import { journalTypes } from '../data/journal-data';
+import { NavigationHelpers } from '@react-navigation/native';
+import { JournalNavigator } from '../navigation';
 
-export default function ScreenJournalPlaceholder() {
+export default function ScreenJournalPlaceholder({
+  navigation,
+}: {
+  navigation: NavigationHelpers<any, any>;
+}) {
   return (
     <SafeAreaView style={globalStyles.Wrapper}>
       <Header pram="back" headerType="New">
@@ -65,9 +71,6 @@ export default function ScreenJournalPlaceholder() {
           </AppText>
 
           <FlatList
-            contentContainerStyle={{
-              flex: 1,
-            }}
             horizontal
             data={journalTypes}
             renderItem={({ item }) => (
@@ -82,7 +85,12 @@ export default function ScreenJournalPlaceholder() {
           />
         </View>
 
-        <MyButton title="Explore More" />
+        <MyButton
+          onPress={() => {
+            navigation.navigate(JournalNavigator.Home);
+          }}
+          title="Explore More"
+        />
       </ScrollView>
     </SafeAreaView>
   );

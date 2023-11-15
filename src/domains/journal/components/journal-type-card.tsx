@@ -2,7 +2,7 @@ import { AppImages } from '@app/assets/images';
 import { AppText, BaseCard, Heading } from '@app/components';
 import { Colors } from '@app/constants';
 import { wp } from '@app/utils';
-import { Image, View } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import {
   moderateScale,
   moderateVerticalScale,
@@ -13,41 +13,45 @@ type Props = {
   title: string;
   description: string;
   image?: any;
+  onPress?: () => void;
 };
 
 const JournalTypeCard = ({
   title,
   description,
   image = AppImages.userGoal,
+  onPress,
 }: Props) => {
   return (
-    <BaseCard
-      style={{
-        minHeight: wp(17),
-        minWidth: moderateVerticalScale(300),
-      }}
-    >
-      <Image
-        source={image}
+    <TouchableOpacity onPress={onPress}>
+      <BaseCard
         style={{
-          position: 'absolute',
-          right: 0,
-          bottom: 0,
-          height: moderateVerticalScale(80),
-          resizeMode: 'contain',
-        }}
-      />
-
-      <View
-        style={{
-          maxWidth: '68%',
-          //   paddingTop: scale(5),
+          minHeight: wp(17),
+          minWidth: moderateVerticalScale(300),
         }}
       >
-        <Heading size="md">{title}</Heading>
-        <AppText>{description}</AppText>
-      </View>
-    </BaseCard>
+        <Image
+          source={image}
+          style={{
+            position: 'absolute',
+            right: 0,
+            bottom: 0,
+            height: moderateVerticalScale(80),
+            resizeMode: 'contain',
+          }}
+        />
+
+        <View
+          style={{
+            maxWidth: '68%',
+            //   paddingTop: scale(5),
+          }}
+        >
+          <Heading size="md">{title}</Heading>
+          <AppText>{description}</AppText>
+        </View>
+      </BaseCard>
+    </TouchableOpacity>
   );
 };
 

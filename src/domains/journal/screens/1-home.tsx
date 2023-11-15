@@ -16,8 +16,13 @@ import { ms } from 'react-native-size-matters';
 import { useState } from 'react';
 import { IconPlus } from 'tabler-icons-react-native';
 import JournalActionsSheet from '../components/journal-actions-sheet';
+import { NavigationHelpers } from '@react-navigation/native';
 
-export default function ScreenJournalHome() {
+export default function ScreenJournalHome({
+  navigation,
+}: {
+  navigation: NavigationHelpers<any, any>;
+}) {
   const [sheetShown, setSheetShown] = useState(false);
 
   return (
@@ -79,6 +84,7 @@ export default function ScreenJournalHome() {
 
       {sheetShown && (
         <JournalActionsSheet
+          navigation={navigation}
           onClose={() => {
             setSheetShown(false);
           }}
