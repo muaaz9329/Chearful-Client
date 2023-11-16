@@ -7,21 +7,17 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors } from '@app/constants/';
 import { Hp, IsTablet, hp, wp } from '@app/utils';
 import { ForumNavigation } from '@app/domains/consumer-contents/domains/forum';
-import AuthNavigation from '@app/domains/authentication/navigation';
-import ThirtyXThirtyNavigation from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
-import ConsumerContentsNavigation from '@app/domains/consumer-contents/navigation/consumer-contents-navigation';
+
 import ScreenConsumerContentsHome from '@app/domains/consumer-contents/domains/home';
 import ScreenScheduleSession from '@app/domains/standalones/screens';
 import { WebLinkTabButton } from './components';
+//*--------------------------All Navigation Imports--------------------------*//
 
-// import NewCalendar from '@app/domains/mood-dairy/screens/main-screen/components/calender';
-// import WeeklyCalendar from '@app/domains/mood-dairy/screens/main-screen/components/weekly-calender';
-// import MonthlyCalendar from '@app/domains/mood-dairy/screens/main-screen/components/calender';
-// import AddMood from '@app/domains/mood-dairy/screens/add-mood/add-mood';
-// import ViewMood from '@app/domains/mood-dairy/screens/view-mood/view-mood';
-
-import MainScreen from '@app/domains/mood-dairy/screens/main-screen/main-screen';
+import AuthNavigation from '@app/domains/authentication/navigation';
+import ThirtyXThirtyNavigation from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
+import ConsumerContentsNavigation from '@app/domains/consumer-contents/navigation/consumer-contents-navigation';
 import JournalNavigation from '@app/domains/journal/navigation';
+import MoodDiaryNavigation from '@app/domains/mood-dairy/navigation';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -32,6 +28,7 @@ export const enum AppNavigator {
   'ThirtyXThirty' = 'ThirtyXThirty',
   'ConsumerContents' = 'ConsumerContents',
   'Journal' = 'Journal',
+  'MoodDiary' = 'MoodDiary',
 }
 
 export const enum HomeTabsNavigator {
@@ -144,6 +141,10 @@ export default function AppNavigation() {
         headerShown: false,
       }}
     >
+      <Stack.Screen
+        name={AppNavigator.MoodDiary}
+        component={MoodDiaryNavigation}
+      />
       <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} />
       <Stack.Screen
         name={AppNavigator.HomeTabs}

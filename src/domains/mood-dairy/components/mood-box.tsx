@@ -3,7 +3,7 @@ import React from 'react';
 import ms from '@app/assets/master-styles';
 import { Image } from 'react-native';
 import { MoodTypes, images } from '../screens/main-screen/components/mood-card';
-import { Wp } from '@app/utils';
+import { IsTablet, Wp } from '@app/utils';
 import { Colors } from '@app/constants';
 import { AppText, Heading } from '@app/components';
 
@@ -17,9 +17,23 @@ export const MoodText = {
 
 const MoodBox = ({ mood = 'happy' }: { mood: MoodTypes }) => {
   return (
-    <View style={styles.emojiCont}>
-      <View style={ms(['px:10', 'py:10', styles.boxShadow, 'bg_white'])}>
-        <Image source={images[mood]} style={styles.emojiImageStyles} />
+    <View style={[styles.emojiCont, IsTablet && styles.emojiCont_tablet]}>
+      <View
+        style={ms([
+          'px:10',
+          'py:10',
+          styles.boxShadow,
+          'bg_white',
+          IsTablet && ['px:6', 'py:6', 'br:16'],
+        ])}
+      >
+        <Image
+          source={images[mood]}
+          style={[
+            styles.emojiImageStyles,
+            IsTablet && styles.emojiImageStyles_tablet,
+          ]}
+        />
       </View>
       <Heading size="lg" style={ms(['textCenter', 'mt:5'])}>
         {MoodText[mood]}
@@ -31,6 +45,13 @@ const MoodBox = ({ mood = 'happy' }: { mood: MoodTypes }) => {
 export default MoodBox;
 
 const styles = StyleSheet.create({
+  emojiCont_tablet: {
+    top: -Wp(30),
+  },
+  emojiImageStyles_tablet: {
+    width: Wp(40),
+    height: Wp(40),
+  },
   emojiImageStyles: {
     width: Wp(64),
     height: Wp(64),
@@ -40,7 +61,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -Wp(60),
     alignSelf: 'center',
-    zIndex:10
+    zIndex: 10,
   },
   boxShadow: {
     borderRadius: Wp(24),

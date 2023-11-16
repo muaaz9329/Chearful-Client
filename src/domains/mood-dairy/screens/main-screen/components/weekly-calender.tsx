@@ -2,7 +2,7 @@ import globalStyles from '@app/assets/global-styles';
 import ms from '@app/assets/master-styles';
 import { AppText } from '@app/components';
 import { Colors } from '@app/constants';
-import { Wp } from '@app/utils';
+import { IsTablet, Wp } from '@app/utils';
 import React, { useState } from 'react';
 import { View, Text, Button, TouchableOpacity } from 'react-native';
 import { ViewStyle } from 'react-native-size-matters';
@@ -60,7 +60,7 @@ const WeeklyCalendar = () => {
           onPressPreviousMonth={previousWeek}
         />
 
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        <View style={ms(['flexRow' , 'flexWrap' ,IsTablet && ['alignSelfCenter']])}>
           {daysArray.map((day, i) => {
             const todayDate = new Date();
             const indexDate = daysArray[i];
@@ -76,20 +76,18 @@ const WeeklyCalendar = () => {
                   //@ts-ignore
                   indexDate > todayDate && { opacity: 0.5 },
                   'py_10',
-                  {
-                    
-                    width: Wp(50),
-                  },
+                  'W:50',
                   //@ts-ignore
                   selectedDate &&
                   selectedDate.toDateString() === day.toDateString()
                     ? selectedDay
                     : {},
-                  'mt_10'
+                  'mt_10',
+                  IsTablet && ['W:40', 'mt:5',],
                 ])}
                 disabled={indexDate > todayDate}
               >
-                {/* <Text>{dayNames[i]+" "}{day.getDate()}</Text> */}
+                
 
                 <AppText
                   style={[
@@ -103,7 +101,7 @@ const WeeklyCalendar = () => {
                 <AppText
                   style={[
                     globalStyles.mt_18,
-                    // indexDate > todayDate && { opacity: 0.5 },
+                    
                   ]}
                 >
                   {day.getDate()}

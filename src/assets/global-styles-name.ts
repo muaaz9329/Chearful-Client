@@ -162,4 +162,6 @@ type GlobalStyleName =
   | 'rounded-2'
   | 'rounded-3'
   | 'rounded-4'
-  | 'rounded-5';
+  | 'rounded-5'
+  | 'round'
+  | 'rounded-1';

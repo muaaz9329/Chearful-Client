@@ -7,6 +7,7 @@ import { Wp, capitalizeFirstLetter, formatDateTo12HourTime } from '@app/utils';
 import { AppText } from '@app/components';
 import Dot from '@app/assets/svgs/icons/Dot';
 import { Colors } from '@app/constants';
+import { IsTablet } from '../../../../../utils/utils-responsiveness';
 
 type Props = {};
 
@@ -17,8 +18,6 @@ export const images = {
   peaceful: moodDiaryImages.peaceful,
   neutral: moodDiaryImages.neutral,
 };
-
-
 
 export type MoodTypes = 'happy' | 'sad' | 'angry' | 'peaceful' | 'neutral';
 const MoodCard = ({
@@ -31,36 +30,41 @@ const MoodCard = ({
   rating: number;
 }) => {
   return (
-
-      <View
-        style={ms([
-          'flexRow',
-          'justifyBetween',
-          'alignCenter',
-          'bg_cont',
-          'px:12',
-          'py_10',
-          'br:14',
-          'my:5'
-       
-        ])}
-      >
-        <View style={ms(['flexRow', 'alignCenter'])}>
-          <Image source={images[mood]} style={ms(['mx:4', 'W:30', 'H:30'])} />
-          <AppText
-            size="base"
-            style={ms(['textPrimary', 'mulish_600', 'mr:5'])}
-          >{`${capitalizeFirstLetter(mood)} (${rating}/10)`}</AppText>
-          <Dot width={Wp(5)} height={Wp(5)} color={Colors.primary} />
-          <AppText size="base" style={ms(['textMuted', 'mulish_600', 'ml:5'])}>
-            {formatDateTo12HourTime(date)}
-          </AppText>
-        </View>
-        <View>
-          <IconChevronRight size={Wp(25)} color={'#000'} />
-        </View>
+    <View
+      style={ms([
+        'flexRow',
+        'justifyBetween',
+        'alignCenter',
+        'bg_cont',
+        'px:12',
+        'py_10',
+        'br:14',
+        'my:5',
+        IsTablet && ['px:8', 'py_6', 'my:3', 'br:8'],
+      ])}
+    >
+      <View style={ms(['flexRow', 'alignCenter'])}>
+        <Image
+          source={images[mood]}
+          style={ms(['mx:4', 'W:30', 'H:30', IsTablet && ['W:20', 'H:20']])}
+        />
+        <AppText
+          size="base"
+          style={ms(['textPrimary', 'mulish_600', 'mr:5'])}
+        >{`${capitalizeFirstLetter(mood)} (${rating}/10)`}</AppText>
+        <Dot
+          width={IsTablet ? Wp(2.5) : Wp(5)}
+          height={IsTablet ? Wp(2.5) : Wp(5)}
+          color={Colors.primary}
+        />
+        <AppText size="base" style={ms(['textMuted', 'mulish_600', 'ml:5'])}>
+          {formatDateTo12HourTime(date)}
+        </AppText>
       </View>
-
+      <View>
+        <IconChevronRight size={IsTablet ? Wp(16) : Wp(25)} color={'#000'} />
+      </View>
+    </View>
   );
 };
 

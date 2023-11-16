@@ -5,7 +5,7 @@ import ms from '@app/assets/master-styles';
 import { Badge, Header, Heading } from '@app/components';
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from '@app/assets/svgs';
-import { Wp } from '@app/utils';
+import { IsTablet, Wp } from '@app/utils';
 import MoodBox from '../../components/mood-box';
 import { IconComponent } from '@app/types';
 
@@ -58,9 +58,9 @@ const ViewMood = () => {
                   <Badge
                     key={index}
                     text={item}
-                    style={ms(['rounded-3', 'my:2', 'mx:2', 'px_12'])}
+                    style={ms(['rounded-3', 'my:2', 'mx:2','px_12',IsTablet && ['px_8','py_4','my:2','mx:1']])}
                     //@ts-ignore
-                    textStyle={ms(['nunito_500', 'fs_13'])}
+                    textStyle={ms(['nunito_500', 'fs_13' , IsTablet && ['fs_10']])}
                   />
                 );
               })}
@@ -74,9 +74,9 @@ const ViewMood = () => {
                   <Badge
                     key={index}
                     text={item}
-                    style={ms(['rounded-3', 'my:2', 'mx:2', 'px_12'])}
+                    style={ms(['rounded-3', 'my:2', 'mx:2','px_12',IsTablet && ['px_8','py_4','my:2','mx:1']])}
                     //@ts-ignore
-                    textStyle={ms(['nunito_500', 'fs_13'])}
+                    textStyle={ms(['nunito_500', 'fs_13',IsTablet && ['fs_10']])}
                   />
                 );
               })}

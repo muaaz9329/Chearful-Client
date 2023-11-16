@@ -5,7 +5,7 @@ import { Heading } from '@app/components';
 import VerticalSlider from '@app/modules/vertical-slider/src';
 import { Colors } from '@app/constants';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Hp, Wp } from '@app/utils';
+import { Hp, IsTablet, Wp } from '@app/utils';
 import { moodDiaryImages } from '@app/domains/mood-dairy/assets/images';
 
 type Props = {};
@@ -22,8 +22,8 @@ const SlideOne = (props: Props) => {
       </Heading>
       <GestureHandlerRootView>
         <VerticalSlider
-          height={Hp(280)}
-          width={Wp(55)}
+          height={IsTablet ? Hp(250) : Hp(280)}
+          width={IsTablet ? Wp(40) : Wp(55)}
           value={value}
           min={0}
           max={10}
@@ -34,10 +34,25 @@ const SlideOne = (props: Props) => {
           showEmoji
           EmojiComponent={() => {
             return (
-              <View style={styles.emojiCont}>
+              <View
+                style={[
+                  styles.emojiCont,
+                  IsTablet && {
+                    width: Wp(38),
+                    height: Wp(38),
+                    marginTop: Wp(1.5),
+                  },
+                ]}
+              >
                 <Image
                   source={moodDiaryImages.happy}
-                  style={styles.EmojiStyles}
+                  style={[
+                    styles.EmojiStyles,
+                    IsTablet && {
+                      width: Wp(30),
+                      height: Wp(30),
+                    },
+                  ]}
                 />
               </View>
             );

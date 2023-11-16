@@ -542,9 +542,12 @@ const globalStyles = StyleSheet.create({
   'rounded-4': {
     borderRadius: Wp(24),
   },
-  'rounded-5': {
-    borderRadius: Wp(38),
+  'rounded-5':{
+    borderRadius:Wp(38)
   },
+  'rounded-1':{
+    borderRadius:Wp(8)
+  }
 });
 
 //* Custom Functions for Global Styles
