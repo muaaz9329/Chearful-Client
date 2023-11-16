@@ -4,6 +4,7 @@ import {
   ScreenJournalHome,
   ScreenJournalPlaceholder,
   ScreenAddJournalEntry,
+  ScreenJournalEntryDetailed,
 } from '../screens';
 
 export const enum JournalNavigator {
@@ -40,6 +41,11 @@ export default function JournalNavigation() {
       <Stack.Screen
         name={JournalNavigator.AddEntry}
         component={ScreenAddJournalEntry}
+      />
+
+      <Stack.Screen
+        name={JournalNavigator.EntryDetailed}
+        component={ScreenJournalEntryDetailed}
       />
     </Stack.Navigator>
   );

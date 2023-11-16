@@ -1,17 +1,18 @@
-import globalStyles from '@app/assets/global-styles';
-import { AppText, Heading, MyButton, ProgressBar } from '@app/components';
-import { Colors, Fonts } from '@app/constants';
-import { NavigationHelpers } from '@react-navigation/native';
 import { useState } from 'react';
-import { TextInput, TouchableOpacity, View } from 'react-native';
+import { NavigationHelpers } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Icon360, IconArrowRight, IconX } from 'tabler-icons-react-native';
-import { journalEntries } from '../data/journal-data';
+import { IconArrowRight, IconX } from 'tabler-icons-react-native';
+import { TextInput, TouchableOpacity, View } from 'react-native';
 import { ms } from 'react-native-size-matters';
-import { SassyQuiz } from '@app/modules/sassy-quiz';
-import { JournalEntryDataOption } from '../types';
-import VerticalSlider from '@app/modules/vertical-slider/src';
+
+import globalStyles from '@app/assets/global-styles';
 import { Wp, hp, wp } from '@app/utils';
+import { Colors } from '@app/constants';
+import { journalEntries } from '../data/journal-data';
+import { JournalEntryDataOption } from '../types';
+import { AppText, Heading, MyButton, ProgressBar } from '@app/components';
+import { SassyQuiz } from '@app/modules/sassy-quiz';
+import VerticalSlider from '@app/modules/vertical-slider/src';
 
 export default function ScreenAddJournalEntry({
   navigation,
