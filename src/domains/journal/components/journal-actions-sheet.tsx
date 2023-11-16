@@ -9,14 +9,33 @@ import ActionSheet, {
 
 import { Heading } from '@app/components';
 import { Colors } from '@app/constants';
+import { NavigationHelpers } from '@react-navigation/native';
+import { JournalNavigator } from '../navigation';
 
-const JournalActionsSheet = ({ onClose }: ActionSheetProps & {}) => {
+const JournalActionsSheet = ({
+  onClose,
+  navigation,
+}: ActionSheetProps & {
+  /*
+    Navigation object of journal screens to avoid circular dependency  
+  */
+  navigation: NavigationHelpers<any, any>;
+}) => {
   const sheetRef = useRef<ActionSheetRef | null>(null);
+
+  const closeSheet = () => {
+    sheetRef?.current?.hide();
+    onClose?.();
+  };
 
   const actions = [
     {
       title: 'Add an entry',
-      action: () => {},
+      action: () => {
+        navigation.navigate(JournalNavigator.ChooseJournal);
+
+        closeSheet();
+      },
     },
     {
       title: 'Share an entry',
@@ -24,7 +43,10 @@ const JournalActionsSheet = ({ onClose }: ActionSheetProps & {}) => {
     },
     {
       title: 'Try a new journal',
-      action: () => {},
+      action: () => {
+        navigation.navigate(JournalNavigator.ChooseJournal);
+        closeSheet();
+      },
     },
   ];
 
@@ -41,10 +63,7 @@ const JournalActionsSheet = ({ onClose }: ActionSheetProps & {}) => {
       }}
       gestureEnabled={true}
       defaultOverlayOpacity={0.3}
-      onClose={() => {
-        sheetRef?.current?.hide();
-        onClose?.();
-      }}
+      onClose={closeSheet}
       containerStyle={{
         minHeight: '35%',
         padding: ms(15),
@@ -55,8 +74,9 @@ const JournalActionsSheet = ({ onClose }: ActionSheetProps & {}) => {
           marginVertical: ms(10),
         }}
       >
-        {actions.map((a) => (
+        {actions.map((a, index) => (
           <TouchableOpacity
+            key={index}
             onPress={a.action}
             style={{
               padding: ms(15),

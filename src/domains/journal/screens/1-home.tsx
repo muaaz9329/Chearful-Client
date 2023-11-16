@@ -16,8 +16,14 @@ import { ms } from 'react-native-size-matters';
 import { useState } from 'react';
 import { IconPlus } from 'tabler-icons-react-native';
 import JournalActionsSheet from '../components/journal-actions-sheet';
+import { NavigationHelpers } from '@react-navigation/native';
+import { JournalNavigator } from '../navigation';
 
-export default function ScreenJournalHome() {
+export default function ScreenJournalHome({
+  navigation,
+}: {
+  navigation: NavigationHelpers<any, any>;
+}) {
   const [sheetShown, setSheetShown] = useState(false);
 
   return (
@@ -67,7 +73,16 @@ export default function ScreenJournalHome() {
                   .filter((entry) => entry.type.id === type.id)
                   .slice(0, 3)}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <JournalEntryCard entry={item} />}
+                renderItem={({ item }) => (
+                  <JournalEntryCard
+                    entry={item}
+                    onPress={() => {
+                      navigation.navigate(JournalNavigator.EntryDetailed, {
+                        entryId: item.id,
+                      });
+                    }}
+                  />
+                )}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 ItemSeparatorComponent={XGap}
@@ -79,6 +94,7 @@ export default function ScreenJournalHome() {
 
       {sheetShown && (
         <JournalActionsSheet
+          navigation={navigation}
           onClose={() => {
             setSheetShown(false);
           }}
