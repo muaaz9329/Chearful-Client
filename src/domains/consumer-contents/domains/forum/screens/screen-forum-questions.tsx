@@ -175,7 +175,7 @@ export default function ForumQuestionsScreen({
                   // Resetting page to 1 and fetching questions on category change because
                   // category is not a filter, it is a new query
                   makingNewCall();
-                  setSelectedCategory(cat);
+                  setSelectedCategory(cat as Category);
                   setForumQuestions({ state: 'loading' });
                   trigger();
                 }}

@@ -9,7 +9,7 @@ export type HeadingProps = TextProps & {
 
 const fontSizes = {
   sm: IsTablet ? Wp(10) : Wp(16),
-  md: IsTablet ? Wp(13) : Wp(20),
+  md: IsTablet ? Wp(12) : Wp(19),
   lg: IsTablet ? Wp(14) : Wp(21),
   xl: IsTablet ? Wp(17) : Wp(26),
   xxl: IsTablet ? Wp(20) : Wp(30),

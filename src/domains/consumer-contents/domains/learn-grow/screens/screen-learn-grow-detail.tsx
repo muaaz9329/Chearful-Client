@@ -73,13 +73,13 @@ function ListComp(data: string, title: string) {
             >
               <Text>{`\u2022`}</Text>
 
-              <Text
+              <AppText
                 style={{
                   flex: 1,
                   paddingLeft: Wp(5),
                   color: Colors.black,
                 }}
-              >{`${decodeHTML(item)}`}</Text>
+              >{`${decodeHTML(item)}`}</AppText>
             </View>
           );
         })

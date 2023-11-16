@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ms from '@app/assets/master-styles';
@@ -9,7 +9,6 @@ import { IsTablet, Wp } from '@app/utils';
 import MoodBox from '../../components/mood-box';
 import { IconComponent } from '@app/types';
 
-type Props = {};
 const feeling: string[] = [
   'surprised',
   'happy',
@@ -20,7 +19,7 @@ const feeling: string[] = [
   'pleasant',
   'upbeat',
 ];
-const ViewMood = (props: Props) => {
+const ViewMood = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView edges={['top']} style={ms(['bg_cont', 'flex1'])}>
@@ -50,10 +49,10 @@ const ViewMood = (props: Props) => {
               </Heading>
             </View>
 
-            <Heading size="md" style={ms(['nunito_500','my_10'])}>
+            <Heading size="md" style={ms(['nunito_500', 'my_10'])}>
               Describe how you feel{' '}
             </Heading>
-            <View style={ms([styles.BadgeCont,'mb_15'])}>
+            <View style={ms([styles.BadgeCont, 'mb_15'])}>
               {feeling.map((item, index) => {
                 return (
                   <Badge
@@ -66,8 +65,8 @@ const ViewMood = (props: Props) => {
                 );
               })}
             </View>
-            <Heading size="md" style={ms(['nunito_500','my_10'])}>
-            What made you feel this way?
+            <Heading size="md" style={ms(['nunito_500', 'my_10'])}>
+              What made you feel this way?
             </Heading>
             <View style={styles.BadgeCont}>
               {feeling.map((item, index) => {

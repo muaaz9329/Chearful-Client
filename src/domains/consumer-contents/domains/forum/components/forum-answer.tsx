@@ -44,11 +44,7 @@ export default function ForumAnswer(props: ForumAnswerT) {
       </View>
 
       <View>
-        <ReadMore
-          text={props.answer}
-          charsLimit={130}
-          style={[globalStyles.fs_14, globalStyles.mulish_400]}
-        />
+        <ReadMore text={props.answer} charsLimit={130} />
       </View>
     </View>
   );
