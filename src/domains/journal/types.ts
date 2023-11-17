@@ -20,6 +20,7 @@ export type JournalEntryDataOption = {
   id: number;
   title: string;
   type: 'option';
+  answer?: string;
   options: {
     id: number;
     title: string;
@@ -30,6 +31,7 @@ export type JournalEntryDataRate = {
   id: number;
   title: string;
   type: 'rate';
+  answer?: number;
   range: {
     min: number;
     max: number;

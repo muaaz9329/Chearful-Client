@@ -19,14 +19,14 @@ const fontSizes = {
 export default function Heading({
   children,
   style,
-  size,
+  size = 'lg',
   ...props
 }: HeadingProps) {
   const styles = {
     // Default
     fontFamily: Fonts.Nunito['700'],
     color: Colors.primary,
-    fontSize: fontSizes[size || 'lg'],
+    fontSize: fontSizes[size],
   };
 
   return (

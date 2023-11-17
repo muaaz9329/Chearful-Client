@@ -7,4 +7,5 @@ export const AppImages = {
   noSoundbite: require('./no-soundbite.png'),
   userGoal: require('./user-goal.png'),
   journalWrite: require('./journal-write.png'),
+  user01: require('./user-01.png'),
 };

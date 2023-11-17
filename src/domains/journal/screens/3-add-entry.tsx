@@ -10,7 +10,13 @@ import { Wp, hp, wp } from '@app/utils';
 import { Colors } from '@app/constants';
 import { journalEntries } from '../data/journal-data';
 import { JournalEntryDataOption } from '../types';
-import { AppText, Heading, MyButton, ProgressBar } from '@app/components';
+import {
+  AnswerInput,
+  AppText,
+  Heading,
+  MyButton,
+  ProgressBar,
+} from '@app/components';
 import { SassyQuiz } from '@app/modules/sassy-quiz';
 import VerticalSlider from '@app/modules/vertical-slider/src';
 
@@ -71,19 +77,7 @@ export default function ScreenAddJournalEntry({
           <Heading>{entryQuestions[currQuestionIdx].title}</Heading>
           {
             {
-              question: (
-                <TextInput
-                  multiline
-                  style={{
-                    height: ms(180),
-                    backgroundColor: Colors.light,
-                    borderRadius: ms(10),
-                    borderWidth: 1,
-                    borderColor: Colors.muted,
-                    padding: ms(10),
-                  }}
-                />
-              ),
+              question: <AnswerInput />,
               option: (
                 <>
                   <SassyQuiz
