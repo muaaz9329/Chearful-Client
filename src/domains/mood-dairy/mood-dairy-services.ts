@@ -18,19 +18,35 @@ const getMoodTags = ({
   moodTypeId,
 }: Boolbacks & { moodTypeId: number }) => {
   getAuthHeaders().then((headers) => {
-
     apiService.post({
-        url:`/website/mood-diary/get-tags-against-mood?id=${moodTypeId}`,
-        onSuccess,
-        onFailure,
-        headers,
-    })
+      url: `/website/mood-diary/get-tags-against-mood?id=${moodTypeId}`,
+      onSuccess,
+      onFailure,
+      headers,
+    });
+  });
+};
+
+const saveMoodDiary = ({
+  onFailure,
+  onSuccess,
+  data,
+}: Boolbacks & { data: MoodDiaryEntry }) => {
+  getAuthHeaders().then((headers) => {
+    apiService.post({
+      url: '/website/mood-diary/save-mood-entry',
+      onSuccess,
+      onFailure,
+      headers,
+      data,
+    });
   });
 };
 
 const MoodDiaryServices = {
   getMoodList,
-  getMoodTags
+  getMoodTags,
+  saveMoodDiary
 };
 
 export default MoodDiaryServices;

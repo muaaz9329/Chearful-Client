@@ -5,7 +5,7 @@ import LoadingScreen from '@app/modules/loading-screen';
 type Props = {};
 
 
-const RoundLoading = ({ children, loading }: { loading: boolean; children: React.ReactNode }) => {
+const RoundLoading = ({ children, loading }: { loading: boolean; children?: React.ReactNode }) => {
   const RenderChild = () => {
     return loading ? <LoadingScreen /> : children;
   };

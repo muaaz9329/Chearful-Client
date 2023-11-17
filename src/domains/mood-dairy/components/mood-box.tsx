@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import ms from '@app/assets/master-styles';
 import { Image } from 'react-native';
-import { MoodTypes, images } from '../screens/main-screen/components/mood-card';
+import {  images } from '../screens/main-screen/components/mood-card';
 import { IsTablet, Wp } from '@app/utils';
 import { Colors } from '@app/constants';
 import { AppText, Heading } from '@app/components';

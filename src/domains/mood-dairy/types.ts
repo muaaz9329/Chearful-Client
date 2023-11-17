@@ -49,3 +49,15 @@ type FeelingTag = {
 };
 
 type FeelingTagsArray = FeelingTag[];
+
+
+type MoodDiaryEntry = {
+  moodDiaryId: string;
+  howYouFeelIds: { [index: string]: string };
+  madeYouFeelIds: { [index: string]: string };
+  score: string;
+};
+
+type SlideTags = { title: string; id: number }[]
+
+type MoodTypes = 'happy' | 'sad' | 'angry' | 'peaceful' | 'neutral';

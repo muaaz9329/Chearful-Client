@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import ms from '@app/assets/master-styles';
 import { Heading } from '@app/components';
 import VerticalSlider from '@app/modules/vertical-slider/src';
@@ -8,9 +8,13 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Hp, IsTablet, Wp } from '@app/utils';
 import { moodDiaryImages } from '@app/domains/mood-dairy/assets/images';
 
-type Props = {};
-
-const SlideOne = (props: Props) => {
+const SlideOne = ({
+  handleValue,
+  moodType,
+}: {
+  handleValue: Dispatch<SetStateAction<MoodDiaryEntry>>;
+  moodType: MoodTypes;
+}) => {
   const [value, setValue] = React.useState(5);
   return (
     <View style={ms(['alignCenter', 'flex1', 'mt:40'])}>
@@ -30,7 +34,13 @@ const SlideOne = (props: Props) => {
           minimumTrackTintColor={Colors.primary}
           maximumTrackTintColor={Colors.light}
           borderRadius={40}
-          onChange={(val) => setValue(val)}
+          onChange={(val) => {
+            setValue(val);
+            handleValue((prev) => ({
+              ...prev,
+              score: String(val),
+            }));
+          }}
           showEmoji
           EmojiComponent={() => {
             return (
@@ -45,7 +55,7 @@ const SlideOne = (props: Props) => {
                 ]}
               >
                 <Image
-                  source={moodDiaryImages.happy}
+                  source={moodDiaryImages[moodType]}
                   style={[
                     styles.EmojiStyles,
                     IsTablet && {

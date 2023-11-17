@@ -1,44 +1,25 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { AppText, Badge, Heading } from '@app/components';
 import ms from '@app/assets/master-styles';
 import BadgeSelect from '@app/components/ui/badge-select';
 
 type Props = {};
-const feeling: string[] = [
-  'surprised',
-  'happy',
-  'sad',
-  'angry',
-  'peaceful',
-  'neutral',
-  'pleasant',
-  'upbeat',
-  'relaxed',
-  'tired',
-  'sleepy',
-  'bored',
-  'stressed',
-  'anxious',
-  'depressed',
-  'frustrated',
-  'confused',
-  'excited',
-  'energetic',
-  'calm',
-  'content',
-  'joyful',
-  'satisfied',
-  'gloomy',
-  
-];
-const SlideTwo = (props: Props) => {
+
+const SlideThree = ({
+  tags,
+  handleValue,
+  value,
+}: {
+  tags: SlideTags;
+  handleValue: Dispatch<SetStateAction<MoodDiaryEntry>>;
+  value: MoodDiaryEntry;
+}) => {
   const [selected, setSelected] = React.useState<string[]>([]);
 
   useEffect(() => {
     console.log(selected);
-  }
-  , [selected]);
+  }, [selected]);
 
   const handleSelect = (item: string) => {
     if (selected.includes(item)) {
@@ -46,26 +27,52 @@ const SlideTwo = (props: Props) => {
     } else {
       setSelected([...selected, item]);
     }
-  }
+  };
+
+  useEffect(() => {
+    let newObj: any = {};
+
+    selected.map((item, index) => {
+      const Id = tags.find(
+        (i) => i.title.toLowerCase() === item.toLocaleLowerCase(),
+      )?.id;
+      newObj[index] = Id;
+    });
+    handleValue((prev) => ({
+      ...prev,
+      madeYouFeelIds: newObj,
+    }));
+  }, [selected]);
   return (
-    <View style={ms(['alignCenter', 'flex1', 'mt:40' , 'px_20'])}>
+    <View style={ms(['alignCenter', 'flex1', 'mt:40', 'px_20'])}>
       <Heading size="xl" style={ms(['nunito_500'])}>
-      What made you feel this way?
+        What made you feel this way?
       </Heading>
-      
+
       <ScrollView
-        contentContainerStyle={ms(['flexRow', 'flexWrap', 'justifyAround', 'mt_12'])}
-        style={ms(['w-full' , 'mt_15' , 'h-full'])}
+        contentContainerStyle={ms([
+          'flexRow',
+          'flexWrap',
+          'justifyAround',
+          'mt_12',
+        ])}
+        style={ms(['w-full', 'mt_15', 'h-full'])}
         showsVerticalScrollIndicator={false}
       >
-        {feeling.map((item, index) => {
-          return (
-            <BadgeSelect key={index} item={item} handleSelect={handleSelect} selected={selected} />
-          );
-        })}
+        {tags &&
+          tags.map((item, index) => {
+            return (
+              <BadgeSelect
+                key={index}
+                item={item.title}
+                handleSelect={handleSelect}
+                selected={selected}
+              />
+            );
+          })}
       </ScrollView>
     </View>
   );
 };
 
-export default SlideTwo;
+export default SlideThree;

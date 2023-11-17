@@ -67,7 +67,8 @@ const MoodSelection = ({
 }) => {
   const handleNavigation = useCallback((item: MoodDiary) => {
     navigation?.navigate(MoodDiaryNavigator.AddMood, {
-      mood: item.slug,
+      moodId: item.id,
+      moodSlug: item.slug,
     });
     closeSheet?.();
   }, []);
