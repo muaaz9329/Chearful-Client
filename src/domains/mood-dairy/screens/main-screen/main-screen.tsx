@@ -1,5 +1,5 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ms from '@app/assets/master-styles';
 import { AppText, Header, Heading, MyButton } from '@app/components';
@@ -15,6 +15,9 @@ import MoodCard from './components/mood-card';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
 import MoodSelection from './components/mood-selection';
 import MonthlyCalendar from './components/calender';
+import useApi from './hooks/use-api';
+import RoundLoading from '@app/components/round-loading';
+import RequestFailure from '@app/components/request-failure';
 
 type Props = {};
 
@@ -25,119 +28,133 @@ const MainScreen = (props: Props) => {
   const [calenderType, setCalenderType] = React.useState<'weekly' | 'monthly'>(
     'weekly',
   );
+
+  const { loading, moodData, success, reloadScreen } = useApi();
+
   return (
-    <SafeAreaView style={ms(['Wrapper'])} edges={['top', 'bottom']}>
-      <View
-        style={[
-          styles.btnCont,
-          IsTablet && {
-            bottom: Wp(10),
-          },
-        ]}
-      >
-        <MyButton
-          title="Add Current Mood"
-          style={ms([
-            'py_12',
-            styles.btnRadius,
-            IsTablet && ['py_8', 'W:250', 'alignSelfCenter'],
-          ])}
-          icon={
-            <IconPlus
-              size={IsTablet ? Wp(12) : Wp(20)}
-              color="white"
-              //@ts-ignore
-              style={ms(['mr:2'])}
-            />
-          }
-          onPress={() => bottomSheetRef.current?.show()}
-        />
-      </View>
-      <Header
-        navigation={navigation}
-        Icon={ChevronLeft as IconComponent}
-        headerType="New"
-        pram="back"
-      >
-        <View
-          style={ms(['justifyBetween', 'alignCenter', 'w-full', 'flexRow'])}
-        >
-          <Heading style={ms(['ml:6'])}>Mood Dairy</Heading>
-          <Pressable
-            onPress={() => {
-              bottomSheetRef2.current?.show();
-            }}
+    <RoundLoading loading={loading}>
+      <RequestFailure reload={reloadScreen} success={success as boolean}>
+        <SafeAreaView style={ms(['Wrapper'])} edges={['top', 'bottom']}>
+          <View
+            style={[
+              styles.btnCont,
+              IsTablet && {
+                bottom: Wp(10),
+              },
+            ]}
           >
-            <IconDotsVertical
-              size={IsTablet ? Wp(16) : Wp(24)}
-              color={Colors.primary}
-            />
-          </Pressable>
-        </View>
-      </Header>
-      <View style={ms(['topMargin'])}></View>
-      <View style={ms(['topMargin'])}>
-        {calenderType === 'weekly' ? <WeeklyCalender /> : <MonthlyCalendar />}
-      </View>
-      <View style={ms(['topMargin'])}>
-        <AppText size="md" style={ms(['mb_10', 'py_15'])}>
-          Tue, 10 July 2023
-        </AppText>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={
-            IsTablet && {
-              width: wp(55),
-              alignSelf: 'center',
-            }
-          }
-        >
-          <View>
-            {new Array(5).fill(0).map((item, index) => {
-              return (
-                <MoodCard
-                  key={index}
-                  mood="happy"
-                  date={new Date()}
-                  rating={5}
+            <MyButton
+              title="Add Current Mood"
+              style={ms([
+                'py_12',
+                styles.btnRadius,
+                IsTablet && ['py_8', 'W:250', 'alignSelfCenter'],
+              ])}
+              icon={
+                <IconPlus
+                  size={IsTablet ? Wp(12) : Wp(20)}
+                  color="white"
+                  //@ts-ignore
+                  style={ms(['mr:2'])}
                 />
-              );
-            })}
+              }
+              onPress={() => bottomSheetRef.current?.show()}
+            />
           </View>
-        </ScrollView>
-      </View>
-      <ActionSheet
-        containerStyle={styles.bottomSheetStyles}
-        ref={bottomSheetRef}
-      >
-        <MoodSelection />
-      </ActionSheet>
-      <ActionSheet
-        //
-        containerStyle={styles.bottomSheet2}
-        ref={bottomSheetRef2}
-      >
-        <Heading style={ms(['textMuted'])}>Views</Heading>
-        <View style={ms(['flexRow', 'alignCenter', 'justifyCenter'])}>
-          <MyButton
-            title="Monthly"
-            style={ms(['py_12', 'px:50', 'mr:10', 'mt_10'])}
-            onPress={() => {
-              bottomSheetRef2.current?.hide();
-              setCalenderType('monthly');
-            }}
-          />
-          <MyButton
-            title="Weekly"
-            style={ms(['py_12', 'px:50', 'mr:10', 'mt_10'])}
-            onPress={() => {
-              bottomSheetRef2.current?.hide();
-              setCalenderType('weekly');
-            }}
-          />
-        </View>
-      </ActionSheet>
-    </SafeAreaView>
+          <Header
+            navigation={navigation}
+            Icon={ChevronLeft as IconComponent}
+            headerType="New"
+            pram="back"
+          >
+            <View
+              style={ms(['justifyBetween', 'alignCenter', 'w-full', 'flexRow'])}
+            >
+              <Heading style={ms(['ml:6'])}>Mood Dairy</Heading>
+              <Pressable
+                onPress={() => {
+                  bottomSheetRef2.current?.show();
+                }}
+              >
+                <IconDotsVertical
+                  size={IsTablet ? Wp(16) : Wp(24)}
+                  color={Colors.primary}
+                />
+              </Pressable>
+            </View>
+          </Header>
+          <View style={ms(['topMargin'])}></View>
+          <View style={ms(['topMargin'])}>
+            {calenderType === 'weekly' ? (
+              <WeeklyCalender />
+            ) : (
+              <MonthlyCalendar />
+            )}
+          </View>
+          <View style={ms(['topMargin'])}>
+            <AppText size="md" style={ms(['mb_10', 'py_15'])}>
+              Tue, 10 July 2023
+            </AppText>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={
+                IsTablet && {
+                  width: wp(55),
+                  alignSelf: 'center',
+                }
+              }
+            >
+              <View>
+                {new Array(5).fill(0).map((item, index) => {
+                  return (
+                    <MoodCard
+                      key={index}
+                      mood="happy"
+                      date={new Date()}
+                      rating={5}
+                    />
+                  );
+                })}
+              </View>
+            </ScrollView>
+          </View>
+          <ActionSheet
+            containerStyle={styles.bottomSheetStyles}
+            ref={bottomSheetRef}
+          >
+            <MoodSelection
+              moodEmojis={moodData?.mood_diaries}
+              navigation={navigation}
+              closeSheet={()=>bottomSheetRef.current?.hide()}
+            />
+          </ActionSheet>
+          <ActionSheet
+            containerStyle={styles.bottomSheet2}
+            ref={bottomSheetRef2}
+          >
+            <Heading style={ms(['textMuted'])}>Views</Heading>
+            <View style={ms(['flexRow', 'alignCenter', 'justifyCenter'])}>
+              <MyButton
+                title="Monthly"
+                style={ms(['py_12', 'px:50', 'mr:10', 'mt_10'])}
+                onPress={() => {
+                  bottomSheetRef2.current?.hide();
+                  setCalenderType('monthly');
+                }}
+              />
+              <MyButton
+                title="Weekly"
+                style={ms(['py_12', 'px:50', 'mr:10', 'mt_10'])}
+                onPress={() => {
+                  bottomSheetRef2.current?.hide();
+                  setCalenderType('weekly');
+                }}
+              />
+            </View>
+          </ActionSheet>
+        </SafeAreaView>
+      </RequestFailure>
+    </RoundLoading>
   );
 };
 

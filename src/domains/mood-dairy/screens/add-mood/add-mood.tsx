@@ -18,19 +18,19 @@ import RoundButton from '@app/components/round-button';
 
 const AddMood = () => {
   const navigation = useNavigation();
-  const CoursalRef = React.useRef<ICarouselInstance>(null);
+  const CarouselRef = React.useRef<ICarouselInstance>(null);
   const [index, setIndex] = React.useState(0);
 
   const handleNext = () => {
     if (index === 2) {
       console.log('done');
     } else {
-      CoursalRef.current?.next();
+      CarouselRef.current?.next();
     }
   };
 
   const handlePrev = () => {
-    CoursalRef.current?.prev();
+    CarouselRef.current?.prev();
   };
 
   return (
@@ -55,7 +55,7 @@ const AddMood = () => {
               data={[1, 2, 3]}
               style={styles.CarouselStyles}
               loop={false}
-              ref={CoursalRef}
+              ref={CarouselRef}
               enabled={false}
               onScrollEnd={(index) => setIndex(index)}
               renderItem={({ item }) => {
@@ -73,14 +73,17 @@ const AddMood = () => {
           </View>
           <View style={ms(['flexRow', 'justifyAround'])}>
             <RoundButton bgColor={Colors.muted} onPress={() => handlePrev()}>
-              <IconArrowLeft size={IsTablet ? Wp(15):Wp(20)} color={'#fff'} />
+              <IconArrowLeft size={IsTablet ? Wp(15) : Wp(20)} color={'#fff'} />
             </RoundButton>
 
             <RoundButton bgColor={Colors.primary} onPress={() => handleNext()}>
               {index < 2 ? (
-                <IconArrowRight size={IsTablet ? Wp(15):Wp(20)} color={'#fff'} />
+                <IconArrowRight
+                  size={IsTablet ? Wp(15) : Wp(20)}
+                  color={'#fff'}
+                />
               ) : (
-                <AppText size="lg" style={ms(['textWhite','mulish_700'])}>
+                <AppText size="lg" style={ms(['textWhite', 'mulish_700'])}>
                   Save
                 </AppText>
               )}
@@ -98,7 +101,6 @@ const styles = StyleSheet.create({
   CarouselStyles: {
     height: '96%',
     width: '100%',
-
   },
   CarouselCont: {
     justifyContent: 'flex-end',
