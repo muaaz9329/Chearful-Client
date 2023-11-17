@@ -426,3 +426,27 @@ export function formatDateTo12HourTime(date:Date) {
   // @ts-ignore
   return date.toLocaleTimeString('en-US', options).toLowerCase();
 }
+
+
+/**
+ * @description To check if object is empty or not
+ */
+export function isObjectFilled<T>(obj: T): boolean {
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const value = obj[key];
+
+      // Check if the value is non-empty
+      // @ts-ignore
+      if (typeof value === 'object' && Object.keys(value).length === 0) {
+        return false;
+      }
+
+      if (!value) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}

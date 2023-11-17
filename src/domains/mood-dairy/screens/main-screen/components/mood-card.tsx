@@ -19,7 +19,7 @@ export const images = {
   neutral: moodDiaryImages.neutral,
 };
 
-export type MoodTypes = 'happy' | 'sad' | 'angry' | 'peaceful' | 'neutral';
+
 const MoodCard = ({
   mood = 'happy',
   date = new Date(),
