@@ -66,12 +66,14 @@ export const journalEntries: JournalEntry[] = [
         id: 1,
         title: 'How did I feel today?',
         type: 'question',
-        answer: '',
+        answer:
+          'Phasellus in felis. Nulla tempor augue ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing lobortis risus. In mi pede, nonummy ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna. Nunc ac sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi, ac mattis velit justo nec ante. Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat non, lobortis',
       },
       {
         id: 2,
         title: 'Do you have a forgiving nature?',
         type: 'option',
+        answer: 'Depends on the situation',
         options: [
           {
             id: 1,
