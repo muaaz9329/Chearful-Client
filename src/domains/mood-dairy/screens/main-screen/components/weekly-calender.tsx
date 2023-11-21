@@ -7,10 +7,12 @@ import React, { useState } from 'react';
 import { View, Text, Button, TouchableOpacity } from 'react-native';
 import { ViewStyle } from 'react-native-size-matters';
 import MonthSelection from './month-selection';
+import useMoodDiaryFilter from '../hooks/use-mood-diary-filter';
 
 const WeeklyCalendar = () => {
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const { isMoodFilledOnDate } = useMoodDiaryFilter();
   const selectedDay: ViewStyle = {
     borderRadius: Wp(25),
     backgroundColor: Colors.greenDim,
@@ -19,7 +21,9 @@ const WeeklyCalendar = () => {
     const daysArray = [];
     const currentDay = new Date(date);
     const startDay = new Date(currentDay);
-    startDay.setDate(currentDay.getDate() - currentDay.getDay()); // Move back to Sunday of the current week
+
+    // Move back to the previous Monday
+    startDay.setDate(currentDay.getDate() - ((currentDay.getDay() + 6) % 7));
 
     for (let i = 0; i < 7; i++) {
       daysArray.push(new Date(startDay));
@@ -48,7 +52,7 @@ const WeeklyCalendar = () => {
 
   const renderWeek = () => {
     const daysArray = getDaysInWeek(currentWeek);
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
     return (
       <View>
@@ -60,10 +64,19 @@ const WeeklyCalendar = () => {
           onPressPreviousMonth={previousWeek}
         />
 
-        <View style={ms(['flexRow' , 'flexWrap' ,IsTablet && ['alignSelfCenter']])}>
+        <View
+          style={ms([
+            'flexRow',
+            IsTablet && ['alignSelfCenter'],
+            'justifyAround',
+          ])}
+        >
           {daysArray.map((day, i) => {
             const todayDate = new Date();
             const indexDate = daysArray[i];
+
+            const hasMood = isMoodFilledOnDate(day, true);
+
             return (
               <TouchableOpacity
                 key={day.getDate()}
@@ -75,37 +88,44 @@ const WeeklyCalendar = () => {
                   'alignSelfStart',
                   //@ts-ignore
                   indexDate > todayDate && { opacity: 0.5 },
-                  'py_10',
+                  'py:2',
                   'W:50',
-                  //@ts-ignore
-                  selectedDate &&
-                  selectedDate.toDateString() === day.toDateString()
-                    ? selectedDay
-                    : {},
+
                   'mt_10',
-                  IsTablet && ['W:40', 'mt:5',],
+                  IsTablet && ['W:40', 'mt:5'],
                 ])}
                 disabled={indexDate > todayDate}
               >
-                
-
-                <AppText
-                  style={[
-                    globalStyles.nunito_700,
-                    { textTransform: 'uppercase' },
-                    indexDate > todayDate && { opacity: 0.5 },
-                  ]}
+                <View
+                  style={ms([
+                    'alignCenter',
+                    'py:8',
+                    'W:45',
+                    hasMood && {
+                      borderRadius: Wp(25),
+                      backgroundColor: Colors.orangeDim,
+                    },
+                    //@ts-ignore
+                    selectedDate &&
+                    selectedDate.toDateString() === day.toDateString()
+                      ? selectedDay
+                      : {},
+                    IsTablet && ['W:35'],
+                  ])}
                 >
-                  {dayNames[i]}
-                </AppText>
-                <AppText
-                  style={[
-                    globalStyles.mt_18,
-                    
-                  ]}
-                >
-                  {day.getDate()}
-                </AppText>
+                  <AppText
+                    style={[
+                      globalStyles.nunito_700,
+                      { textTransform: 'uppercase' },
+                      indexDate > todayDate && { opacity: 0.5 },
+                    ]}
+                  >
+                    {dayNames[i]}
+                  </AppText>
+                  <AppText style={[globalStyles.mt_18]}>
+                    {day.getDate()}
+                  </AppText>
+                </View>
               </TouchableOpacity>
             );
           })}
