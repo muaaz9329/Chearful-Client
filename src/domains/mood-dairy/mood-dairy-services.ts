@@ -3,8 +3,8 @@ import { Boolbacks } from '../../services/api-service/index';
 import { getAuthHeaders } from '@app/utils';
 const getMoodList = ({ onFailure, onSuccess }: Boolbacks) => {
   getAuthHeaders().then((headers) => {
-    apiService.get({
-      url: '/website/mood-diary/list',
+    apiService.post({
+      url: '/website/mood-diary/mood-entries-by-calender-view?calender_view=monthly',
       onSuccess,
       onFailure,
       headers,

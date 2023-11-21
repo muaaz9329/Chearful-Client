@@ -30,8 +30,8 @@ type MoodData = {
   client_mood_diary_result_by_date: ClientMoodDiaryResultByDate;
   added_mood_percentage: AddedMoodPercentage;
   startDate: string;
-  endDate: string;
-  endDateMonth: string;
+  calender_view: 'monthly' | 'weekly';
+  date: Date;
 };
 
 type Pivot = {
@@ -50,7 +50,6 @@ type FeelingTag = {
 
 type FeelingTagsArray = FeelingTag[];
 
-
 type MoodDiaryEntry = {
   moodDiaryId: string;
   howYouFeelIds: { [index: string]: string };
@@ -58,6 +57,6 @@ type MoodDiaryEntry = {
   score: string;
 };
 
-type SlideTags = { title: string; id: number }[]
+type SlideTags = { title: string; id: number }[];
 
 type MoodTypes = 'happy' | 'sad' | 'angry' | 'peaceful' | 'neutral';

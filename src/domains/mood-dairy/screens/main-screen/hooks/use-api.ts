@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import MoodDiaryServices from '../../../mood-dairy-services';
+import useMainScreen from './use-main-screen';
+import { convertDateFormat } from '@app/domains/mood-dairy/adapters/adapter-function';
 interface IData {
   moodData: MoodData | null;
   loading: boolean;
@@ -15,6 +17,11 @@ const useApi = () => {
   // set to true for first render
   const [reload, setReload] = useState(true);
 
+  //global state for handling the highligting of the selected date
+  const { setClientMoodDiaryResultByDate } =
+    useMainScreen();
+
+  // function to reload the screen
   const reloadScreen = () => {
     setReload(true);
   };
@@ -30,7 +37,25 @@ const useApi = () => {
             loading: false,
             success: true,
           });
-          console.log('success');
+          // filter the data to remove the empty array OR dates with no mood
+          const filteredData = Object.fromEntries(
+            Object.entries(res.client_mood_diary_result_by_date).filter(
+              //@ts-ignore
+              ([key, value]) => value.length > 0,
+            ),
+          );
+
+          // Convert dates in filteredData from "Mon Jan 01 2021" to "2021-01-01
+          const filteredDates = {};
+          for (const [date, events] of Object.entries(filteredData)) {
+            // @ts-ignore
+            filteredDates[convertDateFormat(date)] = events;
+          }
+          // set the global state
+          setClientMoodDiaryResultByDate(
+            filteredDates as ClientMoodDiaryResultByDate,
+          );
+          
         },
         onFailure() {
           setData({

@@ -450,3 +450,25 @@ export function isObjectFilled<T>(obj: T): boolean {
 
   return true;
 }
+export function formatDateToYMD(inputDate: Date): string {
+  try {
+      const year = inputDate.getFullYear();
+      const month = String(inputDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+      const day = String(inputDate.getDate()).padStart(2, '0');
+
+      const formattedDate = `${year}-${month}-${day}`;
+      return formattedDate;
+  } catch (error) {
+      return "Invalid date format. Please provide a valid Date object.";
+  }
+}
+
+
+
+export const areDatesEqual = (date1:Date, date2:Date) => {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
+};
