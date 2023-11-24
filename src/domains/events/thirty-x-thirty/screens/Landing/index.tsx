@@ -15,7 +15,7 @@ import globalStyles from '@app/assets/global-styles';
 import { IsTablet, wp } from '@app/utils';
 import { AppText, Header, Heading, MyButton } from '@app/components';
 import { Colors } from '@app/constants';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { AuthNavigator } from '@app/domains/authentication';
 import { ThirtyXThirtyNavigator } from '../../navigation/thirty-x-thirty-navigation-stack';
 

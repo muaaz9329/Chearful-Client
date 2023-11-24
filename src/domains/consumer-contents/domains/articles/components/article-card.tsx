@@ -18,7 +18,7 @@ import { TArticle } from '../types';
 import DEFAULT_DATA_ARTICLE from '../constants';
 import { s } from 'react-native-size-matters';
 import { Colors, Fonts } from '@app/constants';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { ConsumerContentsNavigator } from '../../../navigation/consumer-contents-navigation';
 import { ContentArticlesNavigator } from '../navigation/article-navigation';
 

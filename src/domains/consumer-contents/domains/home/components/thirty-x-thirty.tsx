@@ -5,7 +5,7 @@ import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
 import { Colors } from '@app/constants';
 import { Wp } from '@app/utils';
 import { IconX } from 'tabler-icons-react-native';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { ThirtyXThirtyNavigator } from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
 
 const ThirtyXThirtyModel = ({

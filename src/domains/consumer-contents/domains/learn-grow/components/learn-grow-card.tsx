@@ -6,7 +6,7 @@ import { SvgUri } from 'react-native-svg';
 import globalStyles from '@app/assets/global-styles';
 import { IsTablet, Wp, wp } from '@app/utils';
 import { Colors } from '@app/constants';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { ConsumerContentsNavigator } from '../../../navigation/consumer-contents-navigation';
 import { LearnGrowNavigator } from '../navigation/learn-grow-navigation';
 
