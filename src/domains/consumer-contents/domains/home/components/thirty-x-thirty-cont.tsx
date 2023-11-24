@@ -9,7 +9,7 @@ import { IsTablet, Wp, wp } from '@app/utils';
 import { AppText, Heading, MyButton } from '@app/components';
 import { Colors } from '@app/constants';
 import { challengeStorageKeys } from '@app/domains/events/thirty-x-thirty/constants';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { AuthNavigator } from '@app/domains/authentication';
 import { ThirtyXThirtyNavigator } from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
 

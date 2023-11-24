@@ -7,12 +7,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 import {
   MD3LightTheme as defaultTheme,
   Provider as PaperProvider,
 } from 'react-native-paper';
 
-import AppNavigation from '@app/navigation/app-navigation';
+import AppNavigation from '@app/navigation';
 import { AppToastsConfig } from '@app/components/toasts';
 import { Colors } from '@app/constants';
 

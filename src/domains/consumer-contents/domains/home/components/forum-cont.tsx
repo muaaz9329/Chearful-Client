@@ -2,7 +2,7 @@ import { XGap } from '@app/components';
 import ForumQuestionsList from '@app/domains/consumer-contents/domains/forum/components/forum-questions-list';
 import ForumService from '@app/domains/consumer-contents/domains/forum/forum-service';
 import { AdaptedForumQuestion } from '@app/domains/consumer-contents/domains/forum/types';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { RequestState } from '@app/services/api-service';
 import { wp } from '@app/utils';
 import { NavigationHelpers } from '@react-navigation/native';

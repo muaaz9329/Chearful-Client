@@ -7,7 +7,7 @@ import { challengeStorageKeys } from '../constants';
 import useAppState from '@app/hooks/use-app-state';
 import globalStyles from '@app/assets/global-styles';
 import { Loader } from '@app/components';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { AuthNavigator } from '@app/domains/authentication/';
 import {
   ScreenLanding,

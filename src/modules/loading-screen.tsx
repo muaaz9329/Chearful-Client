@@ -61,13 +61,13 @@ const styles = StyleSheet.create({
   cont1: {
     position: 'absolute',
 
-    height: '100%',
-    width: '100%',
+    height: '110%',
+    width: '110%',
     backgroundColor: '#fff',
   },
   cont: {
-    height: '100%',
-    width: '100%',
+    height: '105%',
+    width: '105%',
     justifyContent: 'center',
     alignItems: 'center',
   },

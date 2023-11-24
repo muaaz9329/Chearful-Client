@@ -9,7 +9,7 @@ import { colorWithOpacity } from '@app/utils';
 
 import { IconDoor, IconUserPlus } from 'tabler-icons-react-native';
 import { NavigationHelpers } from '@react-navigation/native';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { AuthNavigator } from '@app/domains/authentication';
 
 const SignUpModel = ({

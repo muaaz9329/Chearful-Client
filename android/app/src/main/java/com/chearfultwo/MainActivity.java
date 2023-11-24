@@ -1,4 +1,4 @@
-package com.chearful;
+package com.chearfultwo;
 
 import android.os.Bundle;
 

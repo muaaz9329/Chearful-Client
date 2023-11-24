@@ -20,7 +20,7 @@ import globalStyles, { globalStylesFunc } from '@app/assets/global-styles';
 import { IsTablet, Wp, mergeStyles } from '@app/utils';
 import { ErrorRetry, Header, Loader } from '@app/components';
 import { ThirtyXThirtyNavigator } from '../../navigation/thirty-x-thirty-navigation-stack';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 
 const ChallengeHome = () => {
   const navigation = useNavigation();

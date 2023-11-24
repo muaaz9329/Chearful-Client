@@ -9,9 +9,20 @@ import { ViewStyle } from 'react-native-size-matters';
 import MonthSelection from './month-selection';
 import useMoodDiaryFilter from '../hooks/use-mood-diary-filter';
 
-const WeeklyCalendar = () => {
-  const [currentWeek, setCurrentWeek] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+const WeeklyCalendar = ({
+  handleDateChange,
+  currentWeek,
+  setCurrentWeek,
+  selectedDate,
+  setSelectedDate
+}:{
+  handleDateChange: (date: Date) => void;
+  currentWeek: Date;
+  setCurrentWeek: React.Dispatch<React.SetStateAction<Date>>;
+  selectedDate: Date;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+}) => {
+ 
   const { isMoodFilledOnDate } = useMoodDiaryFilter();
   const selectedDay: ViewStyle = {
     borderRadius: Wp(25),
@@ -47,7 +58,7 @@ const WeeklyCalendar = () => {
 
   const handleDayClick = (day: any) => {
     setSelectedDate(day);
-    console.log(day); // Log the selected date
+    handleDateChange(day);
   };
 
   const renderWeek = () => {
@@ -137,4 +148,4 @@ const WeeklyCalendar = () => {
   return <View>{renderWeek()}</View>;
 };
 
-export default WeeklyCalendar;
+export default React.memo(WeeklyCalendar);

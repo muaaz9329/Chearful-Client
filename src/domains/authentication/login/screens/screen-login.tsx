@@ -24,7 +24,7 @@ import {
 } from '@app/utils';
 import { ChearfulLogo } from '@app/assets/svgs/';
 import { AuthNavigator } from '../../navigation';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { Header } from '@app/components';
 
 interface props {

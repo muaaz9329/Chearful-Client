@@ -12,7 +12,7 @@ const useMainScreen = create<hookState>((set) => ({
   ClientMoodDiaryResultByDate: {},
 
   setClientMoodDiaryResultByDate: (ClientMoodDiaryResultByDate) =>
-    set({ ClientMoodDiaryResultByDate: ClientMoodDiaryResultByDate }),
+    set({ ClientMoodDiaryResultByDate }),
 }));
 
 export default useMainScreen;

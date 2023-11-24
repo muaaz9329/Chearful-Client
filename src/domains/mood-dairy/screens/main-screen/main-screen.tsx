@@ -1,5 +1,5 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ms from '@app/assets/master-styles';
 import { AppText, Header, Heading, MyButton } from '@app/components';
@@ -27,25 +27,29 @@ const MainScreen = (props: Props) => {
   const navigation = useNavigation();
   const bottomSheetRef = React.useRef<ActionSheetRef>(null);
   const bottomSheetRef2 = React.useRef<ActionSheetRef>(null);
+  const [currentWeek, setCurrentWeek] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
   const [calenderType, setCalenderType] = React.useState<'weekly' | 'monthly'>(
     'weekly',
   );
 
-  const { loading, moodData, success, reloadScreen } = useApi();
-  const { ClientMoodDiaryResultByDate } = useMainScreen();
+  const { loading, moodData, success } = useApi();
   // const {selectedDate,setSelectedDate} = useDateControl()
   const [moodDiaryData, setMoodDiaryData] = React.useState<{
-    data: any;
+    data: [] | ClientMoodDiaryResult;
   }>({
     data: [],
   });
-  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
+  // const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
   const { formatDate } = useMoodDiaryFilter();
-  useEffect(() => {
+
+  const getMoodDiaryData = async (MoodDate: Date) => {
     getAuthHeaders().then((headers) => {
       apiService.post({
         url: `/website/mood-diary/mood-entries-by-calender-view?date=${formatDate(
-          selectedDate,
+          MoodDate,
+          calenderType === 'weekly' && true,
         )}`,
         onSuccess: (...res) => {
           setMoodDiaryData({
@@ -60,144 +64,152 @@ const MainScreen = (props: Props) => {
         headers,
       });
     });
+  };
+  useEffect(() => {
+    getMoodDiaryData(selectedDate);
   }, [selectedDate]);
 
+  const handleDateChange = useCallback((date: Date) => {
+    getMoodDiaryData(date);
+  }, []);
+
   return (
-    <RoundLoading loading={loading}>
-      <RequestFailure reload={reloadScreen} success={success as boolean}>
-        <SafeAreaView style={ms(['Wrapper'])} edges={['top', 'bottom']}>
-          <View
-            style={[
-              styles.btnCont,
-              IsTablet && {
-                bottom: Wp(10),
-              },
-            ]}
-          >
-            <MyButton
-              title="Add Current Mood"
-              style={ms([
-                'py_12',
-                styles.btnRadius,
-                IsTablet && ['py_8', 'W:250', 'alignSelfCenter'],
-              ])}
-              icon={
-                <IconPlus
-                  size={IsTablet ? Wp(12) : Wp(20)}
-                  color="white"
-                  //@ts-ignore
-                  style={ms(['mr:2'])}
-                />
-              }
-              onPress={() => bottomSheetRef.current?.show()}
+    <SafeAreaView style={ms(['Wrapper'])} edges={['top', 'bottom']}>
+      <RoundLoading loading={loading} >
+      <View
+        style={[
+          styles.btnCont,
+          IsTablet && {
+            bottom: Wp(10),
+          },
+        ]}
+      >
+        <MyButton
+          title="Add Current Mood"
+          style={ms([
+            'py_12',
+            styles.btnRadius,
+            IsTablet && ['py_8', 'W:250', 'alignSelfCenter'],
+          ])}
+          icon={
+            <IconPlus
+              size={IsTablet ? Wp(12) : Wp(20)}
+              color="white"
+              //@ts-ignore
+              style={ms(['mr:2'])}
             />
-          </View>
-          <Header
-            navigation={navigation}
-            Icon={ChevronLeft as IconComponent}
-            headerType="New"
-            pram="back"
+          }
+          onPress={() => bottomSheetRef.current?.show()}
+        />
+      </View>
+      <Header
+        navigation={navigation}
+        Icon={ChevronLeft as IconComponent}
+        headerType="New"
+        pram="back"
+      >
+        <View
+          style={ms(['justifyBetween', 'alignCenter', 'w-full', 'flexRow'])}
+        >
+          <Heading style={ms(['ml:6'])}>Mood Dairy</Heading>
+          <Pressable
+            onPress={() => {
+              bottomSheetRef2.current?.show();
+            }}
           >
-            <View
-              style={ms(['justifyBetween', 'alignCenter', 'w-full', 'flexRow'])}
-            >
-              <Heading style={ms(['ml:6'])}>Mood Dairy</Heading>
-              <Pressable
-                onPress={() => {
-                  bottomSheetRef2.current?.show();
-                }}
-              >
-                <IconDotsVertical
-                  size={IsTablet ? Wp(16) : Wp(24)}
-                  color={Colors.primary}
-                />
-              </Pressable>
-            </View>
-          </Header>
-          <View style={ms(['topMargin'])}></View>
-          <View style={ms(['topMargin'])}>
-            {calenderType === 'weekly' ? (
-              <WeeklyCalender />
-            ) : (
-              <MonthlyCalendar
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-              />
-            )}
-          </View>
-          <View style={ms(['topMargin'])}>
-            <AppText size="md" style={ms(['mb_10', 'py_15'])}>
-              {selectedDate.toDateString().split(' ')[0] +
-                ', ' +
-                selectedDate.toDateString().split(' ')[1] +
-                ' ' +
-                selectedDate.toDateString().split(' ')[2] +
-                ' ' +
-                selectedDate.toDateString().split(' ')[3]}
-            </AppText>
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={
-                IsTablet && {
-                  width: wp(55),
-                  alignSelf: 'center',
-                }
-              }
-            >
-              <View>
-                {
-                  // @ts-ignore
-                  moodDiaryData?.data?.map((item: ClientMoodDiaryResult, i) => {
-                    return (
-                      <MoodCard
-                        key={i}
-                        mood={item.mood_diary.slug}
-                        date={new Date(item.created_at)}
-                        rating={Number(item.score)}
-                      />
-                    );
-                  })
-                }
-              </View>
-            </ScrollView>
-          </View>
-          <ActionSheet
-            containerStyle={styles.bottomSheetStyles}
-            ref={bottomSheetRef}
-          >
-            <MoodSelection
-              moodEmojis={moodData?.mood_diaries}
-              navigation={navigation}
-              closeSheet={() => bottomSheetRef.current?.hide()}
+            <IconDotsVertical
+              size={IsTablet ? Wp(16) : Wp(24)}
+              color={Colors.primary}
             />
-          </ActionSheet>
-          <ActionSheet
-            containerStyle={styles.bottomSheet2}
-            ref={bottomSheetRef2}
-          >
-            <Heading style={ms(['textMuted'])}>Views</Heading>
-            <View style={ms(['flexRow', 'alignCenter', 'justifyCenter'])}>
-              <MyButton
-                title="Monthly"
-                style={ms(['py_12', 'px:50', 'mr:10', 'mt_10'])}
-                onPress={() => {
-                  bottomSheetRef2.current?.hide();
-                  setCalenderType('monthly');
-                }}
-              />
-              <MyButton
-                title="Weekly"
-                style={ms(['py_12', 'px:50', 'mr:10', 'mt_10'])}
-                onPress={() => {
-                  bottomSheetRef2.current?.hide();
-                  setCalenderType('weekly');
-                }}
-              />
-            </View>
-          </ActionSheet>
-        </SafeAreaView>
-      </RequestFailure>
-    </RoundLoading>
+          </Pressable>
+        </View>
+      </Header>
+      <View style={ms(['topMargin'])}></View>
+      <View style={ms(['topMargin'])}>
+        {calenderType === 'weekly' ? (
+          <WeeklyCalender
+            {...{ handleDateChange }}
+            currentWeek={currentWeek}
+            setCurrentWeek={setCurrentWeek}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+        ) : (
+          <MonthlyCalendar
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+        )}
+      </View>
+      <View style={ms(['topMargin'])}>
+        <AppText size="md" style={ms(['mb_10', 'py_15'])}>
+          {selectedDate.toDateString().split(' ')[0] +
+            ', ' +
+            selectedDate.toDateString().split(' ')[1] +
+            ' ' +
+            selectedDate.toDateString().split(' ')[2] +
+            ' ' +
+            selectedDate.toDateString().split(' ')[3]}
+        </AppText>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={
+            IsTablet && {
+              width: wp(55),
+              alignSelf: 'center',
+            }
+          }
+        >
+          <View>
+            {
+              // @ts-ignore
+              moodDiaryData?.data?.map((item: ClientMoodDiaryResult, i) => {
+                return (
+                  <MoodCard
+                    key={i}
+                    mood={item.mood_diary.slug}
+                    date={new Date(item.created_at)}
+                    rating={Number(item.score)}
+                  />
+                );
+              })
+            }
+          </View>
+        </ScrollView>
+      </View>
+      </RoundLoading>
+      <ActionSheet
+        containerStyle={styles.bottomSheetStyles}
+        ref={bottomSheetRef}
+      >
+        <MoodSelection
+          moodEmojis={moodData?.mood_diaries}
+          navigation={navigation}
+          closeSheet={() => bottomSheetRef.current?.hide()}
+        />
+      </ActionSheet>
+      <ActionSheet containerStyle={styles.bottomSheet2} ref={bottomSheetRef2}>
+        <Heading style={ms(['textMuted'])}>Views</Heading>
+        <View style={ms(['flexRow', 'alignCenter', 'justifyCenter'])}>
+          <MyButton
+            title="Monthly"
+            style={ms(['py_12', 'px:50', 'mr:10', 'mt_10'])}
+            onPress={() => {
+              bottomSheetRef2.current?.hide();
+              setCalenderType('monthly');
+            }}
+          />
+          <MyButton
+            title="Weekly"
+            style={ms(['py_12', 'px:50', 'mr:10', 'mt_10'])}
+            onPress={() => {
+              bottomSheetRef2.current?.hide();
+              setCalenderType('weekly');
+            }}
+          />
+        </View>
+      </ActionSheet>
+    </SafeAreaView>
   );
 };
 
