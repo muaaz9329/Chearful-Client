@@ -426,3 +426,49 @@ export function formatDateTo12HourTime(date:Date) {
   // @ts-ignore
   return date.toLocaleTimeString('en-US', options).toLowerCase();
 }
+
+
+/**
+ * @description To check if object is empty or not
+ */
+export function isObjectFilled<T>(obj: T): boolean {
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const value = obj[key];
+
+      // Check if the value is non-empty
+      // @ts-ignore
+      if (typeof value === 'object' && Object.keys(value).length === 0) {
+        return false;
+      }
+
+      if (!value) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+export function formatDateToYMD(inputDate: Date): string {
+  try {
+      const year = inputDate.getFullYear();
+      const month = String(inputDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+      const day = String(inputDate.getDate()).padStart(2, '0');
+
+      const formattedDate = `${year}-${month}-${day}`;
+      return formattedDate;
+  } catch (error) {
+      return "Invalid date format. Please provide a valid Date object.";
+  }
+}
+
+
+
+export const areDatesEqual = (date1:Date, date2:Date) => {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
+};

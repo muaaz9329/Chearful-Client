@@ -26,7 +26,7 @@ type ShorthandStyleString = `${'bg' | 'text'}:${string}`;
  * @returns array of objects consisting of styles
  * @functions | 'mt' | 'mb'| 'ml'| 'mr'| 'br'| 'bw'| 'px'| 'py'| 'pt'| 'pb'| 'mx'| 'my'| 'bg'
  * @function usecase 'mt:10' or 'bg:red'
- * @exapmple style={ms(['flex-row','flex1',{backgroundColor:'red'} , 'mt:10'])}
+ * @example style={ms(['flex-row','flex1',{backgroundColor:'red'} , 'mt:10', ['mb:10','ml:10']']])}
  */
 
 type StylesNameType =
