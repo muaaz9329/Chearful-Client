@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.chearful"
+    namespace "com.chearfultwo"
     defaultConfig {
-        applicationId "com.chearful"
+        applicationId "com.chearfultwo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 13

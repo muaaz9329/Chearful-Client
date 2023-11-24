@@ -15,20 +15,17 @@ const useApi = () => {
   });
 
   // set to true for first render
-  const [reload, setReload] = useState(true);
+
 
   //global state for handling the highligting of the selected date
   const { setClientMoodDiaryResultByDate } =
     useMainScreen();
 
   // function to reload the screen
-  const reloadScreen = () => {
-    setReload(true);
-  };
 
   useEffect(() => {
-    if (reload) {
-      setReload(false);
+   
+     
       MoodDiaryServices.getMoodList({
         onSuccess({ ...res }) {
           setData({
@@ -66,12 +63,12 @@ const useApi = () => {
           });
         },
       });
-    }
-  }, [reload]);
+    
+  }, []);
 
   return {
     ...data,
-    reloadScreen,
+  
   };
 };
 export default useApi;

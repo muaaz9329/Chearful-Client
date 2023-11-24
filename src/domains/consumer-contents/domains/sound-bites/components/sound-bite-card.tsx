@@ -11,7 +11,7 @@ import {
   wp,
 } from '@app/utils';
 import { Colors, Fonts } from '@app/constants';
-import { AppNavigator } from '@app/navigation/app-navigation';
+import { AppNavigator } from '@app/navigation';
 import { ConsumerContentsNavigator } from '@app/domains/consumer-contents/navigation/consumer-contents-navigation';
 import { SoundbitesNavigator } from '../navigation/soundbites-navigation-stack';
 
