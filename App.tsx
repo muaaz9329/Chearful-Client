@@ -13,7 +13,7 @@ import {
   Provider as PaperProvider,
 } from 'react-native-paper';
 
-import AppNavigation from '@app/navigation';
+import AppNavigation from '@app/navigation/';
 import { AppToastsConfig } from '@app/components/toasts';
 import { Colors } from '@app/constants';
 
