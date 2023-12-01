@@ -6,7 +6,7 @@ export const DeserializeTags = (tags: FeelingTag[]) => {
   return returnTags;
 };
 
-export const convertDateFormat = (inputDate:string) => {
+export const convertDateFormat = (inputDate: string) => {
   const parts = inputDate.split(' ');
   const day = parts[1];
   const month = parts[2];
@@ -32,3 +32,10 @@ export const convertDateFormat = (inputDate:string) => {
 
   return `${year}-${monthNumber}-${day}`;
 };
+
+export function convertObjectToArray(obj: { [key: string]: string }) {
+  return Object.entries(obj).map(([name, percentage]) => ({
+    name,
+    percentage: parseFloat(percentage), // Convert percentage to a number
+  }));
+}

@@ -20,6 +20,7 @@ import RequestFailure from '@app/components/request-failure';
 import useMainScreen from './hooks/use-main-screen';
 import useMoodDiaryFilter from './hooks/use-mood-diary-filter';
 import apiService from '@app/services/api-service/api-service';
+import Overview from './components/overview';
 
 type Props = {};
 
@@ -30,7 +31,7 @@ const MainScreen = (props: Props) => {
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  
+
   const [calenderType, setCalenderType] = React.useState<'weekly' | 'monthly'>(
     'weekly',
   );
@@ -58,7 +59,6 @@ const MainScreen = (props: Props) => {
               res[0].client_mood_diary_result_by_date,
             ).flat() as ClientMoodDiaryResult | [],
           });
-          
         },
         onFailure: (err) => {
           console.log(err);
@@ -126,63 +126,86 @@ const MainScreen = (props: Props) => {
             </Pressable>
           </View>
         </Header>
-        <View style={ms(['topMargin'])}></View>
-        <View style={ms(['topMargin'])}>
-          {calenderType === 'weekly' ? (
-            <WeeklyCalender
-              {...{ handleDateChange }}
-              currentWeek={currentWeek}
-              setCurrentWeek={setCurrentWeek}
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-              reloadScreen={reloadScreen}
-            />
-          ) : (
-            <MonthlyCalendar
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-              currentMonth={currentMonth}
-              setCurrentMonth={setCurrentMonth}
-              reloadScreen={reloadScreen}
-            />
-          )}
-        </View>
-        <View style={ms(['topMargin'])}>
-          <AppText size="md" style={ms(['mb_10', 'py_15'])}>
-            {selectedDate.toDateString().split(' ')[0] +
-              ', ' +
-              selectedDate.toDateString().split(' ')[1] +
-              ' ' +
-              selectedDate.toDateString().split(' ')[2] +
-              ' ' +
-              selectedDate.toDateString().split(' ')[3]}
-          </AppText>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={
-              IsTablet && {
-                width: wp(55),
-                alignSelf: 'center',
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={ms(['topMargin'])}></View>
+          <View style={ms(['topMargin'])}>
+            {calenderType === 'weekly' ? (
+              <WeeklyCalender
+                {...{ handleDateChange }}
+                currentWeek={currentWeek}
+                setCurrentWeek={setCurrentWeek}
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                reloadScreen={reloadScreen}
+              />
+            ) : (
+              <MonthlyCalendar
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                currentMonth={currentMonth}
+                setCurrentMonth={setCurrentMonth}
+                reloadScreen={reloadScreen}
+              />
+            )}
+          </View>
+
+          <View>
+            <Overview
+              incomingData={
+                moodData?.added_mood_percentage as AddedMoodPercentage
               }
-            }
-          >
-            <View>
-              {
-                // @ts-ignore
-                moodDiaryData?.data?.map((item: ClientMoodDiaryResult, i) => {
-                  return (
-                    <MoodCard
-                      key={i}
-                      mood={item.mood_diary.slug}
-                      date={new Date(item.created_at)}
-                      rating={Number(item.score)}
-                    />
-                  );
-                })
+            />
+          </View>
+          <View style={ms(['topMargin'])}>
+            <AppText size="md" style={ms(['mb_10', 'py_15'])}>
+              {selectedDate.toDateString().split(' ')[0] +
+                ', ' +
+                selectedDate.toDateString().split(' ')[1] +
+                ' ' +
+                selectedDate.toDateString().split(' ')[2] +
+                ' ' +
+                selectedDate.toDateString().split(' ')[3]}
+            </AppText>
+            <View
+              style={
+                IsTablet && {
+                  width: wp(55),
+                  alignSelf: 'center',
+                }
               }
+            >
+              <View style={ms(['mb:50'])}>
+                {
+                  // @ts-ignore
+                  moodDiaryData?.data?.length === 0 ? (
+                    <Heading size="md" style={ms(['textCenter'])}>
+                      You didn’t record your mood on{' '}
+                      {selectedDate.toDateString().split(' ')[1] +
+                        ' ' +
+                        selectedDate.toDateString().split(' ')[2] +
+                        ' ' +
+                        selectedDate.toDateString().split(' ')[3]}{' '}
+                    </Heading>
+                  ) : (
+                    // @ts-ignore
+                    moodDiaryData?.data?.map(
+                      (item: ClientMoodDiaryResult, i:number) => {
+                        return (
+                          <MoodCard
+                            key={i}
+                            mood={item.mood_diary.slug}
+                            date={new Date(item.created_at)}
+                            rating={Number(item.score)}
+                          />
+                        );
+                      },
+                    )
+                  )
+                }
+              </View>
             </View>
-          </ScrollView>
-        </View>
+          </View>
+        </ScrollView>
       </RoundLoading>
       <ActionSheet
         containerStyle={styles.bottomSheetStyles}
