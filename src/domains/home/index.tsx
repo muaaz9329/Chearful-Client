@@ -9,16 +9,16 @@ import { NavigationHelpers } from '@react-navigation/native';
 import LearnAndGrowCont from './components/learn-grow-cont';
 import { IconUserCircle } from 'tabler-icons-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ThirtyXThirtyModel from './components/thirty-x-thirty';
 import useAppState from '@app/hooks/use-app-state';
-import ThirtyXThirtyCont from './components/thirty-x-thirty-cont';
+import NewUserCont from './components/new-user-cont';
 import globalStyles from '@app/assets/global-styles';
 import ProfileModel from '@app/components/modals/profile-model';
 import { ChearfulLogo } from '@app/assets/svgs';
 import { Colors } from '@app/constants';
 import { Wp } from '@app/utils';
-import { ConsumerContentsNavigator } from '../../navigation/consumer-contents-navigation';
+import { ConsumerContentsNavigator } from '../consumer-contents/navigation/consumer-contents-navigation';
 import { challengeStorageKeys } from '@app/domains/events/thirty-x-thirty/constants';
+import LoggedInFeaturesCont from './components/logged-in-features-cont';
 
 // function isFeatureAvailable() {
 //   const currentDate = new Date();
@@ -49,9 +49,7 @@ const ScreenConsumerContentsHome = ({
           text: 'OK',
           onPress: async () => {
             await AsyncStorage.removeItem('token');
-            await AsyncStorage.removeItem(
-              challengeStorageKeys.hasCompletedAssessment,
-            );
+           
             updateAppState({ isUserLoggedIn: false });
           },
           style: 'destructive',
@@ -62,12 +60,6 @@ const ScreenConsumerContentsHome = ({
       setVisible(true);
     }
   };
-
-  useEffect(() => {
-    if (!isUserLoggedIn) {
-      setVisible(true);
-    }
-  }, []);
 
   return (
     <SafeAreaView
@@ -89,11 +81,16 @@ const ScreenConsumerContentsHome = ({
         showsVerticalScrollIndicator={false}
         style={globalStyles.flex1}
       >
-        {/* {isThirtyXThirtyAvailable && ( */}
-        <View style={globalStyles.topMargin}>
-          <ThirtyXThirtyCont navigation={navigation} />
-        </View>
-        {/* )} */}
+       
+        {!isUserLoggedIn ? (
+          <View style={globalStyles.topMargin}>
+            <NewUserCont navigation={navigation} />
+          </View>
+        ):(
+          
+          <LoggedInFeaturesCont/>
+        )}
+      
         <View style={globalStyles.topMargin}>
           <MenuTitle path={ConsumerContentsNavigator.SoundBites}>
             Soundbites

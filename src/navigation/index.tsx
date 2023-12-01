@@ -8,7 +8,7 @@ import { Colors } from '@app/constants/';
 import { Hp, IsTablet, hp, wp } from '@app/utils';
 import { ForumNavigation } from '@app/domains/consumer-contents/domains/forum';
 
-import ScreenConsumerContentsHome from '@app/domains/consumer-contents/domains/home';
+import ScreenConsumerContentsHome from '@app/domains/home';
 import ScreenScheduleSession from '@app/domains/standalones/screens';
 import { WebLinkTabButton } from './components';
 
@@ -141,11 +141,8 @@ export default function AppNavigation() {
         headerShown: false,
       }}
     >
-      <Stack.Screen
-        name={AppNavigator.MoodDiary}
-        component={MoodDiaryNavigation}
-      />
       {/* <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} /> */}
+     
       <Stack.Screen
         name={AppNavigator.HomeTabs}
         component={RootTabNavigation}
@@ -153,9 +150,13 @@ export default function AppNavigation() {
 
       <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name={AppNavigator.ThirtyXThirty}
         component={ThirtyXThirtyNavigation}
+      /> */}
+       <Stack.Screen
+        name={AppNavigator.MoodDiary}
+        component={MoodDiaryNavigation}
       />
 
       <Stack.Screen

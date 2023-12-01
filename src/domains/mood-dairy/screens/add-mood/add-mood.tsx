@@ -72,7 +72,7 @@ const AddMood = ({
   useEffect(() => {
     if (savedSuccess) {
       //@ts-ignore
-      navigation.navigate(MoodDiaryNavigator.Home);
+      navigation.goBack();
       Toast.show({
         type: 'SuccessToast',
         text1: 'Mood saved successfully',
