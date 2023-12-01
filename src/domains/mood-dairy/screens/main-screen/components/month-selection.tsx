@@ -7,7 +7,7 @@ import { ColorProperties } from 'react-native-reanimated/lib/typescript/reanimat
 import { Colors } from '@app/constants';
 import { AppText } from '@app/components';
 import { IconChevronDown } from 'tabler-icons-react-native';
-type Props = {};
+
 
 const MonthSelection = ({
   onPressPreviousMonth,
@@ -40,10 +40,7 @@ const MonthSelection = ({
         <AppText style={ms(['nunito_700', 'mr:2'])} size="md">
           {text}
         </AppText>
-        <IconChevronDown
-          size={IsTablet ? Wp(12) : Wp(18)}
-          color={Colors.primary}
-        />
+        
       </Pressable>
       <Pressable
         style={ms([

@@ -14,15 +14,16 @@ const WeeklyCalendar = ({
   currentWeek,
   setCurrentWeek,
   selectedDate,
-  setSelectedDate
-}:{
+  setSelectedDate,
+  reloadScreen,
+}: {
   handleDateChange: (date: Date) => void;
   currentWeek: Date;
   setCurrentWeek: React.Dispatch<React.SetStateAction<Date>>;
   selectedDate: Date;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+  reloadScreen: (date: string) => void;
 }) => {
- 
   const { isMoodFilledOnDate } = useMoodDiaryFilter();
   const selectedDay: ViewStyle = {
     borderRadius: Wp(25),
@@ -48,12 +49,18 @@ const WeeklyCalendar = ({
     const prevWeek = new Date(currentWeek);
     prevWeek.setDate(prevWeek.getDate() - 7);
     setCurrentWeek(prevWeek);
+    if (prevWeek.getMonth() !== currentWeek.getMonth()) {
+      reloadScreen(new Date(prevWeek).toISOString().split('T')[0]);
+    }
   };
 
   const nextWeek = () => {
     const next = new Date(currentWeek);
     next.setDate(next.getDate() + 7);
     setCurrentWeek(next);
+    if (next.getMonth() !== currentWeek.getMonth()) {
+      reloadScreen(new Date(next).toISOString().split('T')[0]);
+    }
   };
 
   const handleDayClick = (day: any) => {

@@ -3,23 +3,27 @@ import ms from '@app/assets/master-styles';
 import { AppText } from '@app/components';
 import { Colors } from '@app/constants';
 import { Nunito, Wp } from '@app/utils';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import MonthSelection from './month-selection';
-import useMainScreen from '../hooks/use-main-screen';
-import useMoodDiaryFilter from '../hooks/use-mood-diary-filter';
 
+import useMoodDiaryFilter from '../hooks/use-mood-diary-filter';
+import useMainScreen from '../hooks/use-main-screen';
 
 const MonthlyCalendar = ({
   selectedDate,
   setSelectedDate,
-}:{
-  selectedDate:Date,
-  setSelectedDate:(date:Date)=>void
+  currentMonth,
+  setCurrentMonth,
+  reloadScreen,
+}: {
+  selectedDate: Date;
+  setSelectedDate: (date: Date) => void;
+  currentMonth: Date;
+  setCurrentMonth: (date: Date) => void;
+  reloadScreen: (date: string) => void;
 }) => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const { isMoodFilledOnDate } = useMoodDiaryFilter();
-
+  const { isMoodFilledOnDate, formatDate } = useMoodDiaryFilter();
 
   const getDaysInMonth = (date: any) => {
     const year = date.getFullYear();
@@ -40,6 +44,8 @@ const MonthlyCalendar = ({
   const previousMonth = () => {
     const prevMonth = new Date(currentMonth);
     prevMonth.setMonth(prevMonth.getMonth() - 1);
+
+    reloadScreen(new Date(prevMonth).toISOString().split('T')[0]);
     setCurrentMonth(prevMonth);
   };
 
@@ -47,37 +53,33 @@ const MonthlyCalendar = ({
     const next = new Date(currentMonth);
     next.setMonth(next.getMonth() + 1);
     setCurrentMonth(next);
+    reloadScreen(new Date(next).toISOString().split('T')[0]);
   };
 
   const handleDayClick = (day: any) => {
     setSelectedDate(day);
   };
 
-//   useEffect(() => {
-//       let moodData : any[]
-//       const TempData = {...ClientMoodDiaryResultByDate}
-//      moodData = TempData[formatDate(selectedDate)]
-//       if( moodData!==undefined){
-//         console.log("I ran")
-//        setMoodData(moodData)
-//       }
+  // useEffect(() => {
+  //   let moodData: any[];
+  //   const TempData = { ...ClientMoodDiaryResultByDate };
+  //   moodData = TempData[formatDate(selectedDate)];
+  //   if (moodData !== undefined) {
+  //     console.log('I ran');
+  //     console.log(moodData);
+  //   }
+  // }, [selectedDate]);
 
-
-    
-
-    
-//   }, [selectedDate]);
-
-
-//   useEffect(()=>{
-// console.log(selectedDate)
-//   },[selectedDate]) 
+  //   useEffect(()=>{
+  // console.log(selectedDate)
+  //   },[selectedDate])
 
   const renderMonth = () => {
     const daysArray = getDaysInMonth(currentMonth);
     const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const firstDayOfMonth = daysArray[0].getDay(); // Get the day of the week for the 1st of the month
-
+   
+ 
     // Create empty spaces to align the first day of the month
     const emptySpaces = new Array((firstDayOfMonth + 6) % 7).fill(null);
 
@@ -180,11 +182,15 @@ const MonthlyCalendar = ({
                       },
                   ]}
                 >
-                  <Text style={{
-                    fontFamily:Nunito(500),
-                    fontSize:Wp(14),
-                    color:'#000000'
-                  }}>{day.getDate()}</Text>
+                  <Text
+                    style={{
+                      fontFamily: Nunito(500),
+                      fontSize: Wp(14),
+                      color: '#000000',
+                    }}
+                  >
+                    {day.getDate()}
+                  </Text>
                 </View>
               </TouchableOpacity>
             );
@@ -194,7 +200,7 @@ const MonthlyCalendar = ({
     );
   };
 
-  return <View>{renderMonth()}</View>;
+  return <View>{renderMonth()}</View>;     
 };
 
 export default MonthlyCalendar;

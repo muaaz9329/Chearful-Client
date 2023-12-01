@@ -1,10 +1,18 @@
 import apiService from '@app/services/api-service/api-service';
 import { Boolbacks } from '../../services/api-service/index';
 import { getAuthHeaders } from '@app/utils';
-const getMoodList = ({ onFailure, onSuccess }: Boolbacks) => {
+const getMoodList = ({
+  onFailure,
+  onSuccess,
+  date,
+}: Boolbacks & { date: string }) => {
   getAuthHeaders().then((headers) => {
     apiService.post({
-      url: '/website/mood-diary/mood-entries-by-calender-view?calender_view=monthly',
+      url: `/website/mood-diary/mood-entries-by-calender-view`,
+      data: {
+        calender_view: 'monthly',
+        date,
+      },
       onSuccess,
       onFailure,
       headers,
@@ -46,7 +54,7 @@ const saveMoodDiary = ({
 const MoodDiaryServices = {
   getMoodList,
   getMoodTags,
-  saveMoodDiary
+  saveMoodDiary,
 };
 
 export default MoodDiaryServices;
