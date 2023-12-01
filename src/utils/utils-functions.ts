@@ -472,3 +472,8 @@ export const areDatesEqual = (date1:Date, date2:Date) => {
     date1.getDate() === date2.getDate()
   );
 };
+
+// checks if the object is empty
+export function isObjectEmpty(obj:any) {
+  return Object.keys(obj).length === 0;
+}
