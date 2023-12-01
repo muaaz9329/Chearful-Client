@@ -82,8 +82,9 @@ const MainScreen = (props: Props) => {
   };
 
   return (
+    <RoundLoading loading={loading}>
     <SafeAreaView style={ms(['Wrapper'])} edges={['top', 'bottom']}>
-      <RoundLoading loading={loading}>
+   
         <View
           style={[
             styles.btnCont,
@@ -214,7 +215,7 @@ const MainScreen = (props: Props) => {
             </View>
           </View>
         </ScrollView>
-      </RoundLoading>
+      
       <ActionSheet
         containerStyle={styles.bottomSheetStyles}
         ref={bottomSheetRef}
@@ -247,6 +248,7 @@ const MainScreen = (props: Props) => {
         </View>
       </ActionSheet>
     </SafeAreaView>
+    </RoundLoading>
   );
 };
 
