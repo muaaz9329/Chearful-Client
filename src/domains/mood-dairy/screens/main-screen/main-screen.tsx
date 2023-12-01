@@ -3,12 +3,19 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ms from '@app/assets/master-styles';
 import { AppText, Header, Heading, MyButton } from '@app/components';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { ChevronLeft } from '@app/assets/svgs';
 import { IconComponent } from '@app/types';
 import { IconDotsVertical, IconPlus } from 'tabler-icons-react-native';
 import { Colors } from '@app/constants';
-import { IsTablet, Wp, getAuthHeaders, hp, wp } from '@app/utils';
+import {
+  IsTablet,
+  Wp,
+  getAuthHeaders,
+  hp,
+  isObjectEmpty,
+  wp,
+} from '@app/utils';
 import WeeklyCalender from './components/weekly-calender';
 import MoodCard from './components/mood-card';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
@@ -36,6 +43,7 @@ const MainScreen = (props: Props) => {
   const [calenderType, setCalenderType] = React.useState<'weekly' | 'monthly'>(
     'weekly',
   );
+
 
   const { loading, moodData, reloadScreen } = useApi();
   // const {selectedDate,setSelectedDate} = useDateControl()
@@ -79,7 +87,18 @@ const MainScreen = (props: Props) => {
   const handleNavigation = (id: number) => {
     //@ts-ignore
     navigation.navigate(MoodDiaryNavigator.ViewMood, { id });
+  
   };
+
+
+  // for refreshing screen on focus
+  const refreshScreen = useCallback(() => {
+    // Add logic here to refresh your screen
+    reloadScreen(new Date().toISOString().split('T')[0]);
+    setSelectedDate(new Date());
+  }, []);
+
+  useFocusEffect(refreshScreen);
 
   return (
     <SafeAreaView style={ms(['Wrapper'])} edges={['top', 'bottom']}>
@@ -156,11 +175,13 @@ const MainScreen = (props: Props) => {
           </View>
 
           <View>
-            <Overview
-              incomingData={
-                moodData?.added_mood_percentage as AddedMoodPercentage
-              }
-            />
+           { !(isObjectEmpty(moodData?.added_mood_percentage)) && (
+              <Overview
+                incomingData={
+                  moodData?.added_mood_percentage as AddedMoodPercentage
+                }
+              />
+            )}
           </View>
           <View style={ms(['topMargin'])}>
             <AppText size="md" style={ms(['mb_10', 'py_15'])}>

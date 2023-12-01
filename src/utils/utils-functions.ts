@@ -475,5 +475,14 @@ export const areDatesEqual = (date1:Date, date2:Date) => {
 
 // checks if the object is empty
 export function isObjectEmpty(obj:any) {
-  return Object.keys(obj).length === 0;
+  // @ts-ignore
+  
+    // Check if the object is defined before trying to access its properties
+    if (obj === undefined || obj === null) {
+      return true;  // Treat undefined or null as an empty object
+    }
+  
+    // Check if the object has no own properties
+    return Object.keys(obj).length === 0;
+  
 }
