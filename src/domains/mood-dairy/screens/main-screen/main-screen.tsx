@@ -21,6 +21,7 @@ import useMainScreen from './hooks/use-main-screen';
 import useMoodDiaryFilter from './hooks/use-mood-diary-filter';
 import apiService from '@app/services/api-service/api-service';
 import Overview from './components/overview';
+import MoodDiaryNavigation, { MoodDiaryNavigator } from '../../navigation';
 
 type Props = {};
 
@@ -74,6 +75,11 @@ const MainScreen = (props: Props) => {
   const handleDateChange = useCallback((date: Date) => {
     getMoodDiaryData(date);
   }, []);
+
+  const handleNavigation = (id: number) => {
+    //@ts-ignore
+    navigation.navigate(MoodDiaryNavigator.ViewMood, { id });
+  };
 
   return (
     <SafeAreaView style={ms(['Wrapper'])} edges={['top', 'bottom']}>
@@ -189,13 +195,15 @@ const MainScreen = (props: Props) => {
                   ) : (
                     // @ts-ignore
                     moodDiaryData?.data?.map(
-                      (item: ClientMoodDiaryResult, i:number) => {
+                      (item: ClientMoodDiaryResult, i: number) => {
                         return (
                           <MoodCard
                             key={i}
                             mood={item.mood_diary.slug}
                             date={new Date(item.created_at)}
                             rating={Number(item.score)}
+                            id={item.id}
+                            handleFunc={handleNavigation}
                           />
                         );
                       },

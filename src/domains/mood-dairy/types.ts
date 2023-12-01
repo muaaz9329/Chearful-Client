@@ -60,3 +60,14 @@ type MoodDiaryEntry = {
 type SlideTags = { title: string; id: number }[];
 
 type MoodTypes = 'happy' | 'sad' | 'angry' | 'peaceful' | 'neutral';
+
+
+type MoodDataById =  {
+  icon: string;
+  title: string;
+  created_at: string;
+  id: number;
+  score: string;
+  HowYouFeel: string[];
+  MadeYouFeel: string[];
+};
