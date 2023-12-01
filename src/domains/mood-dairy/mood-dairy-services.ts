@@ -69,11 +69,29 @@ const getMoodDataById = ({
   });
 };
 
+
+
+const getMoodsIdAndSlugs =({
+  onFailure,
+  onSuccess,
+ 
+}: Boolbacks) => {
+  getAuthHeaders().then((headers) => {
+    apiService.get({
+      url: `/website/mood-diary/list`,
+      onSuccess,
+      onFailure,
+      headers,
+    });
+  });
+};
+
 const MoodDiaryServices = {
   getMoodList,
   getMoodTags,
   saveMoodDiary,
   getMoodDataById,
+  getMoodsIdAndSlugs
 };
 
 export default MoodDiaryServices;
