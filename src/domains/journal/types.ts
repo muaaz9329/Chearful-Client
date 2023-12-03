@@ -1,54 +1,91 @@
-export type JournalType = {
+type JournalType = {
   id: number;
   title: string;
-  description?: string;
+  description: string;
+  pdf_url: string;
+  created_at: string;
 };
 
-export type JournalEntryTime = {
+type ListJournalEntry = {
   id: number;
+  journal_id: number;
   title: string;
-};
-
-export type JournalEntryDataQuestion = {
-  id: number;
-  title: string;
-  type: 'question';
-  answer: string;
-};
-
-export type JournalEntryDataOption = {
-  id: number;
-  title: string;
-  type: 'option';
-  answer?: string;
-  options: {
-    id: number;
-    title: string;
-  }[];
-};
-
-export type JournalEntryDataRate = {
-  id: number;
-  title: string;
-  type: 'rate';
-  answer?: number;
-  range: {
-    min: number;
-    max: number;
-    step: number;
-  };
-};
-
-type JournalEntryData =
-  | JournalEntryDataQuestion
-  | JournalEntryDataOption
-  | JournalEntryDataRate;
-
-export type JournalEntry = {
-  id: number;
+  description: string;
+  pdf_url: string;
+  created_at: string;
   date: string;
-  type: JournalType;
-  time: JournalEntryTime;
-  assignedBy: { id: number; title: string; profilePic?: string } | null;
-  data: JournalEntryData[];
+  journal_status: 'completed' | 'pending';
+  attempted_time: string;
+};
+
+type JournalTypeQuestion = {
+  id: number;
+  question_type: 'short_answer' | 'single_answer' | 'multiple_answer';
+  group_id: number;
+  question_title: string;
+  status: number;
+  answers: [];
+};
+
+type JournalEntrySingleAnswer = {
+  id: number;
+  user_journal_id?: number;
+  question_id: number;
+  answer_id?: number;
+  text_answer: string;
+  user_journal_attempt_id: number;
+  score?: any;
+  option_title?: any;
+};
+type JournalEntryQuestionsData = JournalTypeQuestion & {
+  answers: JournalEntrySingleAnswer[];
+};
+
+type JournalEntry = {
+  id: number;
+  journal_id: number;
+  title: string;
+  description: string;
+  pdf_url: string;
+  created_at: string;
+  date: string;
+  journal_status: 'pending' | 'completed';
+  attempted_time: string;
+  questions_answers: [
+    {
+      id: number;
+      journal_id: number;
+      group_id: number;
+      arr_questions: JournalEntryQuestionsData[];
+    },
+  ];
+};
+
+type JournalTypeDetailed = {
+  id: number;
+  title: string;
+  pdf_url: string;
+  description: string;
+  user_id: number;
+  status: number;
+  created_at: string;
+  updated_at: string;
+  question_answers: [
+    {
+      id: number;
+      journal_id: number;
+      group_id: number;
+      arr_questions: [JournalTypeQuestion];
+    },
+  ];
+};
+
+export type {
+  JournalType,
+  ListJournalEntry,
+  JournalEntry,
+  JournalTypeDetailed,
+  JournalTypeQuestion,
+  JournalEntryQuestionsData,
+  JournalEntrySingleAnswer,
 };
