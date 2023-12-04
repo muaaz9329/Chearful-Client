@@ -10,12 +10,75 @@ import JournalTypeCard from '../components/journal-type-card';
 import { journalTypes } from '../data/journal-data';
 import { NavigationHelpers } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
+import { useEffect, useState } from 'react';
+import { JournalType } from '../types';
+import { RequestState } from '@app/services/api-service';
+import { assignedJournalService, ownJournalService } from '../journal-service';
 
 export default function ScreenJournalPlaceholder({
   navigation,
 }: {
   navigation: NavigationHelpers<any, any>;
 }) {
+  const [ownJournals, setOwnJournals] = useState<{
+    state: RequestState;
+    // the ownjournalservice has a method to get the list of journals which has a param onSuccess which receives data so we infer the type of data from there using ts utilities
+    data: Partial<
+      Parameters<
+        Parameters<typeof ownJournalService.getJournalsList>[0]['onSuccess']
+      >[0]['data']
+    >;
+  }>({
+    data: {},
+    state: 'loading',
+  });
+
+  const [assignedJournals, setAssignedJournals] = useState<{
+    state: RequestState;
+    data: Partial<
+      Parameters<
+        Parameters<
+          typeof assignedJournalService.getJournalsList
+        >[0]['onSuccess']
+      >[0]['data']
+    >;
+  }>({
+    data: {},
+    state: 'loading',
+  });
+
+  useEffect(() => {
+    ownJournalService.getJournalsList({
+      onSuccess: ({ data }) => {
+        setOwnJournals({
+          state: 'loaded',
+          data,
+        });
+      },
+      onFailure: () => {
+        setOwnJournals({
+          state: 'erred',
+          data: {},
+        });
+      },
+    });
+
+    assignedJournalService.getJournalsList({
+      onSuccess: ({ data }) => {
+        setAssignedJournals({
+          state: 'loaded',
+          data,
+        });
+      },
+      onFailure: () => {
+        setAssignedJournals({
+          state: 'erred',
+          data: {},
+        });
+      },
+    });
+  }, []);
+
   return (
     <SafeAreaView style={globalStyles.Wrapper}>
       <Header pram="back" headerType="New">
@@ -25,9 +88,9 @@ export default function ScreenJournalPlaceholder({
       <ScrollView
         style={{
           paddingBottom: scale(10),
+          flex: 1,
         }}
         contentContainerStyle={{
-          flex: 1,
           justifyContent: 'space-between',
         }}
       >
@@ -67,27 +130,77 @@ export default function ScreenJournalPlaceholder({
           }}
         >
           <AppText size="lg" style={ms(['textPrimary'])}>
-            Choose Journal
+            Own Journals
           </AppText>
 
-          <FlatList
-            horizontal
-            data={journalTypes}
-            renderItem={({ item }) => (
-              <JournalTypeCard
-                title={item.title}
-                description={item.description}
-              />
-            )}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id.toString()}
-            ItemSeparatorComponent={XGap}
-          />
+          {
+            {
+              idle: <></>,
+              loading: <AppText>Loading...</AppText>,
+              loaded: (
+                <FlatList
+                  horizontal
+                  data={ownJournals.data?.journals}
+                  renderItem={({ item }) => (
+                    <JournalTypeCard
+                      onPress={() => {
+                        navigation.navigate(JournalNavigator.OwnJournalHome, {
+                          journalId: item.id,
+                        });
+                      }}
+                      title={item.title}
+                      description={item.description}
+                      image={item.pdf_url}
+                    />
+                  )}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item) => item.id.toString()}
+                  ItemSeparatorComponent={XGap}
+                />
+              ),
+              erred: <AppText>Something went wrong</AppText>,
+            }[ownJournals.state]
+          }
+        </View>
+
+        <View
+          style={{
+            rowGap: scale(5),
+            marginVertical: moderateScale(20),
+          }}
+        >
+          <AppText size="lg" style={ms(['textPrimary'])}>
+            Assigned Journals
+          </AppText>
+
+          {
+            {
+              idle: <></>,
+              loading: <AppText>Loading...</AppText>,
+              loaded: (
+                <FlatList
+                  horizontal
+                  data={ownJournals.data?.journals}
+                  renderItem={({ item }) => (
+                    <JournalTypeCard
+                      title={item.title}
+                      description={item.description}
+                      image={item.pdf_url}
+                    />
+                  )}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item) => item.id.toString()}
+                  ItemSeparatorComponent={XGap}
+                />
+              ),
+              erred: <AppText>Something went wrong</AppText>,
+            }[assignedJournals.state]
+          }
         </View>
 
         <MyButton
           onPress={() => {
-            navigation.navigate(JournalNavigator.Home);
+            // navigation.navigate(JournalNavigator.);
           }}
           title="Explore More"
         />

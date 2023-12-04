@@ -80,6 +80,21 @@ type JournalTypeDetailed = {
   ];
 };
 
+type JournalDateItem = {
+  id: number;
+  title: string;
+  description: string;
+  pdf_url: string;
+  created_at: string;
+  start_date: string;
+  end_date: string;
+  frequencies: {
+    id: number;
+    journal_time: string;
+    user_journal_id: string;
+  }[];
+};
+
 export type {
   JournalType,
   ListJournalEntry,
@@ -88,4 +103,5 @@ export type {
   JournalTypeQuestion,
   JournalEntryQuestionsData,
   JournalEntrySingleAnswer,
+  JournalDateItem,
 };

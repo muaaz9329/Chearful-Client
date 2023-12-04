@@ -18,13 +18,30 @@ import { IconPlus } from 'tabler-icons-react-native';
 import JournalActionsSheet from '../components/journal-actions-sheet';
 import { NavigationHelpers } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
+import { assignedJournalService } from '../journal-service';
+import { RequestState } from '@app/services/api-service';
 
-export default function ScreenJournalHome({
+export default function ScreenAssignedJournalHome({
   navigation,
+  route,
 }: {
   navigation: NavigationHelpers<any, any>;
+  route: any;
 }) {
+  const { journalId } = route.params;
   const [sheetShown, setSheetShown] = useState(false);
+
+  const [journalDates, setJournalDates] = useState<{
+    state: RequestState;
+    data: Partial<
+      Parameters<
+        Parameters<typeof assignedJournalService.getDatesList>[0]['onSuccess']
+      >[0]['data']
+    >;
+  }>({
+    data: {},
+    state: 'loading',
+  });
 
   return (
     <SafeAreaView style={globalStyles.Wrapper}>
@@ -60,7 +77,7 @@ export default function ScreenJournalHome({
           },
         ]}
       >
-        {journalTypes.map((type) => (
+        {/* {journalTypes.map((type) => (
           <View key={type.id} style={{ rowGap: ms(10), marginBottom: ms(20) }}>
             <AppText>{type.title}</AppText>
             {journalEntries
@@ -89,7 +106,7 @@ export default function ScreenJournalHome({
               />
             )}
           </View>
-        ))}
+        ))} */}
       </ScrollView>
 
       {sheetShown && (

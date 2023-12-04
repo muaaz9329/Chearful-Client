@@ -10,6 +10,7 @@ import {
   JournalTypeDetailed,
   ListJournalEntry,
   JournalEntry,
+  JournalDateItem,
 } from './types';
 import { getAuthHeaders } from '@app/utils';
 import apiService from '@app/services/api-service/api-service';
@@ -24,8 +25,8 @@ interface BaseJournalService {
     onSuccess,
     onFailure,
   }: {
-    limit: number | 'all';
-    page: number;
+    limit?: number | 'all';
+    page?: number;
   } & Boolbacks<{
     journals: JournalType[];
     total_pages: number;
@@ -40,8 +41,8 @@ interface BaseJournalService {
     frequencyId,
     journalId,
   }: {
-    limit: number | 'all';
-    page: number;
+    limit?: number | 'all';
+    page?: number;
     frequencyId?: number;
     journalId?: number;
   } & Boolbacks<{
@@ -112,6 +113,11 @@ class JournalService implements BaseJournalService {
 
     const headers = await getAuthHeaders();
 
+    console.log({
+      url: this.makeUrl('list'),
+      headers,
+    });
+
     apiService.get({
       url: this.makeUrl('list'),
       data: params,
@@ -123,8 +129,8 @@ class JournalService implements BaseJournalService {
 
   // -----------------------------
   getJournalEntries: BaseJournalService['getJournalEntries'] = async ({
-    limit,
-    page,
+    limit = 10,
+    page = 1,
     frequencyId,
     journalId,
     onSuccess,
@@ -239,17 +245,17 @@ class AssignedJournalService extends JournalService {
     ========================================
   */
   getDatesList = async ({
-    limit,
-    page,
+    limit = 10,
+    page = 1,
     journalId,
     onSuccess,
     onFailure,
   }: {
-    limit: number | 'all';
-    page: number;
+    limit?: number | 'all';
+    page?: number;
     journalId: number;
   } & Boolbacks<{
-    journals: unknown[];
+    journals: JournalDateItem[];
     total_pages: number;
   }>) => {
     const params: GetRequestParams = [
