@@ -130,11 +130,13 @@ export default function ScreenOwnJournalHome({
                       key={item.id}
                       entry={item}
                       kind="own"
-                      // onPress={() => {
-                      //   navigation.navigate(JournalNavigator.JournalEntry, {
-                      //     journalEntryId: item.id,
-                      //   });
-                      // }}
+                      onPress={() => {
+                        navigation.navigate(JournalNavigator.EntryDetailed, {
+                          entryId: item.id,
+                          journalTitle: item.title,
+                          kind: 'own',
+                        });
+                      }}
                     />
                   )}
                   horizontal

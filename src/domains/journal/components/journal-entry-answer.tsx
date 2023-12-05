@@ -2,11 +2,12 @@ import { AppText, Heading } from '@app/components';
 import { Colors } from '@app/constants';
 import { ScrollView, View } from 'react-native';
 import { ms } from 'react-native-size-matters';
+import { JournalEntrySingleAnswer } from '../types';
 
 type Props = {
   question: string;
-  answer: string;
-  type?: 'question' | 'option' | 'rate';
+  answers: JournalEntrySingleAnswer[];
+  type: 'short_answer' | 'single_answer' | 'multiple_answer';
   style?: any;
   answerStyle?: any;
 };
@@ -14,7 +15,7 @@ type Props = {
 const JournalEntryAnswer = ({
   type,
   question,
-  answer,
+  answers,
   style = {},
   answerStyle,
 }: Props) => {
@@ -23,12 +24,16 @@ const JournalEntryAnswer = ({
       style={[
         {
           rowGap: ms(8),
+          marginVertical: ms(10),
         },
         style,
       ]}
     >
       <Heading size="md">{question}</Heading>
-      {type !== 'rate' && (
+
+      {type === 'multiple_answer' ? (
+        <></>
+      ) : (
         <View
           style={[
             {
@@ -38,8 +43,8 @@ const JournalEntryAnswer = ({
               borderColor: Colors.muted,
               padding: ms(10),
               textAlignVertical: 'top',
-              minHeight: type === 'question' ? ms(100) : 'auto',
-              maxHeight: type === 'question' ? ms(200) : 'auto',
+              minHeight: type === 'short_answer' ? ms(100) : 'auto',
+              maxHeight: type === 'short_answer' ? ms(200) : 'auto',
             },
             answerStyle,
           ]}
@@ -48,7 +53,14 @@ const JournalEntryAnswer = ({
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >
-            <AppText>{answer}</AppText>
+            <AppText>
+              {
+                {
+                  short_answer: answers[0].text_answer,
+                  single_answer: answers[0].option_title,
+                }[type]
+              }
+            </AppText>
           </ScrollView>
         </View>
       )}

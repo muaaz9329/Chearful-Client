@@ -7,12 +7,9 @@ import { FlatList, Image, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale } from 'react-native-size-matters';
 import JournalTypeCard from '../components/journal-type-card';
-import { journalTypes } from '../data/journal-data';
 import { NavigationHelpers } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
-import { useEffect, useState } from 'react';
-import { JournalType } from '../types';
-import { RequestState } from '@app/services/api-service';
+import { useEffect } from 'react';
 import { assignedJournalService, ownJournalService } from '../journal-service';
 import useJournalStore from '../use-journal-store';
 
@@ -25,6 +22,17 @@ export default function ScreenJournalPlaceholder({
     useJournalStore();
 
   useEffect(() => {
+    // resetting initial state
+    setOwnJournals({
+      state: 'loading',
+      data: {},
+    });
+    setAssignedJournals({
+      state: 'loading',
+      data: {},
+    });
+
+    // fetching data
     ownJournalService.getJournalsList({
       onSuccess: ({ data }) => {
         setOwnJournals({

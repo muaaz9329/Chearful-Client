@@ -111,11 +111,6 @@ class JournalService implements BaseJournalService {
 
     const headers = await getAuthHeaders();
 
-    console.log({
-      url: this.makeUrl('list'),
-      headers,
-    });
-
     apiService.get({
       url: this.makeUrl('list'),
       data: params,
@@ -173,8 +168,6 @@ class JournalService implements BaseJournalService {
           total_pages: number;
         };
       }) => {
-        console.log('data', data);
-
         const deserializedData = JournalAdapter.deserialize(data);
         onSuccess({ data: deserializedData });
       },
@@ -188,7 +181,7 @@ class JournalService implements BaseJournalService {
     onSuccess,
     onFailure,
   }) => {
-    const headers = getAuthHeaders();
+    const headers = await getAuthHeaders();
 
     const params: GetRequestParams = [
       {
@@ -213,7 +206,7 @@ class JournalService implements BaseJournalService {
     onSuccess,
     onFailure,
   }) => {
-    const headers = getAuthHeaders();
+    const headers = await getAuthHeaders();
 
     const data: { [key: string]: any } = {
       entry_id: entryId,

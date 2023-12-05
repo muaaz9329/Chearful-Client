@@ -18,15 +18,6 @@ type ListJournalEntry = {
   attempted_time: string;
 };
 
-type JournalTypeQuestion = {
-  id: number;
-  question_type: 'short_answer' | 'single_answer' | 'multiple_answer';
-  group_id: number;
-  question_title: string;
-  status: number;
-  answers: [];
-};
-
 type JournalEntrySingleAnswer = {
   id: number;
   user_journal_id?: number;
@@ -38,7 +29,7 @@ type JournalEntrySingleAnswer = {
   option_title?: any;
 };
 type JournalEntryQuestionsData = JournalTypeQuestion & {
-  answers: JournalEntrySingleAnswer[];
+  answers: JournalEntrySingleAnswer[] | [];
 };
 
 type JournalEntry = {
@@ -51,14 +42,23 @@ type JournalEntry = {
   date: string;
   journal_status: 'pending' | 'completed';
   attempted_time: string;
-  questions_answers: [
+  question_answers: [
     {
       id: number;
       journal_id: number;
       group_id: number;
-      arr_questions: JournalEntryQuestionsData[];
+      arrQuestions: JournalEntryQuestionsData[];
     },
   ];
+};
+
+type JournalTypeQuestion = {
+  id: number;
+  question_type: 'short_answer' | 'single_answer' | 'multiple_answer';
+  group_id: number;
+  question_title: string;
+  status: number;
+  answers: [];
 };
 
 type JournalTypeDetailed = {
@@ -75,7 +75,7 @@ type JournalTypeDetailed = {
       id: number;
       journal_id: number;
       group_id: number;
-      arr_questions: [JournalTypeQuestion];
+      arrQuestions: [JournalTypeQuestion];
     },
   ];
 };
