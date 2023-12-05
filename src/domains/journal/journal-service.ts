@@ -8,11 +8,12 @@ import { Boolbacks, GetRequestParams } from '@app/services/api-service';
 import {
   JournalType,
   JournalTypeDetailed,
-  ListJournalEntry,
   JournalEntry,
   JournalDateItem,
+  ListJournalEntry,
 } from './types';
 import { getAuthHeaders } from '@app/utils';
+import JournalAdapter, { DeserializedJournalEntries } from './journal-adapters';
 import apiService from '@app/services/api-service/api-service';
 
 interface BaseJournalService {
@@ -45,10 +46,7 @@ interface BaseJournalService {
     page?: number;
     frequencyId?: number;
     journalId?: number;
-  } & Boolbacks<{
-    journal_entries: ListJournalEntry[];
-    total_pages: number;
-  }>): Promise<void>;
+  } & Boolbacks<DeserializedJournalEntries>): Promise<void>;
 
   /**
    * Get details of a journal entry
@@ -167,7 +165,19 @@ class JournalService implements BaseJournalService {
       url: this.makeUrl('list-entries'),
       data: params,
       headers,
-      onSuccess,
+      onSuccess: ({
+        data,
+      }: {
+        data: {
+          journalEntries: ListJournalEntry[];
+          total_pages: number;
+        };
+      }) => {
+        console.log('data', data);
+
+        const deserializedData = JournalAdapter.deserialize(data);
+        onSuccess({ data: deserializedData });
+      },
       onFailure,
     });
   };

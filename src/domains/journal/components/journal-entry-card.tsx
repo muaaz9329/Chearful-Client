@@ -1,17 +1,18 @@
 import { Image, TouchableOpacity, View } from 'react-native';
 import { AppText, BaseCard, Heading } from '@app/components';
-import { JournalEntry } from '../types';
+import { ListJournalEntry } from '../types';
 import { Wp } from '@app/utils';
 import { AppImages } from '@app/assets/images';
 import { ms, mvs } from 'react-native-size-matters';
 import { Colors } from '@app/constants';
 
 interface Props {
-  entry: JournalEntry;
+  entry: ListJournalEntry;
   onPress?: () => void;
+  kind: 'own' | 'assigned';
 }
 
-const JournalEntryCard = ({ entry, onPress }: Props) => {
+const JournalEntryCard = ({ entry, kind, onPress }: Props) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <BaseCard
@@ -20,14 +21,22 @@ const JournalEntryCard = ({ entry, onPress }: Props) => {
         }}
       >
         <View>
-          <Heading size="sm">{entry.time.title + ' Entry'}</Heading>
-          <AppText>
+          {kind === 'own' ? (
+            <Heading size="sm">
+              {new Date(entry.date).toLocaleDateString('en-US', {
+                timeStyle: 'short',
+              })}
+            </Heading>
+          ) : (
+            <Heading size="sm">{entry.attempted_time + ' Entry'}</Heading>
+          )}
+          {/* <AppText>
             {new Date(entry.date).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'short',
               day: 'numeric',
             })}
-          </AppText>
+          </AppText> */}
         </View>
 
         <View
@@ -35,7 +44,7 @@ const JournalEntryCard = ({ entry, onPress }: Props) => {
             marginTop: 'auto',
           }}
         >
-          {!entry.assignedBy ? (
+          {kind === 'own' ? (
             <AppText>Self Assigned</AppText>
           ) : (
             <View
@@ -64,7 +73,7 @@ const JournalEntryCard = ({ entry, onPress }: Props) => {
                     color: Colors.primary,
                   }}
                 >
-                  {entry.assignedBy.title}
+                  {/* {entry.assignedBy.title} */}
                 </AppText>
               </View>
             </View>

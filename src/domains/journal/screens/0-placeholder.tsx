@@ -14,38 +14,15 @@ import { useEffect, useState } from 'react';
 import { JournalType } from '../types';
 import { RequestState } from '@app/services/api-service';
 import { assignedJournalService, ownJournalService } from '../journal-service';
+import useJournalStore from '../use-journal-store';
 
 export default function ScreenJournalPlaceholder({
   navigation,
 }: {
   navigation: NavigationHelpers<any, any>;
 }) {
-  const [ownJournals, setOwnJournals] = useState<{
-    state: RequestState;
-    // the ownjournalservice has a method to get the list of journals which has a param onSuccess which receives data so we infer the type of data from there using ts utilities
-    data: Partial<
-      Parameters<
-        Parameters<typeof ownJournalService.getJournalsList>[0]['onSuccess']
-      >[0]['data']
-    >;
-  }>({
-    data: {},
-    state: 'loading',
-  });
-
-  const [assignedJournals, setAssignedJournals] = useState<{
-    state: RequestState;
-    data: Partial<
-      Parameters<
-        Parameters<
-          typeof assignedJournalService.getJournalsList
-        >[0]['onSuccess']
-      >[0]['data']
-    >;
-  }>({
-    data: {},
-    state: 'loading',
-  });
+  const { ownJournals, assignedJournals, setOwnJournals, setAssignedJournals } =
+    useJournalStore();
 
   useEffect(() => {
     ownJournalService.getJournalsList({
