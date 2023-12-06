@@ -16,6 +16,8 @@ import {
 import AppNavigation from '@app/navigation/';
 import { AppToastsConfig } from '@app/components/toasts';
 import { Colors } from '@app/constants';
+import useAppState from '@app/hooks/use-app-state';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RNPaperTheme = {
   ...defaultTheme,
@@ -27,7 +29,16 @@ const RNPaperTheme = {
 };
 
 function App(): JSX.Element {
+  const { updateAppState } = useAppState();
+
+  const setUserLoginStatus = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (token) {
+      updateAppState({ isUserLoggedIn: true });
+    }
+  };
   useEffect(() => {
+    setUserLoginStatus();
     SplashScreen.hide();
   }, []);
 

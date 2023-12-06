@@ -12,16 +12,13 @@ import { challengeStorageKeys } from '@app/domains/events/thirty-x-thirty/consta
 import { AppNavigator } from '@app/navigation';
 import { AuthNavigator } from '@app/domains/authentication';
 import { ThirtyXThirtyNavigator } from '@app/domains/events/thirty-x-thirty/navigation/thirty-x-thirty-navigation-stack';
+import { MoodDiaryNavigator } from '@app/domains/mood-dairy/navigation';
 
 function isFeatureAvailable() {
-  const currentDate = new Date().toDateString();
-  const startDate = new Date('2023-10-28').toDateString();
-  const endDate = new Date('2023-11-26').toDateString();
-  // to return boolean if the feature is available or not according to the date
-  return currentDate >= startDate && currentDate <= endDate;
+  return true;
 }
 
-const ThirtyXThirtyCont = ({
+const NewUserCont = ({
   navigation,
 }: {
   navigation: NavigationHelpers<any, any>;
@@ -29,43 +26,15 @@ const ThirtyXThirtyCont = ({
   const { isUserLoggedIn } = useAppState();
 
   const btnString = async () => {
-    const hanCompletedAssessment = await AsyncStorage.getItem(
-      challengeStorageKeys.hasCompletedAssessment,
-    );
-
-    if (isUserLoggedIn) {
-      if (hanCompletedAssessment) {
-        return 'Accept Challenge';
-      } else {
-        return 'Start Now';
-      }
-    } else {
-      return 'Register Now';
-    }
+    return 'Register Now';
   };
 
   const handleNavigation = async () => {
-    if (isUserLoggedIn) {
-      navigation.navigate(AppNavigator.ThirtyXThirty);
-      // if (isFeatureAvailable()) {
-      //   navigation.navigate(AppNavigator.ThirtyXThirty);
-      // }
-      // else {
-      //   navigation.navigate(AppNavigator.ThirtyXThirty, {
-      //     screen: ThirtyXThirtyNavigator.ChallengeHomeScreen,
-      //   });
-      // }
-    } else {
+    
       navigation.navigate(AppNavigator.Auth, {
         screen: AuthNavigator.Login,
-        params: {
-          redirect: isFeatureAvailable()
-            ? ThirtyXThirtyNavigator.LandingScreen
-            : ThirtyXThirtyNavigator.ChallengeHomeScreen,
-          module: AppNavigator.ThirtyXThirty,
-        },
       });
-    }
+    
   };
 
   const [btnTitle, setBtnTitle] = useState<string>('');
@@ -86,8 +55,8 @@ const ThirtyXThirtyCont = ({
             textAlign: 'center',
           }}
         >
-          The <Text style={styles.orangeText}>30/30</Text> Mental Fitness{' '}
-          <Text style={styles.orangeText}>Challenge</Text>
+          Welcome To <Text style={styles.orangeText}>Chearful</Text> Mental
+          Fitness <Text style={styles.orangeText}>App</Text>
         </Heading>
 
         <AppText
@@ -97,8 +66,9 @@ const ThirtyXThirtyCont = ({
             marginVertical: wp(3),
           }}
         >
-          Chearful’s Mental Fitness Challenge Will Help You take Your Well-being
-          to the Next Level - Practice Every Day & Find Your Strength!
+          Chearful’s Mental Fitness App Will Help You take Your Well-being to
+          the Next Level - Sign in Now to use Mood Diary , Journals and other
+          exciting features !
         </AppText>
 
         <MyButton
@@ -111,7 +81,7 @@ const ThirtyXThirtyCont = ({
   );
 };
 
-export default ThirtyXThirtyCont;
+export default NewUserCont;
 
 const styles = StyleSheet.create({
   orangeText: {

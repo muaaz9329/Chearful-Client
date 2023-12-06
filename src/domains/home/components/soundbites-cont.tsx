@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import ContentService from '@app/domains/consumer-contents/service';
-import SoundBitesCard from '../../sound-bites/components/sound-bite-card';
+import SoundBitesCard from '../../consumer-contents/domains/sound-bites/components/sound-bite-card';
 
 const SoundbitesCont = () => {
   const [soundbites, setSoundbites] = useState<ISoundBitesDetail[]>([]);

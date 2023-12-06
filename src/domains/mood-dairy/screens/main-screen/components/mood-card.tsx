@@ -8,6 +8,7 @@ import { AppText } from '@app/components';
 import Dot from '@app/assets/svgs/icons/Dot';
 import { Colors } from '@app/constants';
 import { IsTablet } from '../../../../../utils/utils-responsiveness';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type Props = {};
 
@@ -24,13 +25,17 @@ const MoodCard = ({
   mood = 'happy',
   date = new Date(),
   rating = 4.5,
+  handleFunc,
+  id
 }: {
   mood: MoodTypes;
   date: Date;
   rating: number;
+  handleFunc :(id:number)=>void
+  id:number
 }) => {
   return (
-    <View
+    <TouchableOpacity
       style={ms([
         'flexRow',
         'justifyBetween',
@@ -42,6 +47,9 @@ const MoodCard = ({
         'my:5',
         IsTablet && ['px:8', 'py_6', 'my:3', 'br:8'],
       ])}
+      onPress={()=>{
+        handleFunc(id)
+      }}
     >
       <View style={ms(['flexRow', 'alignCenter'])}>
         <Image
@@ -64,7 +72,7 @@ const MoodCard = ({
       <View>
         <IconChevronRight size={IsTablet ? Wp(16) : Wp(25)} color={'#000'} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

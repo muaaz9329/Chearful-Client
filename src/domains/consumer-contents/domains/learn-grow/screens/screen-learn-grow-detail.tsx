@@ -8,7 +8,7 @@ import SubDetail from '../../../components/sub-detail';
 import BottomSheet from '../../../components/bottom-sheet';
 import Detail from '../../../components/detail';
 import { Divider } from 'react-native-paper';
-import ArticleCont from '../../home/components/article-cont';
+import ArticleCont from '../../../../home/components/article-cont';
 import { SvgUri } from 'react-native-svg';
 import globalStyles from '@app/assets/global-styles';
 import { IsTablet, Wp, decodeHTML, hp, stripHTML, wp } from '@app/utils';

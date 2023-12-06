@@ -7,8 +7,8 @@ import { RequestState } from '@app/services/api-service';
 import { wp } from '@app/utils';
 import { NavigationHelpers } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { ConsumerContentsNavigator } from '../../../navigation/consumer-contents-navigation';
-import { ForumNavigator } from '../../forum';
+import { ConsumerContentsNavigator } from '../../consumer-contents/navigation/consumer-contents-navigation';
+import { ForumNavigator } from '../../consumer-contents/domains/forum';
 
 const HomeForumCont = ({
   navigation,

@@ -2,26 +2,40 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { IconArrowRight } from 'tabler-icons-react-native';
 import { AppNavigator } from '@app/navigation';
-import { ConsumerContentsNavigator } from '../../../navigation/consumer-contents-navigation';
+import { ConsumerContentsNavigator } from '../../consumer-contents/navigation/consumer-contents-navigation';
 import { IsPhone, IsTablet, Wp } from '@app/utils';
 import { Colors, Fonts } from '@app/constants';
 
 const MenuTitle = ({
   children,
   path,
+  screenPath
 }: {
   children: React.ReactNode;
-  path: ConsumerContentsNavigator;
+  path?: ConsumerContentsNavigator;
+  screenPath?: {
+    module: string;
+    screen: string;
+  };
 }) => {
   const navigation = useNavigation();
 
   const handleNavigation = () => {
     // @ts-ignore
     // navigation.navigate(path)
+   if(path){
+     // @ts-ignore
     navigation?.navigate(AppNavigator.ConsumerContents, {
       screen: path,
       // Pass the id as a parameter
     });
+   }
+    else if(screenPath){
+       // @ts-ignore
+      navigation?.navigate(screenPath.module, {
+        screen: screenPath.screen,
+      });
+    }
   };
   return (
     <View
