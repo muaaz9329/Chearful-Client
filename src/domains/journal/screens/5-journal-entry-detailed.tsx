@@ -70,6 +70,7 @@ export default function ScreenJournalEntryDetailed({
     <SafeAreaView
       style={{
         flex: 1,
+        height: '100%',
         backgroundColor: Colors.white,
       }}
     >
@@ -100,18 +101,14 @@ export default function ScreenJournalEntryDetailed({
 
         <View
           style={{
-            height: hp(30),
+            height: hp(25),
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
-          {/* <View
-            style={{
-              alignItems: 'center',
-            }}
-          >
+          {entryDetails.data.pdf_url && (
             <Image
-              source={AppImages.user01}
+              source={{ uri: entryDetails.data.pdf_url }}
               style={{
                 width: moderateScale(80),
                 height: moderateScale(80),
@@ -119,46 +116,42 @@ export default function ScreenJournalEntryDetailed({
                 marginBottom: moderateScale(8),
               }}
             />
-            <Heading
-              size="sm"
-              style={{
-                marginBottom: moderateScale(1),
-              }}
-            >
-              Assigned by {'Dr. ' + entry?.assignedBy?.title}
-            </Heading>
-            <AppText>
-              {new Date(entry?.date || '').toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </AppText>
-          </View> */}
+          )}
+
+          <Heading
+            size="sm"
+            style={{
+              marginBottom: moderateScale(1),
+            }}
+          >
+            {kind === 'own' ? 'Self Assigned' : `Assigned by ${'Dr. '}`}
+          </Heading>
+          <AppText>
+            {new Date(
+              entryDetails.data.attempted_time || '',
+            ).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </AppText>
         </View>
       </View>
-
-      <ActionSheet
-        ref={sheetRef}
-        defaultOverlayOpacity={0}
-        snapPoints={[80, 70, 30]}
-        closable={false}
-        gestureEnabled={true}
-        CustomHeaderComponent={<View />}
+      <ScrollView
+        style={{
+          rowGap: ms(25),
+          paddingTop: ms(15),
+          paddingHorizontal: ms(20),
+          paddingBottom: ms(2),
+          backgroundColor: Colors.orangeDim,
+        }}
       >
         {entryDetails.state === 'loading' ? (
           <Loader />
         ) : entryDetails.state === 'erred' ? (
           <AppText>Something went wrong</AppText>
         ) : (
-          <ScrollView
-            style={{
-              rowGap: ms(25),
-              // minHeight: '55%',
-              padding: ms(15),
-              backgroundColor: Colors.orangeDim,
-            }}
-          >
+          <>
             {entryDetails.data?.question_answers?.[0]?.arrQuestions.map(
               (question) => {
                 const questionTxt = question.question_title;
@@ -173,9 +166,19 @@ export default function ScreenJournalEntryDetailed({
                 );
               },
             )}
-          </ScrollView>
+          </>
         )}
-      </ActionSheet>
+      </ScrollView>
+
+      {/* <ActionSheet
+        ref={sheetRef}
+        defaultOverlayOpacity={0}
+        snapPoints={[60, 30]}
+        closable={false}
+        gestureEnabled={true}
+        CustomHeaderComponent={<View />}
+      >
+      </ActionSheet> */}
     </SafeAreaView>
   );
 }

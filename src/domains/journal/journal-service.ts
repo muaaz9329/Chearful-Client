@@ -7,10 +7,10 @@
 import { Boolbacks, GetRequestParams } from '@app/services/api-service';
 import {
   JournalType,
-  JournalTypeDetailed,
   JournalEntry,
   JournalDateItem,
   ListJournalEntry,
+  JournalTypeDetailed,
 } from './types';
 import { getAuthHeaders } from '@app/utils';
 import JournalAdapter, { DeserializedJournalEntries } from './journal-adapters';
@@ -75,11 +75,20 @@ interface BaseJournalService {
       answers: any[];
     }[];
   } & Boolbacks<[]>): Promise<void>;
+
+  getJournalDetails: ({
+    journalId,
+    onSuccess,
+    onFailure,
+  }: {
+    journalId: number;
+  } & Boolbacks<JournalTypeDetailed>) => Promise<void>;
 }
 
 class JournalService implements BaseJournalService {
-  serviceType: 'own' | 'assigned' = 'own';
-  makeUrl = (endpoint: string) => `/journals/${this.serviceType}/${endpoint}`;
+  protected serviceType: 'own' | 'assigned' = 'own';
+  protected makeUrl = (endpoint: string) =>
+    `/journals/${this.serviceType}/${endpoint}`;
 
   constructor(serviceType: 'own' | 'assigned') {
     this.serviceType = serviceType;
@@ -224,6 +233,30 @@ class JournalService implements BaseJournalService {
     apiService.post({
       url: this.makeUrl('save-entry'),
       data,
+      headers,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  // -----------------------------
+  getJournalDetails: BaseJournalService['getJournalDetails'] = async ({
+    journalId,
+    onSuccess,
+    onFailure,
+  }) => {
+    const headers = await getAuthHeaders();
+
+    const params: GetRequestParams = [
+      {
+        key: 'journal_id',
+        value: journalId.toString(),
+      },
+    ];
+
+    apiService.get({
+      url: '/journals/detail',
+      data: params,
       headers,
       onSuccess,
       onFailure,

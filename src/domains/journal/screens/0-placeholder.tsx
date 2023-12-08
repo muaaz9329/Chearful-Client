@@ -3,7 +3,13 @@ import { AppImages } from '@app/assets/images';
 import ms from '@app/assets/master-styles';
 import { AppText, Header, Heading, MyButton, XGap } from '@app/components';
 import { hp, wp } from '@app/utils';
-import { FlatList, Image, ScrollView, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale } from 'react-native-size-matters';
 import JournalTypeCard from '../components/journal-type-card';
@@ -12,6 +18,8 @@ import { JournalNavigator } from '../navigation';
 import { useEffect } from 'react';
 import { assignedJournalService, ownJournalService } from '../journal-service';
 import useJournalStore from '../use-journal-store';
+import { IconArrowRight } from 'tabler-icons-react-native';
+import { Colors } from '@app/constants';
 
 export default function ScreenJournalPlaceholder({
   navigation,
@@ -114,9 +122,28 @@ export default function ScreenJournalPlaceholder({
             rowGap: scale(5),
           }}
         >
-          <AppText size="lg" style={ms(['textPrimary'])}>
-            Own Journals
-          </AppText>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <AppText size="lg" style={ms(['textPrimary'])}>
+              Own Journals
+            </AppText>
+
+            {ownJournals.state === 'loaded' && (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(JournalNavigator.OwnJournalHome, {
+                    journalId: ownJournals.data?.journals?.[0]?.id,
+                  })
+                }
+              >
+                <IconArrowRight size={30} color={Colors.primary} />
+              </TouchableOpacity>
+            )}
+          </View>
 
           {
             {
@@ -154,9 +181,28 @@ export default function ScreenJournalPlaceholder({
             marginVertical: moderateScale(20),
           }}
         >
-          <AppText size="lg" style={ms(['textPrimary'])}>
-            Assigned Journals
-          </AppText>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <AppText size="lg" style={ms(['textPrimary'])}>
+              Assigned Journals
+            </AppText>
+
+            {assignedJournals.state === 'loaded' && (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(JournalNavigator.OwnJournalHome, {
+                    journalId: assignedJournals.data?.journals?.[0]?.id,
+                  })
+                }
+              >
+                <IconArrowRight size={30} color={Colors.primary} />
+              </TouchableOpacity>
+            )}
+          </View>
 
           {
             {
@@ -183,12 +229,11 @@ export default function ScreenJournalPlaceholder({
           }
         </View>
 
-        <MyButton
+        {/* <MyButton
           onPress={() => {
-            // navigation.navigate(JournalNavigator.);
           }}
           title="Explore More"
-        />
+        /> */}
       </ScrollView>
     </SafeAreaView>
   );

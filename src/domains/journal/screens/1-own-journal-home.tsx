@@ -29,7 +29,6 @@ export default function ScreenOwnJournalHome({
   route: any;
 }) {
   const [sheetShown, setSheetShown] = useState(false);
-
   const [journalId, setJournalId] = useState<number>(route.params?.journalId);
 
   const { ownJournals } = useJournalStore();
@@ -77,15 +76,24 @@ export default function ScreenOwnJournalHome({
           }}
         >
           <Heading size="lg">Journal Entries</Heading>
-          <Pressable onPress={() => setSheetShown((prev) => !prev)}>
+          <Pressable
+            onPress={() => {
+              // setSheetShown((prev) => !prev)
+              navigation.navigate(JournalNavigator.AddEntry, {
+                journalType: {
+                  id: journalId,
+                  title: ownJournals.data?.journals?.find(
+                    (journal) => journal.id === journalId,
+                  )?.title,
+                },
+                kind: 'own',
+              });
+            }}
+          >
             <IconPlus size={30} color="#000" />
           </Pressable>
         </View>
       </Header>
-
-      {/* <View style={globalStyles.mt_15}>
-        <SearchInput placeholder="Search" />
-      </View> */}
 
       <View style={globalStyles.mt_15}>
         <CategoryFilter
@@ -123,6 +131,7 @@ export default function ScreenOwnJournalHome({
                     day: 'numeric',
                   }) || date}
                 </AppText>
+
                 <FlatList
                   data={entries}
                   renderItem={({ item }) => (
@@ -149,14 +158,14 @@ export default function ScreenOwnJournalHome({
         }
       </ScrollView>
 
-      {sheetShown && (
+      {/* {sheetShown && (
         <JournalActionsSheet
           navigation={navigation}
           onClose={() => {
             setSheetShown(false);
           }}
         />
-      )}
+      )} */}
     </SafeAreaView>
   );
 }
