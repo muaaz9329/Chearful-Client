@@ -27,6 +27,7 @@ export const Colors = {
   // New Colors
   brandGreen: '#1E5542',
   brandOrange: '#FF941B',
+  DarkGreen:"#599A6E",
 
   green: '#6DB27D',
   greenDim: '#6DB27D33',
@@ -44,6 +45,7 @@ export const Colors = {
 
   black: '#1D1A0E',
   dim: '#445353',
+  veryLightGreen:"#F3F8F4"
 };
 
 export const Fonts = {

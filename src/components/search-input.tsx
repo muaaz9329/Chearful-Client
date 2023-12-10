@@ -3,6 +3,7 @@ import { StyleSheet, View, TextInput, Pressable, Platform } from 'react-native';
 import { IconSearch } from 'tabler-icons-react-native';
 import { Wp, Mulish, IsTablet, IsPhone } from '@app/utils';
 import { Colors } from '@app/constants';
+import ms from '@app/assets/master-styles';
 
 const defaultProps = {
   placeholder: 'Search',
@@ -13,13 +14,22 @@ const SearchInput = ({
   placeholder = defaultProps.placeholder,
   onChangeText = defaultProps.onChangeText,
   onSubmitEvent,
+  searchBarStyles = 'old',
 }: {
   placeholder?: string;
   onChangeText?: (text: string) => void;
   onSubmitEvent?: () => void;
+  searchBarStyles?: 'new' | 'old';
 }) => {
   return (
-    <View style={[styles.cont, IsTablet && styles.cont_tablet]}>
+    <View
+      style={[
+        styles.cont,
+        IsTablet && styles.cont_tablet,
+        searchBarStyles === 'new' &&
+          ms(['bw:0', 'bg_cont', { borderRadius: Wp(16) }]),
+      ]}
+    >
       <Pressable
         onPress={onSubmitEvent}
         style={{

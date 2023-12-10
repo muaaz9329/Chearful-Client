@@ -105,7 +105,7 @@ const MoodDiaryCont = (props: Props) => {
               <TouchableOpacity
                 key={index}
                 style={ms([
-                  'W:80',
+                  'W:70',
                   'py_14',
 
                   'bg_cont',

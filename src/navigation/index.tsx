@@ -18,6 +18,8 @@ import ThirtyXThirtyNavigation from '@app/domains/events/thirty-x-thirty/navigat
 import ConsumerContentsNavigation from '@app/domains/consumer-contents/navigation/consumer-contents-navigation';
 import JournalNavigation from '@app/domains/journal/navigation';
 import MoodDiaryNavigation from '@app/domains/mood-dairy/navigation';
+import Listing from '@app/domains/meet-a-practitioner/screens/listing/listing';
+import Detail from '@app/domains/meet-a-practitioner/screens/detail/detail';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -135,34 +137,36 @@ const RootTabNavigation = () => {
  */
 export default function AppNavigation() {
   return (
-    <Stack.Navigator
-      // initialRouteName={AppNavigator.HomeTabs}
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      {/* <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} /> */}
+    // <Stack.Navigator
+    //   // initialRouteName={AppNavigator.HomeTabs}
+    //   screenOptions={{
+    //     headerShown: false,
+    //   }}
+    // >
+    //   {/* <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} /> */}
      
-      <Stack.Screen
-        name={AppNavigator.HomeTabs}
-        component={RootTabNavigation}
-      />
+    //   <Stack.Screen
+    //     name={AppNavigator.HomeTabs}
+    //     component={RootTabNavigation}
+    //   />
 
-      <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
+    //   <Stack.Screen name={AppNavigator.Auth} component={AuthNavigation} />
 
-      {/* <Stack.Screen
-        name={AppNavigator.ThirtyXThirty}
-        component={ThirtyXThirtyNavigation}
-      /> */}
-       <Stack.Screen
-        name={AppNavigator.MoodDiary}
-        component={MoodDiaryNavigation}
-      />
+    //   {/* <Stack.Screen
+    //     name={AppNavigator.ThirtyXThirty}
+    //     component={ThirtyXThirtyNavigation}
+    //   /> */}
+    //    <Stack.Screen
+    //     name={AppNavigator.MoodDiary}
+    //     component={MoodDiaryNavigation}
+    //   />
 
-      <Stack.Screen
-        name={AppNavigator.ConsumerContents}
-        component={ConsumerContentsNavigation}
-      />
-    </Stack.Navigator>
+    //   <Stack.Screen
+    //     name={AppNavigator.ConsumerContents}
+    //     component={ConsumerContentsNavigation}
+    //   />
+    // </Stack.Navigator>
+
+    <Detail/>
   );
 }
