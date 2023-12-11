@@ -20,6 +20,7 @@ import JournalNavigation from '@app/domains/journal/navigation';
 import MoodDiaryNavigation from '@app/domains/mood-dairy/navigation';
 import Listing from '@app/domains/meet-a-practitioner/screens/listing/listing';
 import Detail from '@app/domains/meet-a-practitioner/screens/detail/detail';
+import Checkout from '@app/domains/meet-a-practitioner/screens/checkout/checkout';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -166,7 +167,6 @@ export default function AppNavigation() {
     //     component={ConsumerContentsNavigation}
     //   />
     // </Stack.Navigator>
-
-    <Detail/>
+    <Checkout/>
   );
 }

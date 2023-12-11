@@ -5,6 +5,10 @@ import ms from '@app/assets/master-styles';
 import { AppText, Heading } from '@app/components';
 
 const imgSizes = {
+  xs: {
+    image: 50,
+    verifyLogo: 15,
+  },
   sm: {
     image: 65,
     verifyLogo: 18,
