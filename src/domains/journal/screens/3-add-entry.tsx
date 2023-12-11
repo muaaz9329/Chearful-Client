@@ -46,12 +46,18 @@ export default function ScreenAddJournalEntry({
   const [progress, setProgress] = useState(0);
   const [currQuestionIdx, setCurrQuestionIdx] = useState(0);
 
+  const [userAnswers, setUserAnswers] = useState<
+    {
+      questionId: number;
+      type: 'short_answer' | 'single_answer' | 'multiple_answer';
+      answers: string[];
+    }[]
+  >([]);
+
   useEffect(() => {
     ownJournalService.getJournalDetails({
       journalId: id,
       onSuccess: ({ data }) => {
-        console.log('data', data);
-
         const entryQuestions = data.question_answers[0].arrQuestions;
         setJournalQuestions(entryQuestions);
         setProgress((1 / entryQuestions.length) * 100);
@@ -69,6 +75,14 @@ export default function ScreenAddJournalEntry({
       },
     });
   }, []);
+
+  console.log(
+    userAnswers.map((ua) => ({
+      questionId: ua.questionId,
+      type: ua.type,
+      answers: ua.answers,
+    })),
+  );
 
   return (
     <SafeAreaView style={globalStyles.bodyWrapper}>
@@ -125,28 +139,124 @@ export default function ScreenAddJournalEntry({
                       </Heading>
                       {
                         {
-                          short_answer: <AnswerInput />,
+                          short_answer: (
+                            <AnswerInput
+                              value={
+                                userAnswers.find(
+                                  (ua) =>
+                                    ua.questionId ===
+                                    journalQuestions[currQuestionIdx].id,
+                                )?.answers[0] || ''
+                              }
+                              onChangeText={(text) => {
+                                const newAnswers = userAnswers.filter(
+                                  (ua) =>
+                                    ua.questionId !==
+                                    journalQuestions[currQuestionIdx].id,
+                                );
+                                newAnswers.push({
+                                  questionId:
+                                    journalQuestions[currQuestionIdx].id,
+                                  type: 'short_answer',
+                                  answers: [text],
+                                });
+                                setUserAnswers(newAnswers);
+                              }}
+                            />
+                          ),
                           single_answer: (
                             <>
-                              {/* <SassyQuiz
-                            showQuestionTxt={false}
-                            showSubmitBtn={false}
-                            data={[
-                              {
-                                id: journalQuestions[currQuestionIdx].id,
-                                question: journalQuestions[currQuestionIdx].question_title,
-                                options: (
-                                  journalQuestions[currQuestionIdx]
-                                )?.map((o) => ({
-                                  value: o.id,
-                                  text: o.title,
-                                })),
-                              },
-                            ]}
-                          /> */}
+                              <SassyQuiz
+                                showQuestionTxt={false}
+                                showSubmitBtn={false}
+                                data={[
+                                  {
+                                    id: journalQuestions[currQuestionIdx].id,
+                                    question:
+                                      journalQuestions[currQuestionIdx]
+                                        .question_title,
+                                    options: journalQuestions[
+                                      currQuestionIdx
+                                    ].answers.map((a) => ({
+                                      value: a.id as number,
+                                      text: a.option_title as string,
+                                    })),
+                                  },
+                                ]}
+                                onOptionPress={(qId, value) => {
+                                  const newAnswers = userAnswers.filter(
+                                    (ua) => ua.questionId !== qId,
+                                  );
+                                  newAnswers.push({
+                                    questionId: Number(qId),
+                                    type: 'single_answer',
+                                    answers: [`${value}`],
+                                  });
+                                  setUserAnswers(newAnswers);
+                                }}
+                              />
                             </>
                           ),
-                          multiple_answer: <></>,
+                          multiple_answer: (
+                            <>
+                              <SassyQuiz
+                                showQuestionTxt={false}
+                                showSubmitBtn={false}
+                                variant="multiple"
+                                data={[
+                                  {
+                                    id: journalQuestions[currQuestionIdx].id,
+                                    question:
+                                      journalQuestions[currQuestionIdx]
+                                        .question_title,
+                                    options: journalQuestions[
+                                      currQuestionIdx
+                                    ].answers.map((a) => ({
+                                      value: a.id as number,
+                                      text: a.option_title as string,
+                                    })),
+                                  },
+                                ]}
+                                onOptionPress={(qId, value) => {
+                                  if (
+                                    userAnswers
+                                      .find((ua) => ua.questionId === qId)
+                                      ?.answers.includes(`${value}`)
+                                  ) {
+                                    const newAnswers = userAnswers.filter(
+                                      (ua) => ua.questionId !== qId,
+                                    );
+                                    newAnswers.push({
+                                      questionId: Number(qId),
+                                      type: 'multiple_answer',
+                                      answers:
+                                        userAnswers
+                                          .find((ua) => ua.questionId === qId)
+                                          ?.answers.filter(
+                                            (a) => a !== `${value}`,
+                                          ) || [],
+                                    });
+                                    setUserAnswers(newAnswers);
+                                  } else {
+                                    const newAnswers = userAnswers.filter(
+                                      (ua) => ua.questionId !== qId,
+                                    );
+                                    newAnswers.push({
+                                      questionId: Number(qId),
+                                      type: 'multiple_answer',
+                                      answers: [
+                                        ...(userAnswers.find(
+                                          (ua) => ua.questionId === qId,
+                                        )?.answers || []),
+                                        `${value}`,
+                                      ],
+                                    });
+                                    setUserAnswers(newAnswers);
+                                  }
+                                }}
+                              />
+                            </>
+                          ),
                         }[journalQuestions[currQuestionIdx].question_type]
                       }
                     </View>

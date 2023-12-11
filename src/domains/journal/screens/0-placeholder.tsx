@@ -1,7 +1,14 @@
 import globalStyles from '@app/assets/global-styles';
 import { AppImages } from '@app/assets/images';
 import ms from '@app/assets/master-styles';
-import { AppText, Header, Heading, MyButton, XGap } from '@app/components';
+import {
+  AppText,
+  Header,
+  Heading,
+  Loader,
+  MyButton,
+  XGap,
+} from '@app/components';
 import { hp, wp } from '@app/utils';
 import {
   FlatList,
@@ -148,7 +155,7 @@ export default function ScreenJournalPlaceholder({
           {
             {
               idle: <></>,
-              loading: <AppText>Loading...</AppText>,
+              loading: <Loader />,
               loaded: (
                 <FlatList
                   horizontal
@@ -207,7 +214,7 @@ export default function ScreenJournalPlaceholder({
           {
             {
               idle: <></>,
-              loading: <AppText>Loading...</AppText>,
+              loading: <Loader />,
               loaded: (
                 <FlatList
                   horizontal

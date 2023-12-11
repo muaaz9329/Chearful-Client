@@ -4,6 +4,7 @@ import {
   CategoryFilter,
   Header,
   Heading,
+  Loader,
   SearchInput,
   XGap,
 } from '@app/components';
@@ -97,6 +98,7 @@ export default function ScreenOwnJournalHome({
 
       <View style={globalStyles.mt_15}>
         <CategoryFilter
+          selectedId={journalId}
           tags={ownJournals.data.journals}
           onChangeTag={({ id }) => setJournalId(id)}
         />
@@ -113,7 +115,7 @@ export default function ScreenOwnJournalHome({
         {
           {
             idle: <AppText>Idle</AppText>,
-            loading: <AppText>Loading...</AppText>,
+            loading: <Loader />,
             erred: <AppText>Something went wrong</AppText>,
             loaded: Object.entries(
               journalEntries.data.journalEntries || {},

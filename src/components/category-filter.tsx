@@ -12,6 +12,7 @@ type Item = {
 };
 
 interface Props {
+  selectedId?: number;
   tags?: Item[];
   onChangeTag?: (tag: Item) => void;
   showImg?: boolean;
@@ -20,11 +21,16 @@ interface Props {
 const DEFAULT_TAGS = [{ id: 0, title: 'All' }];
 
 const CategoryFilter = ({
+  selectedId,
   tags = DEFAULT_TAGS,
   onChangeTag,
   showImg = true,
 }: Props) => {
-  const [selectedTag, setSelectedTag] = React.useState<Item>(tags[0]);
+  const [selectedTag, setSelectedTag] = React.useState<Item>(
+    selectedId
+      ? tags.find((item) => item.id === selectedId) || tags[0]
+      : tags[0],
+  );
 
   const changeTagColor = (
     tag: Item,

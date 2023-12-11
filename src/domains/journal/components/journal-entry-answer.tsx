@@ -19,6 +19,8 @@ const JournalEntryAnswer = ({
   style = {},
   answerStyle,
 }: Props) => {
+  console.log('answers', answers);
+
   return (
     <View
       style={[
@@ -56,8 +58,10 @@ const JournalEntryAnswer = ({
             <AppText>
               {
                 {
-                  short_answer: answers[0].text_answer,
-                  single_answer: answers[0].option_title,
+                  short_answer:
+                    answers?.[0]?.text_answer || 'No Answer Provided',
+                  single_answer:
+                    answers?.[0]?.option_title || 'No Answer Provided',
                 }[type]
               }
             </AppText>

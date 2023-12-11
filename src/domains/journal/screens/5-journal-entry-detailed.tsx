@@ -38,12 +38,6 @@ export default function ScreenJournalEntryDetailed({
     data: {},
   });
 
-  console.log({
-    entryId,
-    journalTitle,
-    kind,
-  });
-
   useEffect(() => {
     setTimeout(() => {
       sheetRef.current?.show();

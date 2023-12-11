@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { SassyQuizProps, SassyQuizSelectedOption } from '.';
 import Toast from 'react-native-toast-message';
+import { SassyQuizProps, SassyQuizSelectedOption } from '.';
 
 export type SassyQuizViewProps = SassyQuizProps & {
   selectedOptions: SassyQuizSelectedOption[];
@@ -15,6 +15,7 @@ export default function SassyQuizViewModel({
   children,
   onNextPress,
   onPrevPress,
+  variant = 'single',
   onSubmit: onQuizSubmit,
   callOnNextOnSubmit = false,
   ...props
@@ -51,17 +52,58 @@ export default function SassyQuizViewModel({
   };
 
   const onOptionPress = (qId: string | number, value: string | number) => {
+    props?.onOptionPress?.(qId, value);
+
     setThisAnswer({ qId, value });
     setSelectedOptions((prev) => {
       if (prev) {
-        const index = prev.findIndex((item) => item.qId === qId);
-
-        if (index !== -1) {
-          prev[index].value = value;
-          return [...prev];
-        } else {
-          return [...prev, { qId, value }];
+        // If this is single variant, then we need to remove the previous answer
+        // and add the new one
+        if (variant === 'single') {
+          return prev.filter((item) => item.qId !== qId).concat({ qId, value });
         }
+
+        // if this is multiple variant, then we need to add the new answer
+        // with the previous answers for this question id
+
+        if (variant === 'multiple') {
+          // @ts-ignore - cause we are sure that value id gonna be array
+          if (prev.find((a) => a.qId === qId)?.value.includes(value)) {
+            const newAnswers = prev.filter((a) => a.qId !== qId);
+            newAnswers.push({
+              qId,
+              value: prev
+                .find((a) => a.qId === qId)
+                // @ts-ignore - cause we are sure that value id gonna be array
+                ?.value.filter((a) => a !== value),
+            });
+
+            return newAnswers;
+          } else {
+            const newAnswers = prev.filter((a) => a.qId !== qId);
+            newAnswers.push({
+              qId,
+              value: [
+                ...((prev.find((a) => a.qId === qId)?.value as string[]) || []),
+                value,
+              ],
+            });
+
+            return newAnswers;
+          }
+        }
+
+        return [
+          ...prev.filter((item) => item.qId !== qId),
+          {
+            qId,
+            value: [
+              ...((prev.find((item) => item.qId === qId)?.value as string[]) ||
+                []),
+              value,
+            ],
+          },
+        ];
       } else {
         return [{ qId, value }];
       }
@@ -83,12 +125,13 @@ export default function SassyQuizViewModel({
   };
 
   return children({
+    ...props,
     selectedOptions,
     questionNo,
     onOptionPress,
     nextQuestion,
     prevQuestion,
+    variant,
     onSubmit,
-    ...props,
   });
 }
