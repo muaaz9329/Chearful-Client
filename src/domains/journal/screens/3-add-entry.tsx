@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { IconArrowRight, IconX } from 'tabler-icons-react-native';
 import { TouchableOpacity, View } from 'react-native';
 import { ms } from 'react-native-size-matters';
+import LottieView from 'lottie-react-native';
 
 import globalStyles from '@app/assets/global-styles';
 import { Colors } from '@app/constants';
@@ -17,8 +18,11 @@ import {
 } from '@app/components';
 import { SassyQuiz } from '@app/modules/sassy-quiz';
 import { RequestState } from '@app/services/api-service';
-import { ownJournalService } from '../journal-service';
+import { assignedJournalService, ownJournalService } from '../journal-service';
 import { JournalTypeQuestion } from '../types';
+
+import SuccessLottie from '@app/assets/lotties/success-lottie.json';
+import { Wp } from '@app/utils';
 
 export default function ScreenAddJournalEntry({
   navigation,
@@ -41,6 +45,7 @@ export default function ScreenAddJournalEntry({
     state: 'loading',
     data: {},
   });
+
   const [journalQuestions, setJournalQuestions] =
     useState<JournalTypeQuestion[]>();
   const [progress, setProgress] = useState(0);
@@ -53,6 +58,8 @@ export default function ScreenAddJournalEntry({
       answers: string[];
     }[]
   >([]);
+
+  const [submissionState, setSubmissionState] = useState<RequestState>('idle');
 
   useEffect(() => {
     ownJournalService.getJournalDetails({
@@ -84,6 +91,28 @@ export default function ScreenAddJournalEntry({
     })),
   );
 
+  const submitEntry = () => {
+    setSubmissionState('loading');
+
+    const service = kind === 'own' ? ownJournalService : assignedJournalService;
+
+    service.createEntry({
+      parentId: kind === 'own' ? id : '',
+      entryData: userAnswers,
+      onSuccess: ({ data }) => {
+        setSubmissionState('loaded');
+        setJournalDetails((prev) => ({
+          ...prev,
+          state: 'idle',
+        }));
+      },
+      onFailure: ({ message }) => {
+        console.log(message);
+        setSubmissionState('erred');
+      },
+    });
+  };
+
   return (
     <SafeAreaView style={globalStyles.bodyWrapper}>
       <View
@@ -95,7 +124,8 @@ export default function ScreenAddJournalEntry({
         <View>
           <Heading>{title} Journal</Heading>
           <AppText size="md">
-            {kind === 'owm' ? new Date().toLocaleDateString() : `Morning Entry`}
+            {kind === 'owm' ? new Date().toLocaleDateString() : `Morning `}{' '}
+            Entry
           </AppText>
         </View>
         <TouchableOpacity
@@ -263,24 +293,35 @@ export default function ScreenAddJournalEntry({
                   </View>
 
                   <View style={{ marginTop: 'auto' }}>
-                    <MyButton
-                      title=""
-                      display="inline-center"
-                      icon={
-                        <IconArrowRight size={ms(25)} color={Colors.light} />
-                      }
-                      style={{
-                        borderRadius: 40,
-                        padding: ms(15),
-                      }}
-                      onPress={() => {
-                        setCurrQuestionIdx(currQuestionIdx + 1);
-                        setProgress(
-                          ((currQuestionIdx + 1) / journalQuestions.length) *
-                            100,
-                        );
-                      }}
-                    />
+                    {
+                      // if not last question
+                      currQuestionIdx !== journalQuestions.length - 1 ? (
+                        <MyButton
+                          title=""
+                          display="inline-center"
+                          icon={
+                            <IconArrowRight
+                              size={ms(25)}
+                              color={Colors.light}
+                            />
+                          }
+                          style={{
+                            borderRadius: 40,
+                            padding: ms(15),
+                          }}
+                          onPress={() => {
+                            setCurrQuestionIdx(currQuestionIdx + 1);
+                            setProgress(
+                              ((currQuestionIdx + 1) /
+                                journalQuestions.length) *
+                                100,
+                            );
+                          }}
+                        />
+                      ) : (
+                        <MyButton title="Submit" onPress={submitEntry} />
+                      )
+                    }
                   </View>
                 </>
               )}
@@ -288,6 +329,26 @@ export default function ScreenAddJournalEntry({
           ),
         }[journalDetails.state]
       }
+
+      {submissionState === 'loaded' && (
+        <View
+          style={{
+            alignItems: 'center',
+          }}
+        >
+          <LottieView
+            source={SuccessLottie}
+            autoPlay
+            loop={false}
+            style={{
+              width: Wp(180),
+              height: Wp(180),
+            }}
+          />
+
+          <Heading> Entry Successfully Submitted</Heading>
+        </View>
+      )}
     </SafeAreaView>
   );
 }

@@ -23,7 +23,7 @@ const JournalEntryCard = ({ entry, kind, onPress }: Props) => {
         <View>
           {kind === 'own' ? (
             <Heading size="sm">
-              {new Date(entry.date).toLocaleDateString('en-US', {
+              {new Date(entry.attempted_time).toLocaleDateString('en-US', {
                 timeStyle: 'short',
               })}
             </Heading>

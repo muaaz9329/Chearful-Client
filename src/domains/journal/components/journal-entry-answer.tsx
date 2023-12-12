@@ -62,6 +62,11 @@ const JournalEntryAnswer = ({
                     answers?.[0]?.text_answer || 'No Answer Provided',
                   single_answer:
                     answers?.[0]?.option_title || 'No Answer Provided',
+                  multiple_answer:
+                    answers.reduce(
+                      (acc, val) => (acc += val.option_title),
+                      '',
+                    ) || 'No Answer Provided',
                 }[type]
               }
             </AppText>

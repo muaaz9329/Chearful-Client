@@ -63,12 +63,13 @@ interface BaseJournalService {
    * Create a new journal entry
    */
   createEntry({
-    entryId,
+    parentId,
+
     entryData,
     onSuccess,
     onFailure,
   }: {
-    entryId: number;
+    parentId: number | string;
     entryData: {
       type: 'single_answer' | 'multiple_answer' | 'short_answer';
       questionId: number;
@@ -210,25 +211,31 @@ class JournalService implements BaseJournalService {
 
   // -----------------------------
   createEntry: BaseJournalService['createEntry'] = async ({
-    entryId,
+    parentId,
     entryData,
     onSuccess,
     onFailure,
   }) => {
     const headers = await getAuthHeaders();
 
-    const data: { [key: string]: any } = {
-      entry_id: entryId,
-    };
+    const data = new FormData();
+
+    if (this.serviceType === 'own') {
+      data.append('journal_id', parentId);
+    } else {
+      data.append('entry_id', parentId);
+    }
 
     entryData.forEach((entry, index: number) => {
-      data[`qustions_arr[${index}][question_id]`] = entry.questionId;
-      data[`qustions_arr[${index}][type]`] = entry.type;
+      data.append(`qustions_arr[${index}][question_id]`, entry.questionId);
+      data.append(`qustions_arr[${index}][type]`, entry.type);
 
       entry.answers.forEach((answer, answerIndex: number) => {
-        data[`qustions_arr[${index}][answers][${answerIndex}]`] = answer;
+        data.append(`qustions_arr[${index}][answers][${answerIndex}]`, answer);
       });
     });
+
+    console.log(data);
 
     apiService.post({
       url: this.makeUrl('save-entry'),
