@@ -346,7 +346,7 @@ export default function ScreenAddJournalEntry({
             }}
           />
 
-          <Heading> Entry Successfully Submitted</Heading>
+          <Heading>Entry Successfully Submitted</Heading>
         </View>
       )}
     </SafeAreaView>

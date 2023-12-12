@@ -1,25 +1,34 @@
 import globalStyles from '@app/assets/global-styles';
 import {
   AppText,
+  BaseCard,
   CategoryFilter,
   Header,
   Heading,
+  Loader,
   SearchInput,
   XGap,
 } from '@app/components';
-import { FlatList, Pressable, ScrollView, View } from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { journalEntries, journalTypes } from '../data/journal-data';
-import { hp } from '@app/utils';
+import { formatDate, hp } from '@app/utils';
 import JournalEntryCard from '../components/journal-entry-card';
 import { ms } from 'react-native-size-matters';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconPlus } from 'tabler-icons-react-native';
-import JournalActionsSheet from '../components/journal-actions-sheet';
+// import JournalActionsSheet from '../components/journal-actions-sheet';
 import { NavigationHelpers } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
-import { assignedJournalService } from '../journal-service';
 import { RequestState } from '@app/services/api-service';
+import { assignedJournalService, ownJournalService } from '../journal-service';
+import useJournalStore from '../use-journal-store';
+import { JournalDateItem } from '../types';
 
 export default function ScreenAssignedJournalHome({
   navigation,
@@ -28,10 +37,14 @@ export default function ScreenAssignedJournalHome({
   navigation: NavigationHelpers<any, any>;
   route: any;
 }) {
-  const { journalId } = route.params;
-  const [sheetShown, setSheetShown] = useState(false);
+  // const [sheetShown, setSheetShown] = useState(false);
+  const [journalId, setJournalId] = useState<number>(route.params?.journalId);
 
-  const [journalDates, setJournalDates] = useState<{
+  const { assignedJournals } = useJournalStore();
+
+  const [page, setPage] = useState(1);
+
+  const [datesList, setDatesList] = useState<{
     state: RequestState;
     data: Partial<
       Parameters<
@@ -42,6 +55,37 @@ export default function ScreenAssignedJournalHome({
     data: {},
     state: 'loading',
   });
+
+  const [journalEntries, setJournalEntries] = useState<{
+    state: RequestState;
+    data: Partial<
+      Parameters<
+        Parameters<typeof ownJournalService.getJournalEntries>[0]['onSuccess']
+      >[0]['data']
+    >;
+  }>({
+    data: {},
+    state: 'loading',
+  });
+
+  useEffect(() => {
+    assignedJournalService.getDatesList({
+      journalId,
+      page,
+      onSuccess: ({ data }) => {
+        setDatesList({
+          state: 'loaded',
+          data,
+        });
+      },
+      onFailure: () => {
+        setDatesList({
+          state: 'erred',
+          data: {},
+        });
+      },
+    });
+  }, [journalId]);
 
   return (
     <SafeAreaView style={globalStyles.Wrapper}>
@@ -55,68 +99,89 @@ export default function ScreenAssignedJournalHome({
           }}
         >
           <Heading size="lg">Journal Entries</Heading>
-          <Pressable onPress={() => setSheetShown((prev) => !prev)}>
+          <Pressable
+            onPress={() => {
+              navigation.navigate(JournalNavigator.AddEntry, {
+                journalType: {
+                  id: journalId,
+                  title: assignedJournals.data?.journals?.find(
+                    (journal) => journal.id === journalId,
+                  )?.title,
+                },
+                kind: 'assigned',
+              });
+            }}
+          >
             <IconPlus size={30} color="#000" />
           </Pressable>
         </View>
       </Header>
 
       <View style={globalStyles.mt_15}>
-        <SearchInput placeholder="Search" />
-      </View>
-
-      <View style={globalStyles.mt_15}>
-        <CategoryFilter tags={journalTypes} />
+        <CategoryFilter
+          selectedId={journalId}
+          tags={assignedJournals.data.journals}
+          onChangeTag={({ id }) => setJournalId(id)}
+        />
       </View>
 
       <ScrollView
         style={[
-          globalStyles.mt_15,
+          globalStyles.mt_18,
           {
             paddingBottom: hp(2),
           },
         ]}
       >
-        {/* {journalTypes.map((type) => (
-          <View key={type.id} style={{ rowGap: ms(10), marginBottom: ms(20) }}>
-            <AppText>{type.title}</AppText>
-            {journalEntries
-              .filter((entry) => entry.type.id === type.id)
-              .slice(0, 3).length === 0 ? (
-              <AppText>No entries yet</AppText>
-            ) : (
-              <FlatList
-                data={journalEntries
-                  .filter((entry) => entry.type.id === type.id)
-                  .slice(0, 3)}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                  <JournalEntryCard
-                    entry={item}
-                    onPress={() => {
-                      navigation.navigate(JournalNavigator.EntryDetailed, {
-                        entryId: item.id,
-                      });
+        {
+          {
+            idle: <AppText>Idle</AppText>,
+            loading: <Loader />,
+            erred: <AppText>Something went wrong</AppText>,
+            loaded: datesList.data.journals?.map((item) => {
+              return (
+                <View
+                  style={{
+                    marginBottom: ms(30),
+                  }}
+                >
+                  <Heading
+                    size="sm"
+                    style={{
+                      marginBottom: ms(10),
                     }}
+                  >
+                    {formatDate(item.start_date)} - {formatDate(item.end_date)}
+                  </Heading>
+
+                  <FlatList
+                    data={item.frequencies}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity>
+                        <BaseCard style={{ minHeight: 'auto' }}>
+                          <AppText>{item.journal_time?.toUpperCase()}</AppText>
+                        </BaseCard>
+                      </TouchableOpacity>
+                    )}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    ItemSeparatorComponent={() => <XGap />}
                   />
-                )}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                ItemSeparatorComponent={XGap}
-              />
-            )}
-          </View>
-        ))} */}
+                </View>
+              );
+            }),
+          }[datesList.state]
+        }
       </ScrollView>
 
-      {sheetShown && (
+      {/* {sheetShown && (
         <JournalActionsSheet
           navigation={navigation}
           onClose={() => {
             setSheetShown(false);
           }}
         />
-      )}
+      )} */}
     </SafeAreaView>
   );
 }

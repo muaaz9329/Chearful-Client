@@ -5,17 +5,15 @@ import {
   Header,
   Heading,
   Loader,
-  SearchInput,
   XGap,
 } from '@app/components';
 import { FlatList, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { hp } from '@app/utils';
+import { formatDate, hp } from '@app/utils';
 import JournalEntryCard from '../components/journal-entry-card';
 import { ms } from 'react-native-size-matters';
 import { useEffect, useState } from 'react';
 import { IconPlus } from 'tabler-icons-react-native';
-import JournalActionsSheet from '../components/journal-actions-sheet';
 import { NavigationHelpers } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
 import { RequestState } from '@app/services/api-service';
@@ -29,7 +27,7 @@ export default function ScreenOwnJournalHome({
   navigation: NavigationHelpers<any, any>;
   route: any;
 }) {
-  const [sheetShown, setSheetShown] = useState(false);
+  // const [sheetShown, setSheetShown] = useState(false);
   const [journalId, setJournalId] = useState<number>(route.params?.journalId);
 
   const { ownJournals } = useJournalStore();
@@ -126,13 +124,7 @@ export default function ScreenOwnJournalHome({
                   marginBottom: ms(20),
                 }}
               >
-                <AppText>
-                  {new Date(entries?.[0]?.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  }) || date}
-                </AppText>
+                <AppText>{formatDate(entries?.[0]?.date) || date}</AppText>
 
                 <FlatList
                   data={entries}

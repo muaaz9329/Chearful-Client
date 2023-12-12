@@ -67,14 +67,13 @@ const JournalEntryCard = ({ entry, kind, onPress }: Props) => {
               />
               <View>
                 <AppText>Reminded By </AppText>
-                <AppText
+                {/* <AppText
                   size="md"
                   style={{
                     color: Colors.primary,
                   }}
                 >
-                  {/* {entry.assignedBy.title} */}
-                </AppText>
+                </AppText> */}
               </View>
             </View>
           )}

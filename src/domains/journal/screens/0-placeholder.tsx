@@ -201,7 +201,7 @@ export default function ScreenJournalPlaceholder({
             {assignedJournals.state === 'loaded' && (
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate(JournalNavigator.OwnJournalHome, {
+                  navigation.navigate(JournalNavigator.AssignedJournalHome, {
                     journalId: assignedJournals.data?.journals?.[0]?.id,
                   })
                 }
@@ -224,6 +224,14 @@ export default function ScreenJournalPlaceholder({
                       title={item.title}
                       description={item.description}
                       image={item.pdf_url}
+                      onPress={() => {
+                        navigation.navigate(
+                          JournalNavigator.AssignedJournalHome,
+                          {
+                            journalId: assignedJournals.data?.journals?.[0]?.id,
+                          },
+                        );
+                      }}
                     />
                   )}
                   showsHorizontalScrollIndicator={false}

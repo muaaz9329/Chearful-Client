@@ -421,12 +421,11 @@ export function isSvgExtension(url: string) {
   }
 }
 
-export function formatDateTo12HourTime(date:Date) {
+export function formatDateTo12HourTime(date: Date) {
   const options = { hour: 'numeric', minute: 'numeric', hour12: true };
   // @ts-ignore
   return date.toLocaleTimeString('en-US', options).toLowerCase();
 }
-
 
 /**
  * @description To check if object is empty or not
@@ -452,20 +451,18 @@ export function isObjectFilled<T>(obj: T): boolean {
 }
 export function formatDateToYMD(inputDate: Date): string {
   try {
-      const year = inputDate.getFullYear();
-      const month = String(inputDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-      const day = String(inputDate.getDate()).padStart(2, '0');
+    const year = inputDate.getFullYear();
+    const month = String(inputDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(inputDate.getDate()).padStart(2, '0');
 
-      const formattedDate = `${year}-${month}-${day}`;
-      return formattedDate;
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
   } catch (error) {
-      return "Invalid date format. Please provide a valid Date object.";
+    return 'Invalid date format. Please provide a valid Date object.';
   }
 }
 
-
-
-export const areDatesEqual = (date1:Date, date2:Date) => {
+export const areDatesEqual = (date1: Date, date2: Date) => {
   return (
     date1.getFullYear() === date2.getFullYear() &&
     date1.getMonth() === date2.getMonth() &&
@@ -474,15 +471,25 @@ export const areDatesEqual = (date1:Date, date2:Date) => {
 };
 
 // checks if the object is empty
-export function isObjectEmpty(obj:any) {
+export function isObjectEmpty(obj: any) {
   // @ts-ignore
-  
-    // Check if the object is defined before trying to access its properties
-    if (obj === undefined || obj === null) {
-      return true;  // Treat undefined or null as an empty object
-    }
-  
-    // Check if the object has no own properties
-    return Object.keys(obj).length === 0;
-  
+
+  // Check if the object is defined before trying to access its properties
+  if (obj === undefined || obj === null) {
+    return true; // Treat undefined or null as an empty object
+  }
+
+  // Check if the object has no own properties
+  return Object.keys(obj).length === 0;
 }
+
+export const formatDate = (
+  date: string,
+  options?: Intl.DateTimeFormatOptions,
+) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: options?.year || 'numeric',
+    month: options?.month || 'short',
+    day: options?.day || 'numeric',
+  });
+};
