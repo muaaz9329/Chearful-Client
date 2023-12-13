@@ -33,46 +33,42 @@ const JournalEntryAnswer = ({
     >
       <Heading size="md">{question}</Heading>
 
-      {type === 'multiple_answer' ? (
-        <></>
-      ) : (
-        <View
-          style={[
-            {
-              backgroundColor: Colors.light,
-              borderRadius: ms(10),
-              borderWidth: 1,
-              borderColor: Colors.muted,
-              padding: ms(10),
-              textAlignVertical: 'top',
-              minHeight: type === 'short_answer' ? ms(100) : 'auto',
-              maxHeight: type === 'short_answer' ? ms(200) : 'auto',
-            },
-            answerStyle,
-          ]}
+      <View
+        style={[
+          {
+            backgroundColor: Colors.light,
+            borderRadius: ms(10),
+            borderWidth: 1,
+            borderColor: Colors.muted,
+            padding: ms(10),
+            textAlignVertical: 'top',
+            minHeight: type === 'short_answer' ? ms(100) : 'auto',
+            maxHeight: type === 'short_answer' ? ms(200) : 'auto',
+          },
+          answerStyle,
+        ]}
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
         >
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            <AppText>
+          <AppText>
+            {
               {
-                {
-                  short_answer:
-                    answers?.[0]?.text_answer || 'No Answer Provided',
-                  single_answer:
-                    answers?.[0]?.option_title || 'No Answer Provided',
-                  multiple_answer:
-                    answers.reduce(
-                      (acc, val) => (acc += val.option_title),
-                      '',
-                    ) || 'No Answer Provided',
-                }[type]
-              }
-            </AppText>
-          </ScrollView>
-        </View>
-      )}
+                short_answer: answers?.[0]?.text_answer || 'No Answer Provided',
+                single_answer:
+                  answers?.[0]?.option_title || 'No Answer Provided',
+                multiple_answer:
+                  answers.reduce(
+                    (acc, val) => (acc += ` ${val.option_title},`),
+                    '',
+                  ) || 'No Answer Provided',
+              }[type]
+            }
+          </AppText>
+        </ScrollView>
+      </View>
+      {/* )} */}
     </View>
   );
 };

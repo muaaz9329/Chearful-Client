@@ -103,7 +103,7 @@ class JournalService implements BaseJournalService {
 
   // -----------------------------
   getJournalsList: BaseJournalService['getJournalsList'] = async ({
-    limit = 10,
+    limit = 'all',
     page = 1,
     onSuccess,
     onFailure,
@@ -132,7 +132,7 @@ class JournalService implements BaseJournalService {
 
   // -----------------------------
   getJournalEntries: BaseJournalService['getJournalEntries'] = async ({
-    limit = 10,
+    limit = 8,
     page = 1,
     frequencyId,
     journalId,
@@ -179,13 +179,6 @@ class JournalService implements BaseJournalService {
         };
       }) => {
         const deserializedData = JournalAdapter.deserialize(data);
-        console.log(
-          'data',
-          data.journalEntries.length,
-          'deserialized',
-          deserializedData.journalEntries,
-        );
-
         onSuccess({ data: deserializedData });
       },
       onFailure,
@@ -242,8 +235,6 @@ class JournalService implements BaseJournalService {
       });
     });
 
-    console.log(data);
-
     apiService.post({
       url: this.makeUrl('save-entry'),
       data,
@@ -295,7 +286,7 @@ class AssignedJournalService extends JournalService {
     ========================================
   */
   getDatesList = async ({
-    limit = 10,
+    limit = 5,
     page = 1,
     journalId,
     onSuccess,

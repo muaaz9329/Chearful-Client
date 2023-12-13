@@ -1,13 +1,19 @@
 import globalStyles from '@app/assets/global-styles';
-import { AppText, Header, Heading, Loader, XGap } from '@app/components';
-import { FlatList, Pressable, ScrollView, View } from 'react-native';
+import {
+  AppText,
+  Header,
+  Heading,
+  ListNextBatchFooter,
+  Loader,
+  XGap,
+} from '@app/components';
+import { FlatList, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { formatDate, hp } from '@app/utils';
+import { capitalizeFirstLetter, formatDate, hp } from '@app/utils';
 import JournalEntryCard from '../components/journal-entry-card';
-import { ms } from 'react-native-size-matters';
-import { useEffect, useState } from 'react';
-import { IconPlus } from 'tabler-icons-react-native';
-import { NavigationHelpers } from '@react-navigation/native';
+import { moderateScale, ms } from 'react-native-size-matters';
+import { useCallback, useState } from 'react';
+import { NavigationHelpers, useFocusEffect } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
 import { RequestState } from '@app/services/api-service';
 import { assignedJournalService } from '../journal-service';
@@ -36,64 +42,46 @@ export default function ScreenFrequencyEntries({
     state: 'loading',
   });
 
-  useEffect(() => {
-    assignedJournalService.getJournalEntries({
-      frequencyId: frequency.id,
-      page,
-      onSuccess: ({ data }) => {
-        setJournalEntries({
-          state: 'loaded',
-          data,
-        });
-      },
-      onFailure: () => {
-        setJournalEntries({
-          state: 'erred',
-          data: {},
-        });
-      },
-    });
-  }, [frequency.id]);
+  useFocusEffect(
+    useCallback(() => {
+      assignedJournalService.getJournalEntries({
+        frequencyId: frequency.id,
+        page,
+        onSuccess: ({ data }) => {
+          setJournalEntries({
+            state: 'loaded',
+            data: {
+              ...journalEntries.data,
+              ...data,
+              journalEntries: {
+                ...journalEntries.data.journalEntries,
+                ...data.journalEntries,
+              },
+            },
+          });
+        },
+        onFailure: () => {
+          setJournalEntries({
+            state: 'erred',
+            data: {},
+          });
+        },
+      });
+    }, [frequency.id, page]),
+  );
+
+  console.log('journalEntries.data.journalEntries', journalEntries.data);
 
   return (
     <SafeAreaView style={globalStyles.Wrapper}>
       <Header headerType="New" pram="back">
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <View>
-            <Heading size="lg">{journalType.title} Journal</Heading>
-            <AppText>
-              {frequency?.journal_time?.toUpperCase() + ' Entries'}{' '}
-            </AppText>
-          </View>
-          {/* <Pressable
-            onPress={() => {
-              navigation.navigate(JournalNavigator.AddEntry, {
-                journalType,
-                frequency,
-
-                kind: 'assigned',
-              });
-            }}
-          >
-            <IconPlus size={30} color="#000" />
-          </Pressable> */}
+        <View>
+          <Heading size="lg">{journalType.title} Journal</Heading>
+          <AppText>
+            {capitalizeFirstLetter(frequency?.journal_time || '') + ' Entries'}{' '}
+          </AppText>
         </View>
       </Header>
-
-      {/* <View style={globalStyles.mt_15}>
-        <CategoryFilter
-          selectedId={journalId}
-          tags={ownJournals.data.journals}
-          onChangeTag={({ id }) => setJournalId(id)}
-        />
-      </View> */}
 
       <ScrollView
         style={[
@@ -106,7 +94,7 @@ export default function ScreenFrequencyEntries({
         {
           {
             idle: <AppText>Idle</AppText>,
-            loading: <Loader />,
+            loading: <Loader style={{ marginVertical: moderateScale(20) }} />,
             erred: <AppText>Something went wrong</AppText>,
             loaded: Object.entries(
               journalEntries.data.journalEntries || {},
@@ -125,7 +113,7 @@ export default function ScreenFrequencyEntries({
                     <JournalEntryCard
                       key={item.id}
                       entry={item}
-                      kind="own"
+                      kind="assigned"
                       onPress={() => {
                         item.journal_status === 'pending'
                           ? navigation.navigate(JournalNavigator.AddEntry, {
@@ -153,6 +141,15 @@ export default function ScreenFrequencyEntries({
             )),
           }[journalEntries.state]
         }
+
+        <ListNextBatchFooter
+          status={journalEntries.state}
+          currentPage={page}
+          totalPages={journalEntries.data.total_pages}
+          onLoadNextBatch={() => {
+            setPage((prev) => prev + 1);
+          }}
+        />
       </ScrollView>
 
       {/* {sheetShown && (

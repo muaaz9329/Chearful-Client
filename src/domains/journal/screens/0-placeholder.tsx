@@ -116,11 +116,12 @@ export default function ScreenJournalPlaceholder({
             }}
           >
             <Heading style={ms(['textCenter'])}>
-              You haven’t written any Journal
+              Write Journals More Often
             </Heading>
             <AppText style={ms(['textCenter'])}>
-              Book Practitioner so he/she will assign journal to you or you can
-              create by your self
+              Your journal will stand as a chronicle of your growth, your hopes,
+              your fears, your dreams, your ambitions, your sorrows, your
+              serendipities.
             </AppText>
           </View>
         </View>
@@ -156,7 +157,7 @@ export default function ScreenJournalPlaceholder({
           {
             {
               idle: <></>,
-              loading: <Loader />,
+              loading: <Loader style={{ marginVertical: moderateScale(20) }} />,
               loaded: (
                 <Animated.View entering={SlideInRight.springify()}>
                   <FlatList

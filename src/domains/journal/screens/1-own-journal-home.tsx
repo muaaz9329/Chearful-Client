@@ -11,7 +11,7 @@ import { FlatList, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { formatDate, hp } from '@app/utils';
 import JournalEntryCard from '../components/journal-entry-card';
-import { ms } from 'react-native-size-matters';
+import { moderateScale, ms } from 'react-native-size-matters';
 import { useEffect, useState } from 'react';
 import { IconPlus } from 'tabler-icons-react-native';
 import { NavigationHelpers } from '@react-navigation/native';
@@ -77,7 +77,6 @@ export default function ScreenOwnJournalHome({
           <Heading size="lg">Own Journals</Heading>
           <Pressable
             onPress={() => {
-              // setSheetShown((prev) => !prev)
               navigation.navigate(JournalNavigator.AddEntry, {
                 journalType: {
                   id: journalId,
@@ -113,7 +112,7 @@ export default function ScreenOwnJournalHome({
         {
           {
             idle: <AppText>Idle</AppText>,
-            loading: <Loader />,
+            loading: <Loader style={{ marginVertical: moderateScale(20) }} />,
             erred: <AppText>Something went wrong</AppText>,
             loaded: Object.entries(
               journalEntries.data.journalEntries || {},

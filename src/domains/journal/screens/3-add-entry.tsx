@@ -3,7 +3,7 @@ import { NavigationHelpers } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { IconArrowRight, IconX } from 'tabler-icons-react-native';
 import { TouchableOpacity, View } from 'react-native';
-import { ms } from 'react-native-size-matters';
+import { moderateScale, ms } from 'react-native-size-matters';
 import LottieView from 'lottie-react-native';
 
 import globalStyles from '@app/assets/global-styles';
@@ -82,14 +82,6 @@ export default function ScreenAddJournalEntry({
     });
   }, []);
 
-  // console.log(
-  //   userAnswers.map((ua) => ({
-  //     questionId: ua.questionId,
-  //     type: ua.type,
-  //     answers: ua.answers,
-  //   })),
-  // );
-
   const submitEntry = () => {
     setSubmissionState('loading');
 
@@ -125,7 +117,7 @@ export default function ScreenAddJournalEntry({
           <AppText size="md">
             {kind === 'owm'
               ? formatDate(new Date().toString())
-              : capitalizeFirstLetter(frequency.journal_time || '')}{' '}
+              : capitalizeFirstLetter(frequency?.journal_time || '')}{' '}
             Entry - {formatDate(entry?.date || new Date().toString())}
           </AppText>
         </View>
@@ -141,7 +133,7 @@ export default function ScreenAddJournalEntry({
       {
         {
           idle: <></>,
-          loading: <Loader />,
+          loading: <Loader style={{ marginVertical: moderateScale(20) }} />,
           erred: <AppText>Something went wrong</AppText>,
           loaded: (
             <>

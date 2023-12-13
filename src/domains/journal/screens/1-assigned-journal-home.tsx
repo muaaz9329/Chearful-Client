@@ -5,28 +5,22 @@ import {
   CategoryFilter,
   Header,
   Heading,
+  ListNextBatchFooter,
   Loader,
   XGap,
 } from '@app/components';
-import {
-  FlatList,
-  Pressable,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { NavigationHelpers, useFocusEffect } from '@react-navigation/native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { moderateScale, ms } from 'react-native-size-matters';
+
 import { capitalizeFirstLetter, formatDate, hp } from '@app/utils';
-import { ms } from 'react-native-size-matters';
-import { useEffect, useState } from 'react';
-import { IconPlus } from 'tabler-icons-react-native';
-// import JournalActionsSheet from '../components/journal-actions-sheet';
-import { NavigationHelpers } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
 import { RequestState } from '@app/services/api-service';
 import { assignedJournalService } from '../journal-service';
 import useJournalStore from '../use-journal-store';
-import Animated, { FadeInDown } from 'react-native-reanimated';
 
 export default function ScreenAssignedJournalHome({
   navigation,
@@ -53,24 +47,33 @@ export default function ScreenAssignedJournalHome({
     state: 'loading',
   });
 
-  useEffect(() => {
-    assignedJournalService.getDatesList({
-      journalId,
-      page,
-      onSuccess: ({ data }) => {
-        setDatesList({
-          state: 'loaded',
-          data,
-        });
-      },
-      onFailure: () => {
-        setDatesList({
-          state: 'erred',
-          data: {},
-        });
-      },
-    });
-  }, [journalId]);
+  useFocusEffect(
+    useCallback(() => {
+      assignedJournalService.getDatesList({
+        journalId,
+        page,
+        onSuccess: ({ data }) => {
+          setDatesList({
+            state: 'loaded',
+            data: {
+              ...datesList.data,
+              ...data,
+              journals: [
+                ...(datesList.data.journals || []),
+                ...(data.journals || []),
+              ],
+            },
+          });
+        },
+        onFailure: () => {
+          setDatesList({
+            state: 'erred',
+            data: {},
+          });
+        },
+      });
+    }, [journalId, page]),
+  );
 
   return (
     <SafeAreaView style={globalStyles.Wrapper}>
@@ -106,7 +109,7 @@ export default function ScreenAssignedJournalHome({
         {
           {
             idle: <AppText>Idle</AppText>,
-            loading: <Loader />,
+            loading: <Loader style={{ marginVertical: moderateScale(20) }} />,
             erred: <AppText>Something went wrong</AppText>,
             loaded: datesList.data.journals?.map((item) => {
               return (
@@ -135,7 +138,7 @@ export default function ScreenAssignedJournalHome({
                                 journalType: {
                                   id: journalId,
                                   title: assignedJournals.data?.journals?.find(
-                                    (journal) => journal.id == journalId,
+                                    (journal) => journal.id === journalId,
                                   )?.title,
                                 },
                                 frequency: item,
@@ -160,6 +163,15 @@ export default function ScreenAssignedJournalHome({
             }),
           }[datesList.state]
         }
+
+        <ListNextBatchFooter
+          status={datesList.state}
+          currentPage={page}
+          totalPages={datesList.data.total_pages}
+          onLoadNextBatch={() => {
+            setPage((prev) => prev + 1);
+          }}
+        />
       </ScrollView>
     </SafeAreaView>
   );

@@ -13,7 +13,7 @@ import { Colors } from '@app/constants';
 import { useEffect, useRef, useState } from 'react';
 import JournalEntryAnswer from '../components/journal-entry-answer';
 import { RequestState } from '@app/services/api-service';
-import { ownJournalService } from '../journal-service';
+import { assignedJournalService, ownJournalService } from '../journal-service';
 import { ScrollView } from 'react-native';
 
 export default function ScreenJournalEntryDetailed({
@@ -43,7 +43,9 @@ export default function ScreenJournalEntryDetailed({
       sheetRef.current?.show();
     }, 50);
 
-    ownJournalService.getEntryDetails({
+    const service = kind === 'own' ? ownJournalService : assignedJournalService;
+
+    service.getEntryDetails({
       entryId,
       onSuccess: ({ data }) => {
         setEntryDetails({
@@ -59,8 +61,6 @@ export default function ScreenJournalEntryDetailed({
       },
     });
   }, []);
-
-  console.log(entryDetails);
 
   return (
     <SafeAreaView
@@ -96,7 +96,7 @@ export default function ScreenJournalEntryDetailed({
         </Header>
 
         {entryDetails.state === 'loading' ? (
-          <Loader />
+          <Loader style={{ marginVertical: moderateScale(20) }} />
         ) : entryDetails.state === 'erred' ? (
           <AppText>Something went wrong</AppText>
         ) : (
@@ -119,16 +119,18 @@ export default function ScreenJournalEntryDetailed({
                   }}
                 />
               )}
+              {kind === 'own' && (
+                <Heading
+                  size="sm"
+                  style={{
+                    marginBottom: moderateScale(1),
+                  }}
+                >
+                  Self Assigned
+                </Heading>
+              )}
 
-              <Heading
-                size="sm"
-                style={{
-                  marginBottom: moderateScale(1),
-                }}
-              >
-                {kind === 'own' ? 'Self Assigned' : `Assigned by ${'Dr. '}`}
-              </Heading>
-
+              {<Heading size="sm">Attempted Time:</Heading>}
               <AppText>
                 {new Date(
                   entryDetails.data.attempted_time || '',
@@ -143,16 +145,21 @@ export default function ScreenJournalEntryDetailed({
         )}
       </View>
       <ScrollView
+        contentContainerStyle={
+          {
+            // flex: 1,
+          }
+        }
         style={{
+          borderTopLeftRadius: moderateScale(20),
+          borderTopRightRadius: moderateScale(20),
           rowGap: ms(25),
-          paddingTop: ms(15),
           paddingHorizontal: ms(20),
-          paddingBottom: ms(2),
           backgroundColor: Colors.orangeDim,
         }}
       >
         {entryDetails.state === 'loading' ? (
-          <Loader />
+          <Loader style={{ marginVertical: moderateScale(20) }} />
         ) : entryDetails.state === 'erred' ? (
           <AppText>Something went wrong</AppText>
         ) : (
