@@ -18,6 +18,10 @@ const JournalEntryCard = ({ entry, kind, onPress }: Props) => {
       <BaseCard
         style={{
           minWidth: mvs(200),
+          backgroundColor:
+            entry.journal_status === 'pending'
+              ? Colors.redDim
+              : Colors.greenDim,
         }}
       >
         <View>

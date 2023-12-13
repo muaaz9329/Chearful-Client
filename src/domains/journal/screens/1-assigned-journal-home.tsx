@@ -6,7 +6,6 @@ import {
   Header,
   Heading,
   Loader,
-  SearchInput,
   XGap,
 } from '@app/components';
 import {
@@ -17,8 +16,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { formatDate, hp } from '@app/utils';
-import JournalEntryCard from '../components/journal-entry-card';
+import { capitalizeFirstLetter, formatDate, hp } from '@app/utils';
 import { ms } from 'react-native-size-matters';
 import { useEffect, useState } from 'react';
 import { IconPlus } from 'tabler-icons-react-native';
@@ -26,9 +24,9 @@ import { IconPlus } from 'tabler-icons-react-native';
 import { NavigationHelpers } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
 import { RequestState } from '@app/services/api-service';
-import { assignedJournalService, ownJournalService } from '../journal-service';
+import { assignedJournalService } from '../journal-service';
 import useJournalStore from '../use-journal-store';
-import { JournalDateItem } from '../types';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 export default function ScreenAssignedJournalHome({
   navigation,
@@ -37,7 +35,6 @@ export default function ScreenAssignedJournalHome({
   navigation: NavigationHelpers<any, any>;
   route: any;
 }) {
-  // const [sheetShown, setSheetShown] = useState(false);
   const [journalId, setJournalId] = useState<number>(route.params?.journalId);
 
   const { assignedJournals } = useJournalStore();
@@ -49,18 +46,6 @@ export default function ScreenAssignedJournalHome({
     data: Partial<
       Parameters<
         Parameters<typeof assignedJournalService.getDatesList>[0]['onSuccess']
-      >[0]['data']
-    >;
-  }>({
-    data: {},
-    state: 'loading',
-  });
-
-  const [journalEntries, setJournalEntries] = useState<{
-    state: RequestState;
-    data: Partial<
-      Parameters<
-        Parameters<typeof ownJournalService.getJournalEntries>[0]['onSuccess']
       >[0]['data']
     >;
   }>({
@@ -98,22 +83,7 @@ export default function ScreenAssignedJournalHome({
             justifyContent: 'space-between',
           }}
         >
-          <Heading size="lg">Journal Entries</Heading>
-          <Pressable
-            onPress={() => {
-              navigation.navigate(JournalNavigator.AddEntry, {
-                journalType: {
-                  id: journalId,
-                  title: assignedJournals.data?.journals?.find(
-                    (journal) => journal.id === journalId,
-                  )?.title,
-                },
-                kind: 'assigned',
-              });
-            }}
-          >
-            <IconPlus size={30} color="#000" />
-          </Pressable>
+          <Heading size="lg">Assigned Journals</Heading>
         </View>
       </Header>
 
@@ -153,35 +123,44 @@ export default function ScreenAssignedJournalHome({
                   >
                     {formatDate(item.start_date)} - {formatDate(item.end_date)}
                   </Heading>
-
-                  <FlatList
-                    data={item.frequencies}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity>
-                        <BaseCard style={{ minHeight: 'auto' }}>
-                          <AppText>{item.journal_time?.toUpperCase()}</AppText>
-                        </BaseCard>
-                      </TouchableOpacity>
-                    )}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <XGap />}
-                  />
+                  <Animated.View entering={FadeInDown.springify()}>
+                    <FlatList
+                      data={item.frequencies}
+                      renderItem={({ item }) => (
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate(
+                              JournalNavigator.FrequencyEntries,
+                              {
+                                journalType: {
+                                  id: journalId,
+                                  title: assignedJournals.data?.journals?.find(
+                                    (journal) => journal.id == journalId,
+                                  )?.title,
+                                },
+                                frequency: item,
+                              },
+                            )
+                          }
+                        >
+                          <BaseCard style={{ minHeight: 'auto' }}>
+                            <AppText>
+                              {capitalizeFirstLetter(item.journal_time || '')}
+                            </AppText>
+                          </BaseCard>
+                        </TouchableOpacity>
+                      )}
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      ItemSeparatorComponent={() => <XGap />}
+                    />
+                  </Animated.View>
                 </View>
               );
             }),
           }[datesList.state]
         }
       </ScrollView>
-
-      {/* {sheetShown && (
-        <JournalActionsSheet
-          navigation={navigation}
-          onClose={() => {
-            setSheetShown(false);
-          }}
-        />
-      )} */}
     </SafeAreaView>
   );
 }

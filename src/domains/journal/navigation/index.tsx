@@ -7,6 +7,7 @@ import {
   ScreenAddJournalEntry,
   ScreenJournalEntryDetailed,
 } from '../screens';
+import ScreenFrequencyEntries from '../screens/frequency-entries';
 
 export const enum JournalNavigator {
   'Placeholder' = 'Placeholder',
@@ -15,6 +16,7 @@ export const enum JournalNavigator {
   'ChooseJournal' = 'ChooseJournal',
   'AddEntry' = 'AddEntry',
   'EntryDetailed' = 'EntryDetailed',
+  'FrequencyEntries' = 'FrequencyEntries',
 }
 
 export default function JournalNavigation() {
@@ -37,6 +39,10 @@ export default function JournalNavigation() {
       <Stack.Screen
         name={JournalNavigator.AssignedJournalHome}
         component={ScreenAssignedJournalHome}
+      />
+      <Stack.Screen
+        name={JournalNavigator.FrequencyEntries}
+        component={ScreenFrequencyEntries}
       />
 
       <Stack.Screen

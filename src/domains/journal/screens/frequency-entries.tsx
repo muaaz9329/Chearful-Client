@@ -1,12 +1,5 @@
 import globalStyles from '@app/assets/global-styles';
-import {
-  AppText,
-  CategoryFilter,
-  Header,
-  Heading,
-  Loader,
-  XGap,
-} from '@app/components';
+import { AppText, Header, Heading, Loader, XGap } from '@app/components';
 import { FlatList, Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { formatDate, hp } from '@app/utils';
@@ -17,27 +10,25 @@ import { IconPlus } from 'tabler-icons-react-native';
 import { NavigationHelpers } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
 import { RequestState } from '@app/services/api-service';
-import { ownJournalService } from '../journal-service';
-import useJournalStore from '../use-journal-store';
-import Animated, { FadeInRight } from 'react-native-reanimated';
+import { assignedJournalService } from '../journal-service';
 
-export default function ScreenOwnJournalHome({
+export default function ScreenFrequencyEntries({
   navigation,
   route,
 }: {
   navigation: NavigationHelpers<any, any>;
   route: any;
 }) {
-  const [journalId, setJournalId] = useState<number>(route.params?.journalId);
-
-  const { ownJournals } = useJournalStore();
+  const { journalType, frequency } = route.params;
 
   const [page, setPage] = useState(1);
   const [journalEntries, setJournalEntries] = useState<{
     state: RequestState;
     data: Partial<
       Parameters<
-        Parameters<typeof ownJournalService.getJournalEntries>[0]['onSuccess']
+        Parameters<
+          typeof assignedJournalService.getJournalEntries
+        >[0]['onSuccess']
       >[0]['data']
     >;
   }>({
@@ -46,8 +37,9 @@ export default function ScreenOwnJournalHome({
   });
 
   useEffect(() => {
-    ownJournalService.getJournalEntries({
-      journalId,
+    assignedJournalService.getJournalEntries({
+      frequencyId: frequency.id,
+      page,
       onSuccess: ({ data }) => {
         setJournalEntries({
           state: 'loaded',
@@ -61,7 +53,7 @@ export default function ScreenOwnJournalHome({
         });
       },
     });
-  }, [journalId]);
+  }, [frequency.id]);
 
   return (
     <SafeAreaView style={globalStyles.Wrapper}>
@@ -74,33 +66,34 @@ export default function ScreenOwnJournalHome({
             justifyContent: 'space-between',
           }}
         >
-          <Heading size="lg">Own Journals</Heading>
-          <Pressable
+          <View>
+            <Heading size="lg">{journalType.title} Journal</Heading>
+            <AppText>
+              {frequency?.journal_time?.toUpperCase() + ' Entries'}{' '}
+            </AppText>
+          </View>
+          {/* <Pressable
             onPress={() => {
-              // setSheetShown((prev) => !prev)
               navigation.navigate(JournalNavigator.AddEntry, {
-                journalType: {
-                  id: journalId,
-                  title: ownJournals.data?.journals?.find(
-                    (journal) => journal.id === journalId,
-                  )?.title,
-                },
-                kind: 'own',
+                journalType,
+                frequency,
+
+                kind: 'assigned',
               });
             }}
           >
             <IconPlus size={30} color="#000" />
-          </Pressable>
+          </Pressable> */}
         </View>
       </Header>
 
-      <View style={globalStyles.mt_15}>
+      {/* <View style={globalStyles.mt_15}>
         <CategoryFilter
           selectedId={journalId}
           tags={ownJournals.data.journals}
           onChangeTag={({ id }) => setJournalId(id)}
         />
-      </View>
+      </View> */}
 
       <ScrollView
         style={[
@@ -126,28 +119,36 @@ export default function ScreenOwnJournalHome({
               >
                 <AppText>{formatDate(entries?.[0]?.date) || date}</AppText>
 
-                <Animated.View entering={FadeInRight.springify()}>
-                  <FlatList
-                    data={entries}
-                    renderItem={({ item }) => (
-                      <JournalEntryCard
-                        key={item.id}
-                        entry={item}
-                        kind="own"
-                        onPress={() => {
-                          navigation.navigate(JournalNavigator.EntryDetailed, {
-                            entryId: item.id,
-                            journalTitle: item.title,
-                            kind: 'own',
-                          });
-                        }}
-                      />
-                    )}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <XGap />}
-                  />
-                </Animated.View>
+                <FlatList
+                  data={entries}
+                  renderItem={({ item }) => (
+                    <JournalEntryCard
+                      key={item.id}
+                      entry={item}
+                      kind="own"
+                      onPress={() => {
+                        item.journal_status === 'pending'
+                          ? navigation.navigate(JournalNavigator.AddEntry, {
+                              journalType,
+                              frequency,
+                              entry: item,
+                              kind: 'assigned',
+                            })
+                          : navigation.navigate(
+                              JournalNavigator.EntryDetailed,
+                              {
+                                entryId: item.id,
+                                journalTitle: item.title,
+                                kind: 'assigned',
+                              },
+                            );
+                      }}
+                    />
+                  )}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  ItemSeparatorComponent={() => <XGap />}
+                />
               </View>
             )),
           }[journalEntries.state]

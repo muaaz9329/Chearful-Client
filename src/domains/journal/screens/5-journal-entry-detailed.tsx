@@ -60,6 +60,8 @@ export default function ScreenJournalEntryDetailed({
     });
   }, []);
 
+  console.log(entryDetails);
+
   return (
     <SafeAreaView
       style={{
@@ -93,43 +95,52 @@ export default function ScreenJournalEntryDetailed({
           </View>
         </Header>
 
-        <View
-          style={{
-            height: hp(25),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          {entryDetails.data.pdf_url && (
-            <Image
-              source={{ uri: entryDetails.data.pdf_url }}
+        {entryDetails.state === 'loading' ? (
+          <Loader />
+        ) : entryDetails.state === 'erred' ? (
+          <AppText>Something went wrong</AppText>
+        ) : (
+          <View>
+            <View
               style={{
-                width: moderateScale(80),
-                height: moderateScale(80),
-                borderRadius: 50,
-                marginBottom: moderateScale(8),
+                height: hp(25),
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
-            />
-          )}
+            >
+              {entryDetails.data.pdf_url && (
+                <Image
+                  source={{ uri: entryDetails.data.pdf_url }}
+                  style={{
+                    width: moderateScale(80),
+                    height: moderateScale(80),
+                    borderRadius: 50,
+                    marginBottom: moderateScale(8),
+                  }}
+                />
+              )}
 
-          <Heading
-            size="sm"
-            style={{
-              marginBottom: moderateScale(1),
-            }}
-          >
-            {kind === 'own' ? 'Self Assigned' : `Assigned by ${'Dr. '}`}
-          </Heading>
-          <AppText>
-            {new Date(
-              entryDetails.data.attempted_time || '',
-            ).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
-          </AppText>
-        </View>
+              <Heading
+                size="sm"
+                style={{
+                  marginBottom: moderateScale(1),
+                }}
+              >
+                {kind === 'own' ? 'Self Assigned' : `Assigned by ${'Dr. '}`}
+              </Heading>
+
+              <AppText>
+                {new Date(
+                  entryDetails.data.attempted_time || '',
+                ).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </AppText>
+            </View>
+          </View>
+        )}
       </View>
       <ScrollView
         style={{

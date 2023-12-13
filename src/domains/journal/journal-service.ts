@@ -179,6 +179,13 @@ class JournalService implements BaseJournalService {
         };
       }) => {
         const deserializedData = JournalAdapter.deserialize(data);
+        console.log(
+          'data',
+          data.journalEntries.length,
+          'deserialized',
+          deserializedData.journalEntries,
+        );
+
         onSuccess({ data: deserializedData });
       },
       onFailure,

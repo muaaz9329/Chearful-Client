@@ -27,6 +27,7 @@ import { assignedJournalService, ownJournalService } from '../journal-service';
 import useJournalStore from '../use-journal-store';
 import { IconArrowRight } from 'tabler-icons-react-native';
 import { Colors } from '@app/constants';
+import Animated, { SlideInRight } from 'react-native-reanimated';
 
 export default function ScreenJournalPlaceholder({
   navigation,
@@ -157,25 +158,27 @@ export default function ScreenJournalPlaceholder({
               idle: <></>,
               loading: <Loader />,
               loaded: (
-                <FlatList
-                  horizontal
-                  data={ownJournals.data?.journals}
-                  renderItem={({ item }) => (
-                    <JournalTypeCard
-                      onPress={() => {
-                        navigation.navigate(JournalNavigator.OwnJournalHome, {
-                          journalId: item.id,
-                        });
-                      }}
-                      title={item.title}
-                      description={item.description}
-                      image={item.pdf_url}
-                    />
-                  )}
-                  showsHorizontalScrollIndicator={false}
-                  keyExtractor={(item) => item.id.toString()}
-                  ItemSeparatorComponent={XGap}
-                />
+                <Animated.View entering={SlideInRight.springify()}>
+                  <FlatList
+                    horizontal
+                    data={ownJournals.data?.journals}
+                    renderItem={({ item }) => (
+                      <JournalTypeCard
+                        onPress={() => {
+                          navigation.navigate(JournalNavigator.OwnJournalHome, {
+                            journalId: item.id,
+                          });
+                        }}
+                        title={item.title}
+                        description={item.description}
+                        image={item.pdf_url}
+                      />
+                    )}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item) => item.id.toString()}
+                    ItemSeparatorComponent={XGap}
+                  />
+                </Animated.View>
               ),
               erred: <AppText>Something went wrong</AppText>,
             }[ownJournals.state]
@@ -216,28 +219,30 @@ export default function ScreenJournalPlaceholder({
               idle: <></>,
               loading: <Loader />,
               loaded: (
-                <FlatList
-                  horizontal
-                  data={ownJournals.data?.journals}
-                  renderItem={({ item }) => (
-                    <JournalTypeCard
-                      title={item.title}
-                      description={item.description}
-                      image={item.pdf_url}
-                      onPress={() => {
-                        navigation.navigate(
-                          JournalNavigator.AssignedJournalHome,
-                          {
-                            journalId: assignedJournals.data?.journals?.[0]?.id,
-                          },
-                        );
-                      }}
-                    />
-                  )}
-                  showsHorizontalScrollIndicator={false}
-                  keyExtractor={(item) => item.id.toString()}
-                  ItemSeparatorComponent={XGap}
-                />
+                <Animated.View entering={SlideInRight.springify()}>
+                  <FlatList
+                    horizontal
+                    data={assignedJournals.data?.journals}
+                    renderItem={({ item }) => (
+                      <JournalTypeCard
+                        title={item.title}
+                        description={item.description}
+                        image={item.pdf_url}
+                        onPress={() => {
+                          navigation.navigate(
+                            JournalNavigator.AssignedJournalHome,
+                            {
+                              journalId: item.id,
+                            },
+                          );
+                        }}
+                      />
+                    )}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item) => item.id.toString()}
+                    ItemSeparatorComponent={XGap}
+                  />
+                </Animated.View>
               ),
               erred: <AppText>Something went wrong</AppText>,
             }[assignedJournals.state]

@@ -22,7 +22,7 @@ import { assignedJournalService, ownJournalService } from '../journal-service';
 import { JournalTypeQuestion } from '../types';
 
 import SuccessLottie from '@app/assets/lotties/success-lottie.json';
-import { Wp } from '@app/utils';
+import { Wp, capitalizeFirstLetter, formatDate } from '@app/utils';
 
 export default function ScreenAddJournalEntry({
   navigation,
@@ -31,8 +31,7 @@ export default function ScreenAddJournalEntry({
   navigation: NavigationHelpers<any, any>;
   route: any;
 }) {
-  const { journalType, kind } = route.params;
-  const { id, title } = journalType;
+  const { journalType, kind, frequency, entry } = route.params;
 
   const [journalDetails, setJournalDetails] = useState<{
     state: RequestState;
@@ -63,7 +62,7 @@ export default function ScreenAddJournalEntry({
 
   useEffect(() => {
     ownJournalService.getJournalDetails({
-      journalId: id,
+      journalId: journalType.id,
       onSuccess: ({ data }) => {
         const entryQuestions = data.question_answers[0].arrQuestions;
         setJournalQuestions(entryQuestions);
@@ -83,13 +82,13 @@ export default function ScreenAddJournalEntry({
     });
   }, []);
 
-  console.log(
-    userAnswers.map((ua) => ({
-      questionId: ua.questionId,
-      type: ua.type,
-      answers: ua.answers,
-    })),
-  );
+  // console.log(
+  //   userAnswers.map((ua) => ({
+  //     questionId: ua.questionId,
+  //     type: ua.type,
+  //     answers: ua.answers,
+  //   })),
+  // );
 
   const submitEntry = () => {
     setSubmissionState('loading');
@@ -97,7 +96,7 @@ export default function ScreenAddJournalEntry({
     const service = kind === 'own' ? ownJournalService : assignedJournalService;
 
     service.createEntry({
-      parentId: kind === 'own' ? id : '',
+      parentId: kind === 'own' ? journalType.id : entry.id,
       entryData: userAnswers,
       onSuccess: ({ data }) => {
         setSubmissionState('loaded');
@@ -122,10 +121,12 @@ export default function ScreenAddJournalEntry({
         }}
       >
         <View>
-          <Heading>{title} Journal</Heading>
+          <Heading>{journalType.title} Journal</Heading>
           <AppText size="md">
-            {kind === 'owm' ? new Date().toLocaleDateString() : `Morning `}{' '}
-            Entry
+            {kind === 'owm'
+              ? formatDate(new Date().toString())
+              : capitalizeFirstLetter(frequency.journal_time || '')}{' '}
+            Entry - {formatDate(entry?.date || new Date().toString())}
           </AppText>
         </View>
         <TouchableOpacity
@@ -208,8 +209,8 @@ export default function ScreenAddJournalEntry({
                                     options: journalQuestions[
                                       currQuestionIdx
                                     ].answers.map((a) => ({
-                                      value: a.id as number,
-                                      text: a.option_title as string,
+                                      value: a?.id as number,
+                                      text: a?.option_title as string,
                                     })),
                                   },
                                 ]}
@@ -242,8 +243,8 @@ export default function ScreenAddJournalEntry({
                                     options: journalQuestions[
                                       currQuestionIdx
                                     ].answers.map((a) => ({
-                                      value: a.id as number,
-                                      text: a.option_title as string,
+                                      value: a?.id as number,
+                                      text: a?.option_title as string,
                                     })),
                                   },
                                 ]}
