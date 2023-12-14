@@ -1,4 +1,4 @@
-import { AppText, Header, Heading } from '@app/components';
+import { AppText, Header, Heading, Loader } from '@app/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image, View } from 'react-native';
 import { moderateScale, ms } from 'react-native-size-matters';
@@ -10,30 +10,63 @@ import { journalEntries } from '../data/journal-data';
 import { Wp, hp } from '@app/utils';
 import { AppImages } from '@app/assets/images';
 import { Colors } from '@app/constants';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import JournalEntryAnswer from '../components/journal-entry-answer';
+import { RequestState } from '@app/services/api-service';
+import { assignedJournalService, ownJournalService } from '../journal-service';
+import { ScrollView } from 'react-native';
 
 export default function ScreenJournalEntryDetailed({
   route,
+  navigation,
 }: {
   navigation: NavigationHelpers<any, any>;
   route: any;
 }) {
   const sheetRef = useRef<ActionSheetRef | null>(null);
+  const { entryId, journalTitle, kind } = route.params;
 
-  const entryId = route.params.entryId;
-  const entry = journalEntries.find((e) => e.id === entryId);
+  const [entryDetails, setEntryDetails] = useState<{
+    state: RequestState;
+    data: Partial<
+      Parameters<
+        Parameters<typeof ownJournalService.getEntryDetails>[0]['onSuccess']
+      >[0]['data']
+    >;
+  }>({
+    state: 'loading',
+    data: {},
+  });
 
   useEffect(() => {
     setTimeout(() => {
       sheetRef.current?.show();
     }, 50);
+
+    const service = kind === 'own' ? ownJournalService : assignedJournalService;
+
+    service.getEntryDetails({
+      entryId,
+      onSuccess: ({ data }) => {
+        setEntryDetails({
+          state: 'loaded',
+          data,
+        });
+      },
+      onFailure: () => {
+        setEntryDetails({
+          state: 'erred',
+          data: {},
+        });
+      },
+    });
   }, []);
 
   return (
     <SafeAreaView
       style={{
         flex: 1,
+        height: '100%',
         backgroundColor: Colors.white,
       }}
     >
@@ -43,84 +76,121 @@ export default function ScreenJournalEntryDetailed({
           paddingHorizontal: Wp(20),
         }}
       >
-        <Header headerType="New" pram="back">
+        <Header headerType="New" pram="back" navigation={navigation}>
           <View>
-            <Heading size="lg">{entry?.type.title} Journal</Heading>
-            <AppText>{entry?.time.title} Entry</AppText>
+            <Heading size="lg">{journalTitle} Journal</Heading>
+            {/* {kind === 'own' ? (
+              <AppText>
+                {new Date(entryDetails?.data?.date || '').toLocaleDateString(
+                  'en-US',
+                  {
+                    timeStyle: 'short',
+                  },
+                )}
+              </AppText>
+            ) : (
+              <AppText>{entryDetails?.data?.attempted_time + ' Entry'}</AppText>
+            )} */}
+            {/* <AppText>{entry?.time.title} Entry</AppText> */}
           </View>
         </Header>
 
-        <View
-          style={{
-            height: hp(30),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <View
-            style={{
-              alignItems: 'center',
-            }}
-          >
-            <Image
-              source={AppImages.user01}
+        {entryDetails.state === 'loading' ? (
+          <Loader style={{ marginVertical: moderateScale(20) }} />
+        ) : entryDetails.state === 'erred' ? (
+          <AppText>Something went wrong</AppText>
+        ) : (
+          <View>
+            <View
               style={{
-                width: moderateScale(80),
-                height: moderateScale(80),
-                borderRadius: 50,
-                marginBottom: moderateScale(8),
-              }}
-            />
-            <Heading
-              size="sm"
-              style={{
-                marginBottom: moderateScale(1),
+                height: hp(25),
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              Assigned by {'Dr. ' + entry?.assignedBy?.title}
-            </Heading>
-            <AppText>
-              {new Date(entry?.date || '').toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </AppText>
-          </View>
-        </View>
-      </View>
+              {entryDetails.data.pdf_url && (
+                <Image
+                  source={{ uri: entryDetails.data.pdf_url }}
+                  style={{
+                    width: moderateScale(80),
+                    height: moderateScale(80),
+                    borderRadius: 50,
+                    marginBottom: moderateScale(8),
+                  }}
+                />
+              )}
+              {kind === 'own' && (
+                <Heading
+                  size="sm"
+                  style={{
+                    marginBottom: moderateScale(1),
+                  }}
+                >
+                  Self Assigned
+                </Heading>
+              )}
 
-      <ActionSheet
+              {<Heading size="sm">Attempted Time:</Heading>}
+              <AppText>
+                {new Date(
+                  entryDetails.data.attempted_time || '',
+                ).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </AppText>
+            </View>
+          </View>
+        )}
+      </View>
+      <ScrollView
+        contentContainerStyle={
+          {
+            // flex: 1,
+          }
+        }
+        style={{
+          borderTopLeftRadius: moderateScale(20),
+          borderTopRightRadius: moderateScale(20),
+          rowGap: ms(25),
+          paddingHorizontal: ms(20),
+          backgroundColor: Colors.orangeDim,
+        }}
+      >
+        {entryDetails.state === 'loading' ? (
+          <Loader style={{ marginVertical: moderateScale(20) }} />
+        ) : entryDetails.state === 'erred' ? (
+          <AppText>Something went wrong</AppText>
+        ) : (
+          <>
+            {entryDetails.data?.question_answers?.[0]?.arrQuestions.map(
+              (question) => {
+                const questionTxt = question.question_title;
+
+                return (
+                  <JournalEntryAnswer
+                    type={question.question_type}
+                    question={questionTxt}
+                    answers={question.answers}
+                    key={question.id}
+                  />
+                );
+              },
+            )}
+          </>
+        )}
+      </ScrollView>
+
+      {/* <ActionSheet
         ref={sheetRef}
         defaultOverlayOpacity={0}
-        // containerStyle={{}}
+        snapPoints={[60, 30]}
         closable={false}
         gestureEnabled={true}
         CustomHeaderComponent={<View />}
       >
-        <View
-          style={{
-            rowGap: ms(25),
-            minHeight: '55%',
-            padding: ms(15),
-            backgroundColor: Colors.yellowDim,
-          }}
-        >
-          {entry?.data.map((item) => {
-            const questionTxt = item.title;
-            const answerTxt = item?.answer || 'No Answer Provided';
-
-            return (
-              <JournalEntryAnswer
-                type={item.type}
-                question={questionTxt}
-                answer={`${answerTxt}`}
-                key={item.id}
-              />
-            );
-          })}
-        </View>
-      </ActionSheet>
+      </ActionSheet> */}
     </SafeAreaView>
   );
 }

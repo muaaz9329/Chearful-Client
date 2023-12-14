@@ -141,8 +141,8 @@ export default function AppNavigation() {
         headerShown: false,
       }}
     >
-      {/* <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} /> */}
-     
+      <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} />
+
       <Stack.Screen
         name={AppNavigator.HomeTabs}
         component={RootTabNavigation}
@@ -154,7 +154,7 @@ export default function AppNavigation() {
         name={AppNavigator.ThirtyXThirty}
         component={ThirtyXThirtyNavigation}
       /> */}
-       <Stack.Screen
+      <Stack.Screen
         name={AppNavigator.MoodDiary}
         component={MoodDiaryNavigation}
       />

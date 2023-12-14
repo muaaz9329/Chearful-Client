@@ -31,12 +31,13 @@ const JournalTypeCard = ({
         }}
       >
         <Image
-          source={image}
+          source={{ uri: image }}
           style={{
             position: 'absolute',
             right: 0,
             bottom: 0,
             height: moderateVerticalScale(80),
+            width: '50%',
             resizeMode: 'contain',
           }}
         />

@@ -5,7 +5,7 @@ export { default as SassyQuiz } from './sassy-quiz';
 
 export type SassyQuizSelectedOption = {
   qId: string | number;
-  value: string | number;
+  value: (string | number) | (string | number)[];
 };
 
 export type SassyQuizViewProps = SassyQuizProps & {
@@ -35,6 +35,9 @@ export type SassyQuizProps = {
   optionStyles?: TouchableOpacityProps['style'];
   footerProps?: Partial<ViewProps>;
   callOnNextOnSubmit?: boolean;
+  variant?: 'single' | 'multiple';
+
+  onOptionPress?: (qId: string | number, value: string | number) => void;
   onNextPress?: (thisAnswer: SassyQuizSelectedOption) => void;
   onPrevPress?: () => void;
   onSubmit?: (selectedOptions: SassyQuizSelectedOption[]) => void;
