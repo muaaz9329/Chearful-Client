@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import PractitionerImage from '@app/domains/meet-a-practitioner/components/practitioner-image';
 import ms from '@app/assets/master-styles';
@@ -7,30 +7,71 @@ import { Nunito, Wp, colorWithOpacity } from '@app/utils';
 import RecommendedTag from './rec-tag';
 import { IconBriefcase, IconHeart, IconStar } from 'tabler-icons-react-native';
 import { Colors } from '@app/constants';
+import {
+  Practitioner,
+  PractitionerData,
+} from '@app/domains/meet-a-practitioner/types';
 
-type Props = {};
+const PractitionerCard = ({
+  first_name,
+  last_name,
+  languages,
+  avatar,
+  user_tags,
+  years_of_practice,
+  rating,
+  service_price,
 
-const PractitionerCard = (props: Props) => {
+  appointments_count,
+  slug,
+  
+  handlePress,
+}: Practitioner & {
+  handlePress: (slug: string) => void;
+}) => {
+  const tags = user_tags.split(',');
+  let tempTags;
+  if (tags.length > 6) {
+    tempTags = tags.slice(0, 6);
+    tempTags.push('+' + (tags.length - 6));
+  } else {
+    tempTags = tags;
+  }
+
+  const langArray = languages.split(',');
+  let tempLangs;
+  if (langArray.length > 3) {
+    tempLangs = langArray.slice(0, 3);
+    tempLangs.push('+' + (langArray.length - 3));
+  } else {
+    tempLangs = langArray;
+  }
   return (
-    <View
+    <TouchableOpacity
       style={ms([
         'bg_cont',
         'rounded-4',
         {
           overflow: 'hidden',
         },
+        'mb_10',
       ])}
+      onPress={() => {
+        handlePress(slug);
+      }}
     >
       <View style={ms(['flexRow', 'alignCenter', 'px_10', 'pt_10'])}>
-        <PractitionerImage />
+        <PractitionerImage source={avatar} />
         <View style={ms(['flex1', 'mb_10', 'ml:10'])}>
           <View style={ms(['flexRow', 'alignCenter'])}>
-            <Heading size="md">Mr. Forrest Cuddy </Heading>
+            <Heading size="md">
+              {(first_name + ' ' + last_name).slice(0, 15)}{' '}
+            </Heading>
             <RecommendedTag />
           </View>
 
           <AppText size="md" style={ms([`textMuted`])}>
-            English, Hindi, Gujarati
+            {tempLangs.join(', ')}
           </AppText>
         </View>
       </View>
@@ -39,15 +80,7 @@ const PractitionerCard = (props: Props) => {
           Speciality
         </AppText>
         <View style={ms(['flexRow', 'flexWrap', 'justifyStart'])}>
-          {[
-            'addiction',
-            'anxiety',
-            'depression',
-            'stress',
-            'addiction',
-            'addiction',
-            'addiction',
-          ].map((item, index) => {
+          {tempTags.map((item, index) => {
             return (
               <Badge
                 key={index}
@@ -79,7 +112,7 @@ const PractitionerCard = (props: Props) => {
               textAlign: 'right',
             }}
           >
-            AED 15
+            AED {service_price}
           </Heading>
           <AppText size="base" style={ms(['textMuted', 'nunito_700', 'mb_10'])}>
             Per Session
@@ -92,7 +125,7 @@ const PractitionerCard = (props: Props) => {
               size="base"
               style={ms(['nunito_700', 'ml:5', `text:${Colors.dim}`])}
             >
-              100 Ppl
+              {appointments_count} Ppl
             </AppText>
           </View>
 
@@ -109,7 +142,7 @@ const PractitionerCard = (props: Props) => {
               size="base"
               style={ms(['nunito_700', 'ml:5', `text:${Colors.dim}`])}
             >
-              4+ Yrs
+              {years_of_practice}+ Yrs
             </AppText>
           </View>
 
@@ -119,12 +152,12 @@ const PractitionerCard = (props: Props) => {
               size="base"
               style={ms(['nunito_700', 'ml:5', `text:${Colors.dim}`])}
             >
-              4.5/5
+              {Number(rating).toString().slice(0, 4) || 0}/5
             </AppText>
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

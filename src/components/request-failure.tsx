@@ -3,6 +3,7 @@ import React from 'react';
 import ms from '@app/assets/master-styles';
 import MyButton from './my-button';
 import Toast from 'react-native-toast-message';
+import ErrorRetry from './error-retry';
 
 const OnRequestFailure = (
   { reload }: { reload?: () => void } = { reload: () => {} },
@@ -12,15 +13,7 @@ const OnRequestFailure = (
     text1: 'Something went wrong',
     text2: 'Please try again',
   });
-  return (
-    <View style={ms(['flex1', 'bg_white','alignCenter','justifyCenter'])}>
-      <MyButton
-        title="Reload"
-        onPress={reload}
-        style={ms(['mt_10', 'mb_10', 'alignCenter',"W:200", 'py_18' , 'rounded-3'])}
-      />
-    </View>
-  );
+  return <ErrorRetry onRetry={reload as () => void} />;
 };
 
 const RequestFailure = ({
@@ -33,7 +26,7 @@ const RequestFailure = ({
   reload?: () => void;
 }) => {
   const RenderChild = () => {
-    return success ?  children:<OnRequestFailure reload={reload} /> 
+    return success ? children : <OnRequestFailure reload={reload} />;
   };
 
   return <RenderChild />;

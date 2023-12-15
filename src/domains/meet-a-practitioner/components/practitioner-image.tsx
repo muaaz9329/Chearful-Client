@@ -29,18 +29,31 @@ const imgSizes = {
 
 type sizes = keyof typeof imgSizes;
 
-const PractitionerImage = ({ size = 'sm' }: { size?: sizes }) => {
+const PractitionerImage = ({
+  size = 'sm',
+  source,
+}: {
+  size?: sizes;
+  source?: string;
+}) => {
   return (
     <View>
       <ImageBackground
-        source={MeetPractitionerImages.user}
+        source={source ? { uri: source } : MeetPractitionerImages.user}
         style={ms([
           `W:${imgSizes[size].image}`,
           `H:${imgSizes[size].image}`,
-          'rounded-full',
+          
+          {
+            overflow: 'hidden',
+            borderRadius: 50,
+            
+          }
         ])}
       >
-        <View
+       
+      </ImageBackground>
+      <View
           style={ms([
             styles.verifyLogoStyles,
             'bg_white',
@@ -48,6 +61,10 @@ const PractitionerImage = ({ size = 'sm' }: { size?: sizes }) => {
             'px:2',
             'alignCenter',
             'justifyCenter',
+            {
+              zIndex: 1,
+              
+            }
           ])}
         >
           <Image
@@ -58,7 +75,6 @@ const PractitionerImage = ({ size = 'sm' }: { size?: sizes }) => {
             ])}
           />
         </View>
-      </ImageBackground>
     </View>
   );
 };

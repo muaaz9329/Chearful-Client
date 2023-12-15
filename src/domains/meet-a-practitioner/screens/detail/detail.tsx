@@ -25,10 +25,18 @@ import { Divider } from 'react-native-paper';
 import DetailBox from './components/detail-cont';
 import SessionCard from './components/session-card';
 import TagsCont from './components/tags-cont';
+import { RoutesParam } from '@app/types';
+import { useNavigation } from '@react-navigation/native';
 
 type Props = {};
 
-const Detail = (props: Props) => {
+const Detail = ({
+  route,
+}: RoutesParam<{
+  slug: string;
+}>) => {
+  const navigation = useNavigation();
+  
   return (
     <SafeAreaView
       style={ms([`bg:${Colors.DarkGreen}`, 'pt:15', 'flex1'])}

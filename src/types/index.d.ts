@@ -32,3 +32,9 @@ export type IconComponent = React.FC<{
   height: number;
   color?: string;
 }>;
+
+export type RoutesParam<T = any> = {
+  route?: {
+    params: T;
+  };
+};
