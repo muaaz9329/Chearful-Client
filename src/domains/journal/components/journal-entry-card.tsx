@@ -1,33 +1,35 @@
 import { Image, TouchableOpacity, View } from 'react-native';
 import { AppText, BaseCard, Heading } from '@app/components';
-import { JournalEntry } from '../types';
-import { Wp } from '@app/utils';
+import { ListJournalEntry } from '../types';
+import { Wp, capitalizeFirstLetter } from '@app/utils';
 import { AppImages } from '@app/assets/images';
 import { ms, mvs } from 'react-native-size-matters';
 import { Colors } from '@app/constants';
 
 interface Props {
-  entry: JournalEntry;
+  entry: ListJournalEntry;
   onPress?: () => void;
+  kind: 'own' | 'assigned';
 }
 
-const JournalEntryCard = ({ entry, onPress }: Props) => {
+const JournalEntryCard = ({ entry, kind, onPress }: Props) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <BaseCard
         style={{
           minWidth: mvs(200),
+          backgroundColor:
+            entry.journal_status === 'pending'
+              ? Colors.redDim
+              : Colors.greenDim,
         }}
       >
         <View>
-          <Heading size="sm">{entry.time.title + ' Entry'}</Heading>
-          <AppText>
-            {new Date(entry.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
+          <Heading size="sm">
+            {new Date(entry.attempted_time).toLocaleDateString('en-US', {
+              timeStyle: 'short',
             })}
-          </AppText>
+          </Heading>
         </View>
 
         <View
@@ -35,39 +37,40 @@ const JournalEntryCard = ({ entry, onPress }: Props) => {
             marginTop: 'auto',
           }}
         >
-          {!entry.assignedBy ? (
+          {kind === 'own' ? (
             <AppText>Self Assigned</AppText>
           ) : (
-            <View
+            // <View
+            //   style={{
+            //     flexDirection: 'row',
+            //     columnGap: Wp(10),
+            //     alignItems: 'center',
+            //   }}
+            // >
+            //   <Image
+            //     source={AppImages.userGoal}
+            //     style={{
+            //       width: ms(45),
+            //       height: ms(45),
+            //       borderRadius: ms(20),
+            //       borderWidth: 1,
+            //       borderColor: '#E0E0E0',
+            //       resizeMode: 'contain',
+            //     }}
+            //   />
+            //   <View>
+            //     <AppText>Reminded By </AppText>
+            //   </View>
+            // </View>
+
+            <AppText
+              size="md"
               style={{
-                flexDirection: 'row',
-                columnGap: Wp(10),
-                alignItems: 'center',
+                color: Colors.primary,
               }}
             >
-              <Image
-                source={AppImages.userGoal}
-                style={{
-                  width: ms(45),
-                  height: ms(45),
-                  borderRadius: ms(20),
-                  borderWidth: 1,
-                  borderColor: '#E0E0E0',
-                  resizeMode: 'contain',
-                }}
-              />
-              <View>
-                <AppText>Reminded By </AppText>
-                <AppText
-                  size="md"
-                  style={{
-                    color: Colors.primary,
-                  }}
-                >
-                  {entry.assignedBy.title}
-                </AppText>
-              </View>
-            </View>
+              {capitalizeFirstLetter(entry?.journal_status || '')}
+            </AppText>
           )}
         </View>
       </BaseCard>

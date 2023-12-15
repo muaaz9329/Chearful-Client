@@ -145,12 +145,8 @@ export default function AppNavigation() {
         headerShown: false,
       }}
     >
-      {/* <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} /> */}
+      <Stack.Screen name={AppNavigator.Journal} component={JournalNavigation} />
 
-      {/* <Stack.Screen
-        name={AppNavigator.MeetAPractitioner}
-        component={MeetAPractitionerNavigation}
-      /> */}
       <Stack.Screen
         name={AppNavigator.HomeTabs}
         component={RootTabNavigation}

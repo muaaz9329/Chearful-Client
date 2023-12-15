@@ -1,21 +1,85 @@
 import globalStyles from '@app/assets/global-styles';
 import { AppImages } from '@app/assets/images';
 import ms from '@app/assets/master-styles';
-import { AppText, Header, Heading, MyButton, XGap } from '@app/components';
+import {
+  AppText,
+  Header,
+  Heading,
+  Loader,
+  MyButton,
+  XGap,
+} from '@app/components';
 import { hp, wp } from '@app/utils';
-import { FlatList, Image, ScrollView, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale } from 'react-native-size-matters';
 import JournalTypeCard from '../components/journal-type-card';
-import { journalTypes } from '../data/journal-data';
 import { NavigationHelpers } from '@react-navigation/native';
 import { JournalNavigator } from '../navigation';
+import { useEffect } from 'react';
+import { assignedJournalService, ownJournalService } from '../journal-service';
+import useJournalStore from '../use-journal-store';
+import { IconArrowRight } from 'tabler-icons-react-native';
+import { Colors } from '@app/constants';
+import Animated, { SlideInRight } from 'react-native-reanimated';
 
 export default function ScreenJournalPlaceholder({
   navigation,
 }: {
   navigation: NavigationHelpers<any, any>;
 }) {
+  const { ownJournals, assignedJournals, setOwnJournals, setAssignedJournals } =
+    useJournalStore();
+
+  useEffect(() => {
+    // resetting initial state
+    setOwnJournals({
+      state: 'loading',
+      data: {},
+    });
+    setAssignedJournals({
+      state: 'loading',
+      data: {},
+    });
+
+    // fetching data
+    ownJournalService.getJournalsList({
+      onSuccess: ({ data }) => {
+        setOwnJournals({
+          state: 'loaded',
+          data,
+        });
+      },
+      onFailure: () => {
+        setOwnJournals({
+          state: 'erred',
+          data: {},
+        });
+      },
+    });
+
+    assignedJournalService.getJournalsList({
+      onSuccess: ({ data }) => {
+        setAssignedJournals({
+          state: 'loaded',
+          data,
+        });
+      },
+      onFailure: () => {
+        setAssignedJournals({
+          state: 'erred',
+          data: {},
+        });
+      },
+    });
+  }, []);
+
   return (
     <SafeAreaView style={globalStyles.Wrapper}>
       <Header pram="back" headerType="New">
@@ -25,9 +89,9 @@ export default function ScreenJournalPlaceholder({
       <ScrollView
         style={{
           paddingBottom: scale(10),
+          flex: 1,
         }}
         contentContainerStyle={{
-          flex: 1,
           justifyContent: 'space-between',
         }}
       >
@@ -52,11 +116,12 @@ export default function ScreenJournalPlaceholder({
             }}
           >
             <Heading style={ms(['textCenter'])}>
-              You haven’t written any Journal
+              Write Journals More Often
             </Heading>
             <AppText style={ms(['textCenter'])}>
-              Book Practitioner so he/she will assign journal to you or you can
-              create by your self
+              Your journal will stand as a chronicle of your growth, your hopes,
+              your fears, your dreams, your ambitions, your sorrows, your
+              serendipities.
             </AppText>
           </View>
         </View>
@@ -66,31 +131,130 @@ export default function ScreenJournalPlaceholder({
             rowGap: scale(5),
           }}
         >
-          <AppText size="lg" style={ms(['textPrimary'])}>
-            Choose Journal
-          </AppText>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <AppText size="lg" style={ms(['textPrimary'])}>
+              Own Journals
+            </AppText>
 
-          <FlatList
-            horizontal
-            data={journalTypes}
-            renderItem={({ item }) => (
-              <JournalTypeCard
-                title={item.title}
-                description={item.description}
-              />
+            {ownJournals.state === 'loaded' && (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(JournalNavigator.OwnJournalHome, {
+                    journalId: ownJournals.data?.journals?.[0]?.id,
+                  })
+                }
+              >
+                <IconArrowRight size={30} color={Colors.primary} />
+              </TouchableOpacity>
             )}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id.toString()}
-            ItemSeparatorComponent={XGap}
-          />
+          </View>
+
+          {
+            {
+              idle: <></>,
+              loading: <Loader style={{ marginVertical: moderateScale(20) }} />,
+              loaded: (
+                <Animated.View entering={SlideInRight.springify()}>
+                  <FlatList
+                    horizontal
+                    data={ownJournals.data?.journals}
+                    renderItem={({ item }) => (
+                      <JournalTypeCard
+                        onPress={() => {
+                          navigation.navigate(JournalNavigator.OwnJournalHome, {
+                            journalId: item.id,
+                          });
+                        }}
+                        title={item.title}
+                        description={item.description}
+                        image={item.pdf_url}
+                      />
+                    )}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item) => item.id.toString()}
+                    ItemSeparatorComponent={XGap}
+                  />
+                </Animated.View>
+              ),
+              erred: <AppText>Something went wrong</AppText>,
+            }[ownJournals.state]
+          }
         </View>
 
-        <MyButton
+        <View
+          style={{
+            rowGap: scale(5),
+            marginVertical: moderateScale(20),
+          }}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <AppText size="lg" style={ms(['textPrimary'])}>
+              Assigned Journals
+            </AppText>
+
+            {assignedJournals.state === 'loaded' && (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(JournalNavigator.AssignedJournalHome, {
+                    journalId: assignedJournals.data?.journals?.[0]?.id,
+                  })
+                }
+              >
+                <IconArrowRight size={30} color={Colors.primary} />
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {
+            {
+              idle: <></>,
+              loading: <Loader />,
+              loaded: (
+                <Animated.View entering={SlideInRight.springify()}>
+                  <FlatList
+                    horizontal
+                    data={assignedJournals.data?.journals}
+                    renderItem={({ item }) => (
+                      <JournalTypeCard
+                        title={item.title}
+                        description={item.description}
+                        image={item.pdf_url}
+                        onPress={() => {
+                          navigation.navigate(
+                            JournalNavigator.AssignedJournalHome,
+                            {
+                              journalId: item.id,
+                            },
+                          );
+                        }}
+                      />
+                    )}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item) => item.id.toString()}
+                    ItemSeparatorComponent={XGap}
+                  />
+                </Animated.View>
+              ),
+              erred: <AppText>Something went wrong</AppText>,
+            }[assignedJournals.state]
+          }
+        </View>
+
+        {/* <MyButton
           onPress={() => {
-            navigation.navigate(JournalNavigator.Home);
           }}
           title="Explore More"
-        />
+        /> */}
       </ScrollView>
     </SafeAreaView>
   );

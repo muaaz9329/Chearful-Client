@@ -34,6 +34,7 @@ export default function SassyQuiz(props: SassyQuizProps) {
         questionProps,
         selectedOptions,
         questionNo,
+        variant,
         onOptionPress,
         nextQuestion,
         prevQuestion,
@@ -85,8 +86,11 @@ export default function SassyQuiz(props: SassyQuizProps) {
 
                       borderColor: selectedOptions?.find(
                         (o) =>
-                          o.qId === currentQuestion.id &&
-                          o.value === option.value,
+                          o.qId == currentQuestion.id &&
+                          (variant === 'single'
+                            ? o.value == option.value
+                            : // @ts-ignore
+                              o.value.includes(option.value)),
                       )
                         ? Colors.brandGreen
                         : Colors.light,
